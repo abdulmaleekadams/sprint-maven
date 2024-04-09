@@ -1,12 +1,22 @@
+import { createBoard, deleteBoard, getAllBoards } from "@/actions/board";
+import { Button } from "@/components/ui/button";
+import Board from "./Board";
+import AddBoardForm from "./AddBoardForm";
 
-
-const OrganizationPage = () => {
+const OrganizationPage = async () => {
+  const boards: { id: string; title: string }[] = await getAllBoards();
 
   return (
-    <div>
-        OrganizationPage
-    </div>
-  )
-}
+    <div className="flex flex-col space-y-4">
+      <AddBoardForm />
 
-export default OrganizationPage
+      <div className="space-y-2">
+        {boards.map(({ id, title }) => (
+          <Board id={id} title={title} key={id} />
+        ))}
+      </div>
+    </div>
+  );
+};
+
+export default OrganizationPage;

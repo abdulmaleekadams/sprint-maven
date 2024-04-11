@@ -19,7 +19,6 @@ const CreateBoardFormSchema = z.object({
 });
 
 export async function createBoard(prevState: State, formData: FormData) {
-  "use server";
 
   const validatedFields = CreateBoardFormSchema.safeParse({
     title: formData.get("title") as string,

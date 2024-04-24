@@ -4,6 +4,7 @@ import { db } from "@/lib/db";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { z } from "zod";
+import { CreateBoardFormSchema } from "./schema";
 
 export type State = {
   errors?: {
@@ -12,11 +13,7 @@ export type State = {
   message?: string| null;
 };
 
-const CreateBoardFormSchema = z.object({
-  title: z
-    .string()
-    .min(3, { message: "Board title should be a minimum of 3 characters" }),
-});
+
 
 export async function createBoard(prevState: State, formData: FormData) {
 

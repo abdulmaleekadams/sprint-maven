@@ -17,7 +17,7 @@ const AddBoardForm = () => {
       <form action={dispatch} className="flex  gap-2">
         <FormInput errors={state?.errors} isDisabled={pending} />
         <Button type="submit" disabled={pending}>
-          Submit
+          Create Board
         </Button>
       </form>
     </div>

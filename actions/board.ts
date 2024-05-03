@@ -13,38 +13,6 @@ export type State = {
   message?: string| null;
 };
 
-
-
-export async function createBoard(prevState: State, formData: FormData) {
-
-  const validatedFields = CreateBoardFormSchema.safeParse({
-    title: formData.get("title") as string,
-  });
-
-  if (!validatedFields.success) {
-    return {
-      errors: validatedFields.error.flatten().fieldErrors,
-      message: "Missing fields.",
-    };
-  }
-
-  const { title } = validatedFields.data;
-
-  try {
-    await db.board.create({
-      data: {
-        title,
-      },
-    });
-  } catch (error) {
-    console.log("Internal server error ", error);
-    return({message:"Internal server error "});
-  }
-
-  revalidatePath("/organization/org_2eH6h1DKPU5hb2qS8KN27hG1nfS");
-  redirect("/organization/org_2eH6h1DKPU5hb2qS8KN27hG1nfS");
-}
-
 export async function getAllBoards() {
   "use server";
 

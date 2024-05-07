@@ -14,8 +14,8 @@ export const generateMetadata = async ({
 
   if (!orgId) {
     return {
-        title: "Board",
-      };;
+      title: "Board",
+    };
   }
 
   const { id } = params;
@@ -50,8 +50,8 @@ const SingleBoardLayout = async ({
       className="relative min-h-screen h-full bg-no-repeat bg-cover bg-center"
       style={{ backgroundImage: `url(${board.imageFullUrl})` }}
     >
-        <BoardNavbar data={board} />
-        <div className="absolute bg-black/20 inset-0" />
+      <BoardNavbar data={board} />
+      <div className="absolute bg-black/20 inset-0" />
       <main className="relative pt-28 h-full">{children}</main>
     </div>
   );

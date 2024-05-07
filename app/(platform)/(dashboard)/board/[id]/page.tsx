@@ -34,12 +34,12 @@ const SingleBoardPage = async ({ params }: SingleBoardPageProps) => {
       order: "asc",
     },
   });
-  return <div className="p-4 h-full overflow-x-auto">
-    <ListContainer
-        boardId={params.id}
-        data={lists}
-    />
-  </div>;
+
+  return (
+    <div className="p-4 h-full overflow-x-auto">
+      <ListContainer boardId={params.id} data={lists} />
+    </div>
+  );
 };
 
 export default SingleBoardPage;

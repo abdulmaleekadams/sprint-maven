@@ -61,8 +61,6 @@ const ListHeader = ({ data, onAddCard }: ListHeaderProps) => {
     const title = formData.get("title") as string;
     const id = formData.get("id") as string;
 
-    console.log(title, data.title);
-    
     if (title === data.title) {
       return disableEditing();
     }

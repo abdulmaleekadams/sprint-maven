@@ -1,3 +1,4 @@
+import { title } from "process";
 import { z } from "zod";
 
 export const CreateBoardFormSchema = z.object({
@@ -66,5 +67,32 @@ export const CreateCardFormSchema = z.object({
     })
     .min(3, { message: "Card title should be a minimum of 3 characters" }),
   listId: z.string(),
+  boardId: z.string(),
+});
+
+export const UpdateListOrderSchema = z.object({
+  items: z.array(
+    z.object({
+      id: z.string(),
+      title: z.string(),
+      order: z.number(),
+      createdAt: z.date(),
+      updateAt: z.date(),
+    })
+  ),
+  boardId: z.string(),
+});
+
+export const UpdateCardOrderSchema = z.object({
+  items: z.array(
+    z.object({
+      id: z.string(),
+      title: z.string(),
+      order: z.number(),
+      createdAt: z.date(),
+      updateAt: z.date(),
+      listdId: z.string(),
+    })
+  ),
   boardId: z.string(),
 });

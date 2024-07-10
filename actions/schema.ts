@@ -1,4 +1,3 @@
-import { title } from "process";
 import { z } from "zod";
 
 export const CreateBoardFormSchema = z.object({
@@ -103,15 +102,28 @@ export const UpdateCardFormSchema = z.object({
       required_error: "Board title is required",
       invalid_type_error: "Board title is required",
     })
-    .min(3, { message: "Board title should be a minimum of 3 characters" }),
+    .min(3, { message: "Board title should be a minimum of 3 characters" })
+    .optional(),
   id: z.string(),
   boardId: z.string(),
-description: z.optional(
-  z.string({
-    required_error: "Description is required",
-    invalid_type_error: "Description is required"
-  }).min(3, {
-    message: "Description is too short"
-  })
-)
+  description: z.optional(
+    z
+      .string({
+        required_error: "Description is required",
+        invalid_type_error: "Description is required",
+      })
+      .min(3, {
+        message: "Description is too short",
+      })
+  ),
+});
+
+export const CopyCardSchema = z.object({
+  id: z.string(),
+  boardId: z.string(),
+});
+
+export const DeleteCardSchema = z.object({
+  id: z.string(),
+  boardId: z.string(),
 });

@@ -4,14 +4,14 @@ import { updateCard } from "@/actions/update-card";
 import FormInput from "@/components/form-input";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useAction } from "@/hoooks/use-action";
-import { CradWithList } from "@/types";
+import { CardWithList } from "@/types";
 import { useQueryClient } from "@tanstack/react-query";
 import { LayoutIcon } from "lucide-react";
 import { useParams } from "next/navigation";
 import { useRef, useState } from "react";
 import { toast } from "sonner";
 
-const Header = ({ data }: { data: CradWithList }) => {
+const Header = ({ data }: { data: CardWithList }) => {
   const [isEditing, setIsEditing] = useState(false);
 
   const queryClient = useQueryClient();

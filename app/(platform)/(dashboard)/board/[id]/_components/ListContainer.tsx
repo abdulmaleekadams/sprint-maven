@@ -51,7 +51,6 @@ const ListContainer = ({ boardId, data }: ListContainerProps) => {
 
   const onDragEnd = (result: any) => {
     const { destination, source, type } = result;
-    console.log(result);
 
     if (!destination) return;
 

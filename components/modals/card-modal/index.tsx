@@ -46,7 +46,9 @@ const CardModal = () => {
               )}
             </div>
           </div>
-          {!cardData ? <Actions.Skeleton /> : <Actions data={cardData} />}
+          <div>
+            {!cardData ? <Actions.Skeleton /> : <Actions data={cardData} />}
+          </div>
         </div>
       </DialogContent>
     </Dialog>

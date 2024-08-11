@@ -83,7 +83,7 @@ const CardForm = forwardRef<HTMLTextAreaElement, CardFormProps>(
       );
     }
     return (
-      <div className="pt-2 px-2">
+      <div className="pt-2 px-2 bg-[#f1f2f4] rounded-b-md">
         <Button
           onClick={enableEditing}
           className="px-2 h-auto w-full py-1.5 text-muted-foreground justify-start text-sm "

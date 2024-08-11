@@ -7,6 +7,7 @@ import CardForm from "./CardForm";
 import { cn } from "@/lib/utils";
 import CardItem from "./CardItem";
 import { Draggable, Droppable } from "@hello-pangea/dnd";
+import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 
 type ListItemProps = {
   data: ListWithCards;
@@ -35,28 +36,33 @@ const ListItem = ({ data, index }: ListItemProps) => {
         <li
           {...provided.draggableProps}
           ref={provided.innerRef}
-          className="shrink-0 h-full w-[272px] select-none"
+          className="shrink-0 w-[366px] select-none"
         >
           <div
             {...provided.dragHandleProps}
-            className="w-full rounded-md bg-[#f1f2f4] shadow-md pb-2"
+            className="w-full flex flex-col rounded-md shadow-md pb-2 h-full"
           >
+            
             <ListHeader onAddCard={enableEditing} data={data} />
+            <div className="h-4 bg-[#f1f2f4]" />
             <Droppable droppableId={data.id} type="card">
               {(provided) => (
-                <ol
-                {...provided.droppableProps}
-                ref={provided.innerRef}
-                  className={cn(
-                    "mx-1 px-1 py-0.5 flex flex-col gap-y-2",
-                    data.cards.length > 0 ? "mt-2" : "mt-0"
-                  )}
-                >
-                  {data.cards.map((card, index) => (
-                    <CardItem index={index} key={card.id} data={card} />
-                  ))}
-                  {provided.placeholder}
-                </ol>
+                <ScrollArea>
+                  <ol
+                    {...provided.droppableProps}
+                    ref={provided.innerRef}
+                    className={cn(
+                      "px-4 py-0.5 flex flex-col gap-y-2 flex-1 basis-auto h-full bg-[#f1f2f4]",
+                      
+                    )}
+                  >
+                    {data.cards.map((card, index) => (
+                      <CardItem index={index} key={card.id} data={card} />
+                    ))}
+                    {provided.placeholder}
+                  </ol>
+                  <ScrollBar orientation="vertical" className="bg-neutral-500/20" />
+                </ScrollArea>
               )}
             </Droppable>
 

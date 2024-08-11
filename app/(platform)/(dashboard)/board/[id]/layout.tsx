@@ -47,12 +47,12 @@ const SingleBoardLayout = async ({
   }
   return (
     <div
-      className="relative min-h-screen h-full bg-no-repeat bg-cover bg-center"
+      className="relative h-[calc(100vh_-_56px)] flex flex-col bg-no-repeat bg-cover bg-center"
       style={{ backgroundImage: `url(${board.imageFullUrl})` }}
     >
       <BoardNavbar data={board} />
       <div className="absolute bg-black/20 inset-0" />
-      <main className="relative pt-28 h-full">{children}</main>
+      <main className="relative flex-1 overflow-y-hidden">{children}</main>
     </div>
   );
 };

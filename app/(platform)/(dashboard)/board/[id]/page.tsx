@@ -36,7 +36,7 @@ const SingleBoardPage = async ({ params }: SingleBoardPageProps) => {
   });
 
   return (
-    <div className="p-4 overflow-x-auto h-screen">
+    <div className="p-4 overflow-x-auto h-full">
       <ListContainer boardId={params.id} data={lists} />
     </div>
   );

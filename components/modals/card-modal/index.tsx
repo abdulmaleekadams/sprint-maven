@@ -11,6 +11,8 @@ import Actions from "./actions";
 import { format } from "date-fns";
 import { Skeleton } from "@/components/ui/skeleton";
 import { CalendarDaysIcon } from "lucide-react";
+import Enhacements from "./enhacements";
+import Featured from "./features";
 
 const CardModal = () => {
   const id = useCardModal((state) => state.id);
@@ -30,8 +32,8 @@ const CardModal = () => {
           <Skeleton className="h-4 w-20" />
         ) : (
           <div className="flex items-center gap-1">
-            <CalendarDaysIcon className="w-5 h-5 mr-2" />
-            <p className=" text-neutral-500">
+            <CalendarDaysIcon className="w-4 h-4 mr-2" />
+            <p className=" text-neutral-500 text-sm">
               {format(cardData?.createdAt, "PP")}
             </p>
           </div>
@@ -47,6 +49,8 @@ const CardModal = () => {
             </div>
           </div>
           <div>
+            <Featured />
+            <Enhacements />
             {!cardData ? <Actions.Skeleton /> : <Actions data={cardData} />}
           </div>
         </div>

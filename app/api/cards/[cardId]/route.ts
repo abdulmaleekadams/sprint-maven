@@ -28,6 +28,7 @@ export const GET = async (
             title: true,
           },
         },
+        labels: true,
       },
     });
     return NextResponse.json(card);

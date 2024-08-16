@@ -30,6 +30,9 @@ const handler = async (data: InputType): Promise<ReturnType> => {
       },
       data: {
         ...values,
+        labels: {
+          connect: values.labels?.map((labelId) => ({ id: labelId })),
+        },
       },
     });
   } catch (error) {

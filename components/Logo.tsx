@@ -7,7 +7,7 @@ const Logo = () => {
     <Link href={"/"} className="">
       <div className="hover:opacity-75 transition items-center gap-x-2 hidden md:flex">
         <Image src={'/logo.png'} alt="Logo" height={35} width={45} />
-        <p className="text-xl text-neutral-700 font-black">Taskify</p>
+        <p className="text-xl text-neutral-700 font-black">SprintHub</p>
       </div>
     </Link>
   );

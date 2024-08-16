@@ -82,6 +82,21 @@ export const UpdateListOrderSchema = z.object({
   boardId: z.string(),
 });
 
+export const CreateTagFormSchema = z.object({
+  title: z
+    .string({
+      required_error: "Tag title is required",
+      invalid_type_error: "Tag title is required",
+    })
+    .min(1, { message: "Tag title is required" }),
+  color: z.string({
+    required_error: "Tag color is required",
+    invalid_type_error: "Tag color is required",
+  }),
+  cardId: z.string(),
+  boardId: z.string(),
+});
+
 export const UpdateCardOrderSchema = z.object({
   items: z.array(
     z.object({
@@ -116,6 +131,7 @@ export const UpdateCardFormSchema = z.object({
         message: "Description is too short",
       })
   ),
+  labels: z.array(z.string()).optional(),
 });
 
 export const CopyCardSchema = z.object({

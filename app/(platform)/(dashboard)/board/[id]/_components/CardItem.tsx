@@ -1,15 +1,15 @@
 "use client";
 
-import { Card } from "@prisma/client";
+import { Card, Label } from "@prisma/client";
 import { Draggable } from "@hello-pangea/dnd";
 import { useCardModal } from "@/hoooks/use-card-modal";
-import Label from "./Label";
+import TagLabel from "./TagLabel";
 import AttachedMember from "./AttachedMember";
 import { MessageCircleMore, Paperclip } from "lucide-react";
 import { Progress } from "@/components/ui/progress";
 
 type CardItemProps = {
-  data: Card;
+  data: Card & { labels: Label[] };
   index: number;
 };
 
@@ -26,11 +26,18 @@ const CardItem = ({ data, index }: CardItemProps) => {
           className="border-2 space-y-2 border-transparent hover:border-black/30 transition-color duration-500 py-2 px-3 text-sm bg-white rounded-md shadow-sm"
           onClick={() => cardModal.onOpen(data.id)}
         >
-          {/* Labels */}
-          <div className="flex flex-wrap gap-2">
-            <Label name="Frontend" color="rgb(0, 0, 255)" />
-            <Label name="Deployment" color="rgb(128, 0, 128)" />
-          </div>
+          {/* TagLabel */}
+          {data.labels && (
+            <div className="flex flex-wrap gap-2">
+              {data.labels.map((label) => (
+                <TagLabel
+                  name={label.title}
+                  key={label.id}
+                  color={label.color}
+                />
+              ))}
+            </div>
+          )}
 
           <p className="font-semibold ">{data.title}</p>
           {data.description && (

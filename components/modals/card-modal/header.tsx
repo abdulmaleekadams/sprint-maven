@@ -1,17 +1,18 @@
 "use client";
 
 import { updateCard } from "@/actions/update-card";
+import TagLabel from "@/app/(platform)/(dashboard)/board/[id]/_components/TagLabel";
 import FormInput from "@/components/form-input";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useAction } from "@/hoooks/use-action";
-import { CardWithList } from "@/types";
+import { CardWithListLabel } from "@/types";
 import { useQueryClient } from "@tanstack/react-query";
 import { LayoutIcon } from "lucide-react";
 import { useParams } from "next/navigation";
 import { useRef, useState } from "react";
 import { toast } from "sonner";
 
-const Header = ({ data }: { data: CardWithList }) => {
+const Header = ({ data }: { data: CardWithListLabel }) => {
   const [isEditing, setIsEditing] = useState(false);
 
   const queryClient = useQueryClient();
@@ -86,6 +87,11 @@ const Header = ({ data }: { data: CardWithList }) => {
         <p className="text-sm text-muted-foreground">
           in list <span className="underline">{data.List.title}</span>
         </p>
+        <div className="flex gap-2 flex-wrap mt-4">
+          {data.labels.map((label) => (
+            <TagLabel name={label.title} key={label.id} color={label.color} />
+          ))}
+        </div>
       </div>
     </div>
   );

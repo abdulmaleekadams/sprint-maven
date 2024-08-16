@@ -28,6 +28,9 @@ const SingleBoardPage = async ({ params }: SingleBoardPageProps) => {
         orderBy: {
           order: "asc",
         },
+        include: {
+          labels: true,
+        },
       },
     },
     orderBy: {

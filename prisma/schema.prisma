@@ -25,7 +25,8 @@ model Board {
 
   createdAt DateTime @default(now())
   updateAt  DateTime @updatedAt
-  lists      List[]
+  lists     List[]
+  labels    Label[]
 }
 
 model List {
@@ -35,7 +36,7 @@ model List {
 
   boardId String
   board   Board  @relation(fields: [boardId], references: [id], onDelete: Cascade)
-  cards    Card[]
+  cards   Card[]
 
   createdAt DateTime @default(now())
   updateAt  DateTime @updatedAt
@@ -52,8 +53,52 @@ model Card {
   listdId String
   List    List   @relation(fields: [listdId], references: [id], onDelete: Cascade)
 
+  checklist Checklist?
+  labels    Label[]
+
   createdAt DateTime @default(now())
   updateAt  DateTime @updatedAt
 
   @@index([listdId])
+}
+
+model Checklist {
+  id     String @id @default(uuid())
+  cardId String @unique
+  card   Card   @relation(fields: [cardId], references: [id], onDelete: Cascade)
+
+  checkItems CheckItems[]
+
+  createdAt DateTime @default(now())
+  updateAt  DateTime @updatedAt
+
+  @@index([cardId])
+}
+
+model CheckItems {
+  id      String  @id @default(uuid())
+  title   String
+  checked Boolean @default(false)
+
+  checklistId String
+  checklist   Checklist @relation(fields: [checklistId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now())
+  updateAt  DateTime @updatedAt
+
+  @@index([checklistId])
+}
+
+model Label {
+  id    String @id @default(uuid())
+  title String @unique
+  color String
+
+  boardId   String
+  cards     Card[]
+  board     Board    @relation(fields: [boardId], references: [id], onDelete: Cascade)
+  createdAt DateTime @default(now())
+  updateAt  DateTime @updatedAt
+
+  @@unique([title, boardId])
 }

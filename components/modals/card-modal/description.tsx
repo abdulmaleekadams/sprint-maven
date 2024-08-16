@@ -72,7 +72,9 @@ const Description = ({ data }: DescriptionProps) => {
     <div className="flex items-start gap-x-3 w-full">
       <AlignLeft className="h-5 w-5 mt-0.5 text-neutral-700s" />
       <div className="w-full">
-        <p className="font-semibold text-neutral-700 mb-2 text-sm">Description</p>
+        <p className="font-semibold text-neutral-700 mb-2 text-sm">
+          Description
+        </p>
         {isEditing ? (
           <form ref={formRef} className="space-y-2" action={onSubmit}>
             <FormTextarea

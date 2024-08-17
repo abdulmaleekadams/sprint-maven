@@ -1,9 +1,9 @@
 "use client";
 
-import { Dialog, DialogContent } from "@/components/ui/dialog";
+import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
 import { useCardModal } from "@/hoooks/use-card-modal";
 import { fetcher } from "@/lib/fetcher";
-import { CardWithListLabel } from "@/types";
+import { CardFullDetails, CardWithListLabel } from "@/types";
 import { useQuery } from "@tanstack/react-query";
 import Header from "./header";
 import Description from "./description";
@@ -14,20 +14,28 @@ import { CalendarDaysIcon } from "lucide-react";
 import Enhacements from "./enhacements";
 import Featured from "./features";
 import TagLabel from "@/app/(platform)/(dashboard)/board/[id]/_components/TagLabel";
+import Checklists from "./Checklist";
 
 const CardModal = () => {
   const id = useCardModal((state) => state.id);
-  const isOpen = useCardModal((state) => state.isOpen);
-  const onClose = useCardModal((state) => state.onClose);
+  const { isOpen, onOpen, onClose } = useCardModal();
 
-  const { data: cardData } = useQuery<CardWithListLabel>({
+  const { data: cardData } = useQuery<CardFullDetails>({
     queryKey: ["card", id],
     queryFn: () => fetcher(`/api/cards/${id}`),
   });
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="">
+      <DialogContent
+        className=""
+        onEscapeKeyDown={(e) => {
+          e.preventDefault();
+        }}
+        onOpenAutoFocus={(e) => {
+          e.preventDefault();
+        }}
+      >
         {!cardData ? <Header.Skeleton /> : <Header data={cardData} />}
 
         {!cardData ? (
@@ -46,7 +54,19 @@ const CardModal = () => {
               {!cardData ? (
                 <Description.Skeleton />
               ) : (
-                <Description data={cardData} />
+                <>
+                  <Description data={cardData} />
+
+                  {/* Attachments  */}
+                  {/* Checklist */}
+                  {cardData.checklist && cardData.checklist.length > 0 && (
+                    <Checklists
+                      cardId={cardData.id}
+                      data={cardData.checklist}
+                    />
+                  )}
+                  {/* Activity & Comments  */}
+                </>
               )}
             </div>
           </div>

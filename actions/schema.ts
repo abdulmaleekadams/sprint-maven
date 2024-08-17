@@ -143,3 +143,37 @@ export const DeleteCardSchema = z.object({
   id: z.string(),
   boardId: z.string(),
 });
+
+export const CreateChecklistFormSchema = z.object({
+  title: z
+    .string({
+      required_error: "Checklist title is required",
+      invalid_type_error: "Checklist title is required",
+    })
+    .min(1, { message: "Checklist title is required" }),
+  cardId: z.string(),
+  boardId: z.string(),
+});
+export const CreateChecklistItemFormSchema = z.object({
+  title: z
+    .string({
+      required_error: "Title is required",
+      invalid_type_error: "Title is required",
+    })
+    .min(1, { message: "Title is required" }),
+  cardId: z.string(),
+  boardId: z.string(),
+  checklistId: z.string(),
+});
+export const UpdateChecklistItemFormSchema = z.object({
+  title: z
+    .string({
+      required_error: "Title is required",
+      invalid_type_error: "Title is required",
+    })
+    .min(1, { message: "Title is required" })
+    .optional(),
+  checked: z.boolean().optional(),
+  boardId: z.string(),
+  id: z.string(),
+});

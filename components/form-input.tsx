@@ -26,13 +26,12 @@ const FormInput = forwardRef<HTMLInputElement, FormInputProps>(
       className,
       defaultValue = "",
       disabled,
-      label,
       onBlur,
       placeholder,
       required,
       type,
       errors,
-      name
+      name,
     },
     ref
   ) => {
@@ -41,14 +40,6 @@ const FormInput = forwardRef<HTMLInputElement, FormInputProps>(
     return (
       <div className="space-y-2">
         <div className="space-y-1">
-          {/* {label ? (
-            <Label
-              htmlFor={id}
-              className="text-xs font-semibold text-neutral-700"
-            >
-              {label}
-            </Label>
-          ) : null} */}
           <Input
             onBlur={onBlur}
             ref={ref}

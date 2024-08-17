@@ -23,10 +23,11 @@ model Board {
   imageLinkHTML String @db.Text()
   imageUserName String @db.Text()
 
-  createdAt DateTime @default(now())
-  updateAt  DateTime @updatedAt
-  lists     List[]
-  labels    Label[]
+  createdAt  DateTime    @default(now())
+  updateAt   DateTime    @updatedAt
+  lists      List[]
+  labels     Label[]
+  checklists Checklist[]
 }
 
 model List {
@@ -53,7 +54,7 @@ model Card {
   listdId String
   List    List   @relation(fields: [listdId], references: [id], onDelete: Cascade)
 
-  checklist Checklist?
+  checklist Checklist[]
   labels    Label[]
 
   createdAt DateTime @default(now())
@@ -64,20 +65,22 @@ model Card {
 
 model Checklist {
   id     String @id @default(uuid())
-  cardId String @unique
+  title  String
+  cardId String
   card   Card   @relation(fields: [cardId], references: [id], onDelete: Cascade)
 
   checkItems CheckItems[]
 
+  boardId String
+  board   Board  @relation(fields: [boardId], references: [id], onDelete: Cascade)
+
   createdAt DateTime @default(now())
   updateAt  DateTime @updatedAt
-
-  @@index([cardId])
 }
 
 model CheckItems {
   id      String  @id @default(uuid())
-  title   String
+  title   String  @unique
   checked Boolean @default(false)
 
   checklistId String
@@ -86,7 +89,7 @@ model CheckItems {
   createdAt DateTime @default(now())
   updateAt  DateTime @updatedAt
 
-  @@index([checklistId])
+  @@index([checklistId, title])
 }
 
 model Label {

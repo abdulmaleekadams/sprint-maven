@@ -33,9 +33,6 @@ export const GET = async (
           include: {
             checkItems: true,
           },
-          orderBy: {
-            createdAt: "desc",
-          },
         },
       },
     });

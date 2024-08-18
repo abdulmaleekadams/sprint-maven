@@ -48,10 +48,8 @@ const handler = async (data: InputType): Promise<ReturnType> => {
         checked: checked,
       },
     });
-    console.log(checklistItem);
   } catch (error) {
     console.log(error);
-
     return {
       error: "Failed to update checklist",
     };

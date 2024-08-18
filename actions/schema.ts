@@ -154,6 +154,7 @@ export const CreateChecklistFormSchema = z.object({
   cardId: z.string(),
   boardId: z.string(),
 });
+
 export const CreateChecklistItemFormSchema = z.object({
   title: z
     .string({
@@ -165,6 +166,7 @@ export const CreateChecklistItemFormSchema = z.object({
   boardId: z.string(),
   checklistId: z.string(),
 });
+
 export const UpdateChecklistItemFormSchema = z.object({
   title: z
     .string({

@@ -30,6 +30,11 @@ const SingleBoardPage = async ({ params }: SingleBoardPageProps) => {
         },
         include: {
           labels: true,
+          checklist: {
+            select: {
+              checkItems: true,
+            },
+          },
         },
       },
     },

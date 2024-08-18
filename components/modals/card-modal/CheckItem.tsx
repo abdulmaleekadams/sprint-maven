@@ -23,7 +23,7 @@ const CheckItem = ({ data, cardId }: CheckItemProps) => {
   const inputRef = useRef<HTMLInputElement>(null);
   const formRef = useRef<HTMLFormElement>(null);
 
-  const [isChecked, setIsChecked] = useState(data.checked)
+  const [isChecked, setIsChecked] = useState(data.checked);
 
   const { execute, fieldErrors, isLoading } = useAction(updateChecklistItem, {
     onSuccess: (data) => {
@@ -65,10 +65,10 @@ const CheckItem = ({ data, cardId }: CheckItemProps) => {
 
     const checked = checkedState === "on";
 
-    if(title === data.title && isEditing) {
-      toast.error("No changes made")
+    if (title === data.title && isEditing) {
+      toast.error("No changes made");
       disableEditing();
-      return
+      return;
     }
 
     execute({
@@ -81,7 +81,11 @@ const CheckItem = ({ data, cardId }: CheckItemProps) => {
 
   return (
     <div className="flex items-center gap-3 w-full">
-      <form action={onSubmit} ref={formRef} className="flex items-center w-full gap-2">
+      <form
+        action={onSubmit}
+        ref={formRef}
+        className="flex items-center w-full gap-2"
+      >
         <Checkbox
           className="w-4 h-4"
           defaultChecked={data.checked}
@@ -89,7 +93,7 @@ const CheckItem = ({ data, cardId }: CheckItemProps) => {
           id="checked"
           name="checked"
           onCheckedChange={() => {
-            setIsChecked(!isChecked)
+            setIsChecked(!isChecked);
             formRef.current?.requestSubmit();
           }}
         />
@@ -107,7 +111,10 @@ const CheckItem = ({ data, cardId }: CheckItemProps) => {
           ) : (
             <div
               role="button"
-              className={cn("text-sm font-medium py-2", isChecked && 'line-through')}
+              className={cn(
+                "text-sm font-medium py-2",
+                isChecked && "line-through"
+              )}
               onClick={enableEditing}
             >
               {data.title}

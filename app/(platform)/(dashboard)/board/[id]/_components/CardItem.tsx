@@ -1,15 +1,16 @@
 "use client";
 
-import { Card, Label } from "@prisma/client";
+import { Card, CheckItems, Label } from "@prisma/client";
 import { Draggable } from "@hello-pangea/dnd";
 import { useCardModal } from "@/hoooks/use-card-modal";
 import TagLabel from "./TagLabel";
 import AttachedMember from "./AttachedMember";
 import { MessageCircleMore, Paperclip } from "lucide-react";
 import { Progress } from "@/components/ui/progress";
+import { calcCheckedItemProps, calcCheckedListItemProps } from "@/lib/utils";
 
 type CardItemProps = {
-  data: Card & { labels: Label[] };
+  data: Card & { labels: Label[]; checklist: { checkItems: CheckItems[] }[] };
   index: number;
 };
 
@@ -47,9 +48,14 @@ const CardItem = ({ data, index }: CardItemProps) => {
           )}
 
           {/* Checklist */}
-          <div>
-            <Progress value={70} className="h-1 bg-neutral-300" />
-          </div>
+          {data.checklist.length > 0 && (
+            <div>
+              <Progress
+                value={calcCheckedListItemProps(data?.checklist)}
+                className="h-1 bg-neutral-300"
+              />
+            </div>
+          )}
           {/* Extras and Member */}
           <div className="flex items-center gap-6 justify-between">
             {/* Members */}

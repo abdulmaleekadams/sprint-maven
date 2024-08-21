@@ -23,6 +23,8 @@ export default authMiddleware({
     }
 
     if (auth.userId && !auth.orgId && req.nextUrl.pathname !== "/select-org") {
+      console.log(req.nextUrl.pathname);
+      
       const orgSelection = new URL("/select-org", req.url);
       return NextResponse.redirect(orgSelection);
     }

@@ -45,7 +45,12 @@ const ChecklistForm = ({ cardId }: { cardId: string }) => {
 
   return (
     <form ref={formRef} action={onSubmit} className="space-y-2">
-      <FormInput id="title" name="title"  placeholder="Title" defaultValue="Checklist" />
+      <FormInput
+        id="title"
+        name="title"
+        placeholder="Title"
+        defaultValue="Checklist"
+      />
 
       <FormSubmit>Create</FormSubmit>
     </form>

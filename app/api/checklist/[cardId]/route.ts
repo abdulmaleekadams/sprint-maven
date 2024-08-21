@@ -13,25 +13,15 @@ export const GET = async (
       return new NextResponse("Unauthorized", { status: 401 });
     }
 
-    const card = await db.card.findUnique({
+    const checklists = await db.checklist.findMany({
       where: {
-        id: params.cardId,
-        List: {
-          board: {
-            orgId,
-          },
-        },
+        cardId: params.cardId,
       },
       include: {
-        List: {
-          select: {
-            title: true,
-          },
-        },
-        labels: true,
+        checkItems: true,
       },
     });
-    return NextResponse.json(card);
+    return NextResponse.json(checklists);
   } catch (error) {
     return new NextResponse("Internal server error", { status: 500 });
   }

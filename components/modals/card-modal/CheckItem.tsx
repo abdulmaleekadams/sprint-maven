@@ -28,7 +28,7 @@ const CheckItem = ({ data, cardId }: CheckItemProps) => {
   const { execute, fieldErrors, isLoading } = useAction(updateChecklistItem, {
     onSuccess: (data) => {
       queryClient.invalidateQueries({
-        queryKey: ["card", cardId],
+        queryKey: ["checklists", cardId],
       });
       toast.success(`Checklist updated`);
       disableEditing();

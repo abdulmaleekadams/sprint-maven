@@ -12,7 +12,6 @@ import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import { useEventListener } from "usehooks-ts";
 import { Progress } from "@/components/ui/progress";
-import { CheckItems } from "@prisma/client";
 import { calcCheckedItemProps } from "@/lib/utils";
 
 const Checklists = ({
@@ -24,16 +23,16 @@ const Checklists = ({
 }) => {
   const queryClient = useQueryClient();
   const params = useParams();
-  const [showInputForm, setShowInputForm] = useState(false);
+  const [activeChecklistId, setActiveChecklistId] = useState<string | null>(null);
 
   const { execute, fieldErrors, isLoading } = useAction(createChecklistItem, {
     onSuccess: (data) => {
       queryClient.invalidateQueries({
-        queryKey: ["card", cardId],
+        queryKey: ["checklists", cardId],
       });
       toast.success(`Checklist "${data.title}" added`);
       formRef.current?.reset();
-      setShowInputForm(false);
+      setActiveChecklistId(null);
     },
     onError: (error) => {
       toast.error(error);
@@ -45,15 +44,15 @@ const Checklists = ({
 
   const onKeyDown = (e: KeyboardEvent) => {
     if (e.key === "Escape") {
-      setShowInputForm(false);
+      setActiveChecklistId(null);
     }
   };
 
   useEffect(() => {
-    if (showInputForm) {
+    if (activeChecklistId) {
       inputRef?.current?.focus();
     }
-  }, [showInputForm]);
+  }, [activeChecklistId]);
 
   useEventListener("keydown", onKeyDown);
 
@@ -67,7 +66,7 @@ const Checklists = ({
   return (
     <div className="flex flex-col gap-4 pt-5 border-t">
       {data.map((checklist) => (
-        <div className="flex items-start gap-x-3 w-full ">
+        <div key={checklist.id} className="flex items-start gap-x-3 w-full">
           <CheckCheckIcon className="h-5 w-5 mt-0.5 text-neutral-700s" />
           <div className="w-full">
             <p className="font-semibold text-neutral-700 mb-2 text-sm">
@@ -84,7 +83,7 @@ const Checklists = ({
                     <CheckItem data={item} cardId={cardId} />
                   </div>
                 ))}
-                {showInputForm ? (
+                {activeChecklistId === checklist.id ? (
                   <form
                     ref={formRef}
                     action={(formData) => onSubmit(formData, checklist.id)}
@@ -101,9 +100,9 @@ const Checklists = ({
                   </form>
                 ) : (
                   <Button
-                    className="h-auto py-2  gap-2 mt-2 "
+                    className="h-auto py-2 gap-2 mt-2"
                     onClick={() => {
-                      setShowInputForm(true);
+                      setActiveChecklistId(checklist.id);
                     }}
                   >
                     <Plus className="w-4 h-4" />
@@ -112,18 +111,20 @@ const Checklists = ({
                 )}
               </>
             ) : (
-              <form
-                ref={formRef}
-                action={(formData) => onSubmit(formData, checklist.id)}
-                className="space-y-4"
-              >
-                <FormInput
-                  id="title"
-                  name="title"
-                  placeholder="Title"
-                  errors={fieldErrors}
-                />
-              </form>
+              activeChecklistId === checklist.id && (
+                <form
+                  ref={formRef}
+                  action={(formData) => onSubmit(formData, checklist.id)}
+                  className="space-y-4"
+                >
+                  <FormInput
+                    id="title"
+                    name="title"
+                    placeholder="Title"
+                    errors={fieldErrors}
+                  />
+                </form>
+              )
             )}
           </div>
         </div>

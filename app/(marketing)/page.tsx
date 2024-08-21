@@ -26,7 +26,7 @@ const MarketingPage = () => {
         </div>
 
         <h1 className="text-3xl md:text-6xl text-center text-neutral-800 mb-6">
-          Taskify helps team move
+          SprintHub helps team move
         </h1>
         <div className="text-3xl md:text-6xl bg-gradient-to-r from-fuchsia-600 to-pink-600 pb-4 w-fit px-4 pt-2 rounded-md text-white">
           work forward.
@@ -36,10 +36,10 @@ const MarketingPage = () => {
       <p className={cn("text-sm md:text-xl text-neutral-400 mt-4 max-w-xs md:max-w-2xl text-center mx-auto", poppins.className)}>
         Collaborate, manage projects, and reach new productivity peaks. From
         high rises to the home office, the way your team works is unique -
-        accomplish it all with Taskify.
+        accomplish it all with SprintHub.
       </p>
       <Button className="mt-6" size="lg">
-        <Link href={"/sign-up"}>Get Taskify for free</Link>
+        <Link href={"/sign-up"}>Get SprintHub for free</Link>
       </Button>
     </div>
   );

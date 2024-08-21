@@ -31,7 +31,12 @@ export const GET = async (
         labels: true,
         checklist: {
           include: {
-            checkItems: true,
+            checkItems: {
+              orderBy: {
+                checked: "asc",
+              }
+            },
+            
           },
         },
       },

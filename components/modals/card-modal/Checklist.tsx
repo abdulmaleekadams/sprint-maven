@@ -64,8 +64,6 @@ const Checklists = ({
     execute({ cardId, boardId, title, checklistId });
   };
 
-  
-
   return (
     <div className="flex flex-col gap-4 pt-5 border-t">
       {data.map((checklist) => (
@@ -75,12 +73,12 @@ const Checklists = ({
             <p className="font-semibold text-neutral-700 mb-2 text-sm">
               {checklist.title}
             </p>
-            <Progress
-              value={calcCheckedItemProps(checklist.checkItems)}
-              className="h-1"
-            />
             {checklist.checkItems.length > 0 ? (
               <>
+                <Progress
+                  value={calcCheckedItemProps(checklist.checkItems)}
+                  className="h-1 my-4"
+                />
                 {checklist.checkItems.map((item) => (
                   <div key={item.id}>
                     <CheckItem data={item} cardId={cardId} />

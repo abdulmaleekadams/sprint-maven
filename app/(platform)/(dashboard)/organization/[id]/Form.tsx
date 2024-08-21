@@ -13,7 +13,6 @@ const Form = () => {
   const onSubmit = (formData: FormData) => {
     const title = formData.get("title") as string;
     const image = formData.get("image") as string;
-    console.log(title);
 
     execute({ title, image });
   };

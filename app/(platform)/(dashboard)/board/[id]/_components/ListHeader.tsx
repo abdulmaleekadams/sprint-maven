@@ -52,8 +52,6 @@ const ListHeader = ({ data, onAddCard }: ListHeaderProps) => {
   useOnClickOutside(formRef, disableEditing);
 
   const onBlur = () => {
-    console.log("onblur");
-
     formRef.current?.requestSubmit();
   };
 

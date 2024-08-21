@@ -1,4 +1,4 @@
-name: Build & Deploy
+name: PR Checks
 
 on:
   pull_request:
@@ -6,8 +6,8 @@ on:
       - main
 
 jobs:
-  build-deploy:
-    name: Build and Deploy
+  checks:
+    name: Run PR Checks
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
@@ -19,7 +19,9 @@ jobs:
           node-version: 20.12.0
           check-latest: true
 
-      - name: Build the application
-        run: |
-          npm install
-          npm run build --if=present
+      - name: Install dependencies
+        run: npm install
+      
+      - name: Build application
+        run: npm run build --if=present
+

@@ -3,7 +3,7 @@ name: PR Checks
 on:
   pull_request:
     branches:
-      - master
+      - main
 
 jobs:
   checks:
@@ -17,8 +17,8 @@ jobs:
           
           target_branch=${GITHUB_BASE_REF}
           echo "target branch: $target_branch"
-          dev_regex="^(bug|feature|code-cleanup|hotfix)/sprinthub-[0-9]+.*$"
-          qa_regex="^kickback/sprinthub-[0-9]+.*$"
+          dev_regex="^(bug|feature|code-cleanup|hotfix)/sprinthub-story-[0-9]+.*$"
+          qa_regex="^kickback/sprinthub-story-[0-9]+.*$"
           
           if [[ "$branch_name" =~ $dev_regex ]]; then
             echo "Branch name matches the first regex pattern."

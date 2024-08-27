@@ -1,13 +1,13 @@
 "use client";
 
-import { Card, CheckItems, Label } from "@prisma/client";
-import { Draggable } from "@hello-pangea/dnd";
-import { useCardModal } from "@/hoooks/use-card-modal";
-import TagLabel from "./TagLabel";
-import AttachedMember from "./AttachedMember";
-import { MessageCircleMore, Paperclip } from "lucide-react";
 import { Progress } from "@/components/ui/progress";
-import { calcCheckedItemProps, calcCheckedListItemProps } from "@/lib/utils";
+import { useCardModal } from "@/hoooks/use-card-modal";
+import { calcCheckedListItemProps } from "@/lib/utils";
+import { Draggable } from "@hello-pangea/dnd";
+import { Card, CheckItems, Label } from "@prisma/client";
+import { MessageCircleMore, Paperclip } from "lucide-react";
+import AttachedMember from "./AttachedMember";
+import TagLabel from "./TagLabel";
 
 type CardItemProps = {
   data: Card & { labels: Label[]; checklist: { checkItems: CheckItems[] }[] };
@@ -38,6 +38,13 @@ const CardItem = ({ data, index }: CardItemProps) => {
                 />
               ))}
             </div>
+          )}
+
+          {/* Story Point */}
+          {data.point && (
+            <p className=" border border-orange-500 flex items-center justify-center px-2 text-orange-500 font-medium rounded-full h-5 w-5">
+              {data.point}
+            </p>
           )}
 
           <p className="font-semibold ">{data.title}</p>

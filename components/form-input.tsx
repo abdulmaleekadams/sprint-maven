@@ -1,14 +1,13 @@
+import { cn } from "@/lib/utils";
 import React, { forwardRef } from "react";
 import { useFormStatus } from "react-dom";
-import { Label } from "@/components/ui/label";
-import { Input } from "./ui/input";
-import { cn } from "@/lib/utils";
 import FormErrors from "./form-errors";
+import { Input } from "./ui/input";
 
 type FormInputProps = {
   id: string;
   label?: string;
-  type?: string;
+  type?: React.HTMLInputTypeAttribute | undefined;
   placeholder?: string;
   className?: string;
   defaultValue?: string;
@@ -16,7 +15,7 @@ type FormInputProps = {
   disabled?: boolean;
   onBlur?: () => void;
   errors?: Record<string, string[] | undefined>;
-  name: string
+  name: string;
 };
 
 const FormInput = forwardRef<HTMLInputElement, FormInputProps>(

@@ -132,6 +132,7 @@ export const UpdateCardFormSchema = z.object({
       })
   ),
   labels: z.array(z.string()).optional(),
+  point: z.number().min(1).optional(),
 });
 
 export const CopyCardSchema = z.object({
@@ -178,4 +179,13 @@ export const UpdateChecklistItemFormSchema = z.object({
   checked: z.boolean().optional(),
   boardId: z.string(),
   id: z.string(),
+});
+
+export const DeleteChecklistSchema = z.object({
+  id: z.string(),
+  cardId: z.string(),
+});
+export const DeleteCheckitemSchema = z.object({
+  id: z.string(),
+  checklistId: z.string(),
 });

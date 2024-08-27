@@ -13,6 +13,7 @@ import { Button } from "@/components/ui/button";
 import { useEventListener } from "usehooks-ts";
 import { Progress } from "@/components/ui/progress";
 import { calcCheckedItemProps } from "@/lib/utils";
+import { deleteChecklist } from "@/actions/delete-checklist";
 
 const Checklists = ({
   data,
@@ -23,7 +24,9 @@ const Checklists = ({
 }) => {
   const queryClient = useQueryClient();
   const params = useParams();
-  const [activeChecklistId, setActiveChecklistId] = useState<string | null>(null);
+  const [activeChecklistId, setActiveChecklistId] = useState<string | null>(
+    null
+  );
 
   const { execute, fieldErrors, isLoading } = useAction(createChecklistItem, {
     onSuccess: (data) => {
@@ -31,6 +34,20 @@ const Checklists = ({
         queryKey: ["checklists", cardId],
       });
       toast.success(`Checklist "${data.title}" added`);
+      formRef.current?.reset();
+      setActiveChecklistId(null);
+    },
+    onError: (error) => {
+      toast.error(error);
+    },
+  });
+
+  const { execute: executeDeleteChecklist } = useAction(deleteChecklist, {
+    onSuccess: (data) => {
+      queryClient.invalidateQueries({
+        queryKey: ["checklists", cardId],
+      });
+      toast.success(`Checklist  added`);
       formRef.current?.reset();
       setActiveChecklistId(null);
     },
@@ -63,15 +80,28 @@ const Checklists = ({
     execute({ cardId, boardId, title, checklistId });
   };
 
+  const handleDeleteChecklist = (id: string) => {
+    executeDeleteChecklist({ id, cardId });
+  };
+
   return (
     <div className="flex flex-col gap-4 pt-5 border-t">
       {data.map((checklist) => (
         <div key={checklist.id} className="flex items-start gap-x-3 w-full">
           <CheckCheckIcon className="h-5 w-5 mt-0.5 text-neutral-700s" />
           <div className="w-full">
-            <p className="font-semibold text-neutral-700 mb-2 text-sm">
-              {checklist.title}
-            </p>
+            <div className="flex justify-between">
+              <p className="font-semibold text-neutral-700 mb-2 text-sm">
+                {checklist.title}
+              </p>
+              <Button
+                className="h-auto"
+                size="sm"
+                onClick={() => handleDeleteChecklist(checklist.id)}
+              >
+                Delete
+              </Button>
+            </div>
             {checklist.checkItems.length > 0 ? (
               <>
                 <Progress
@@ -88,6 +118,7 @@ const Checklists = ({
                     ref={formRef}
                     action={(formData) => onSubmit(formData, checklist.id)}
                     className="space-y-4"
+                    onBlur={()=>setActiveChecklistId(null)}
                   >
                     <FormInput
                       id="title"
@@ -111,20 +142,18 @@ const Checklists = ({
                 )}
               </>
             ) : (
-              activeChecklistId === checklist.id && (
-                <form
-                  ref={formRef}
-                  action={(formData) => onSubmit(formData, checklist.id)}
-                  className="space-y-4"
-                >
-                  <FormInput
-                    id="title"
-                    name="title"
-                    placeholder="Title"
-                    errors={fieldErrors}
-                  />
-                </form>
-              )
+              <form
+                ref={formRef}
+                action={(formData) => onSubmit(formData, checklist.id)}
+                className="space-y-4 mt-4"
+              >
+                <FormInput
+                  id="title"
+                  name="title"
+                  placeholder="Title"
+                  errors={fieldErrors}
+                />
+              </form>
             )}
           </div>
         </div>

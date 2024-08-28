@@ -1,11 +1,11 @@
 "use server";
 
-import { auth } from "@clerk/nextjs";
-import { InputType, ReturnType } from "./types";
-import { db } from "@/lib/db";
-import { revalidatePath } from "next/cache";
 import { createSafeAction } from "@/lib/create-safe-action";
+import { db } from "@/lib/db";
+import { auth } from "@clerk/nextjs";
+import { revalidatePath } from "next/cache";
 import { UpdateCardFormSchema } from "../schema";
+import { InputType, ReturnType } from "./types";
 
 const handler = async (data: InputType): Promise<ReturnType> => {
   const { userId, orgId } = auth();
@@ -33,6 +33,7 @@ const handler = async (data: InputType): Promise<ReturnType> => {
         labels: {
           connect: values.labels?.map((labelId) => ({ id: labelId })),
         },
+        point: data.point === null ? null : data.point,
       },
     });
   } catch (error) {

@@ -60,19 +60,6 @@ const CheckItem = ({ data, cardId }: CheckItemProps) => {
     },
   });
 
-  const { execute: executeDeleteCheckitem } = useAction(deleteCheckitem, {
-    onSuccess: (data) => {
-      queryClient.invalidateQueries({
-        queryKey: ["checklists", cardId],
-      });
-      toast.success(`Checkitem ${data.title} deleted`);
-      disableEditing();
-    },
-    onError: (error) => {
-      toast.error(error);
-    },
-  });
-
   const enableEditing = () => {
     setIsEditing(true);
     setTimeout(() => {
@@ -123,15 +110,7 @@ const CheckItem = ({ data, cardId }: CheckItemProps) => {
   }) => {
     executeDeleteCheckitem({ checklistId, id });
   };
-  const handleDelete = ({
-    checklistId,
-    id,
-  }: {
-    checklistId: string;
-    id: string;
-  }) => {
-    executeDeleteCheckitem({ checklistId, id });
-  };
+
   return (
     <div className="flex items-center gap-3 w-full">
       <form

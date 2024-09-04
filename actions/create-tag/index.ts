@@ -1,11 +1,11 @@
 "use server";
 
-import { auth } from "@clerk/nextjs";
-import { InputType, ReturnType } from "./types";
-import { db } from "@/lib/db";
-import { revalidatePath } from "next/cache";
 import { createSafeAction } from "@/lib/create-safe-action";
-import { CreateCardFormSchema, CreateTagFormSchema } from "../schema";
+import { db } from "@/lib/db";
+import { auth } from "@clerk/nextjs";
+import { revalidatePath } from "next/cache";
+import { CreateTagFormSchema } from "../schema";
+import { InputType, ReturnType } from "./types";
 
 const handler = async (data: InputType): Promise<ReturnType> => {
   const { userId, orgId } = auth();
@@ -36,14 +36,19 @@ const handler = async (data: InputType): Promise<ReturnType> => {
         error: "Card not found",
       };
     }
-    const lowerCaseTitle = title.toLowerCase();
 
-    
-    
+    const labelExist = await db.label.findFirst({
+      where: {
+        title: {
+          equals: title,
+          mode: "insensitive",
+        },
+      },
+    });
 
     label = await db.label.upsert({
       where: {
-        title,
+        title: labelExist?.title,
       },
       update: {
         title,
@@ -76,7 +81,7 @@ const handler = async (data: InputType): Promise<ReturnType> => {
     });
   } catch (error) {
     console.log(error);
-    
+
     return {
       error: "Failed to Create",
     };

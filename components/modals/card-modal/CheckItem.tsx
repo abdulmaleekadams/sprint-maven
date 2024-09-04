@@ -1,11 +1,19 @@
 "use client";
+import { deleteCheckitem } from "@/actions/delete-checkitem";
 import { updateChecklistItem } from "@/actions/update-checklist-item";
 import FormInput from "@/components/form-input";
+import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
 import { useAction } from "@/hoooks/use-action";
 import { cn } from "@/lib/utils";
 import { CheckItems } from "@prisma/client";
 import { useQueryClient } from "@tanstack/react-query";
+import { MoreHorizontal } from "lucide-react";
 import { useParams } from "next/navigation";
 import React, { useRef, useState } from "react";
 import { toast } from "sonner";
@@ -31,6 +39,19 @@ const CheckItem = ({ data, cardId }: CheckItemProps) => {
         queryKey: ["checklists", cardId],
       });
       toast.success(`Checklist updated`);
+      disableEditing();
+    },
+    onError: (error) => {
+      toast.error(error);
+    },
+  });
+
+  const { execute: executeDeleteCheckitem } = useAction(deleteCheckitem, {
+    onSuccess: (data) => {
+      queryClient.invalidateQueries({
+        queryKey: ["checklists", cardId],
+      });
+      toast.success(`Checkitem ${data.title} deleted`);
       disableEditing();
     },
     onError: (error) => {
@@ -79,6 +100,15 @@ const CheckItem = ({ data, cardId }: CheckItemProps) => {
     });
   };
 
+  const handleDelete = ({
+    checklistId,
+    id,
+  }: {
+    checklistId: string;
+    id: string;
+  }) => {
+    executeDeleteCheckitem({ checklistId, id });
+  };
   return (
     <div className="flex items-center gap-3 w-full">
       <form
@@ -109,15 +139,45 @@ const CheckItem = ({ data, cardId }: CheckItemProps) => {
               className="py-2 h-auto w-full"
             />
           ) : (
-            <div
-              role="button"
-              className={cn(
-                "text-sm font-medium py-2",
-                isChecked && "line-through"
-              )}
-              onClick={enableEditing}
-            >
-              {data.title}
+            <div className="flex items-center justify-between hover:bg-neutral-100 px-2 cursor-pointer group">
+              <div
+                role="button"
+                className={cn(
+                  "text-sm font-medium py-2",
+                  isChecked && "line-through"
+                )}
+                onClick={enableEditing}
+              >
+                {data.title}
+              </div>
+              <Popover>
+                <PopoverTrigger className="opacity-0 group-hover:opacity-100">
+                  <MoreHorizontal className="w-4 h-4" />
+                </PopoverTrigger>
+                <PopoverContent>
+                  <p className="text-center mb-4 w-full font-semibold">
+                    Item actions
+                  </p>
+                  <div className="flex flex-col gap-2">
+                    <Button className="" variant="ghost" size="sm">
+                      Make a card
+                    </Button>
+                    <Button
+                      className=""
+                      variant="destructive"
+                      size="sm"
+                      onClick={() =>
+                        handleDelete({
+                          checklistId: data.checklistId,
+                          id: data.id,
+                        })
+                      }
+                    >
+                      Delete
+                    </Button>
+                  </div>
+                </PopoverContent>
+              </Popover>
             </div>
           )}
         </div>

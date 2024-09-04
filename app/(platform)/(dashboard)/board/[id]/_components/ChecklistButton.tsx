@@ -25,7 +25,7 @@ const ChecklistForm = ({ cardId }: { cardId: string }) => {
         queryKey: ["card", cardId],
       });
       queryClient.invalidateQueries({
-        queryKey: ["checklist"],
+        queryKey: ["checklists", cardId],
       });
       toast.success(`Checklist "${data.title}" added`);
       formRef.current?.reset();

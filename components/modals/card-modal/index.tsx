@@ -1,20 +1,20 @@
 "use client";
 
 import { Dialog, DialogContent } from "@/components/ui/dialog";
+import { Skeleton } from "@/components/ui/skeleton";
 import { useCardModal } from "@/hoooks/use-card-modal";
 import { fetcher } from "@/lib/fetcher";
-import { CardFullDetails } from "@/types";
+import { CardFullDetails, Checklist as ChecklistType } from "@/types";
 import { useQuery } from "@tanstack/react-query";
-import Header from "./header";
-import Description from "./description";
-import Actions from "./actions";
 import { format } from "date-fns";
-import { Skeleton } from "@/components/ui/skeleton";
 import { CalendarDaysIcon } from "lucide-react";
+import Actions from "./actions";
+import CardPoint from "./cardPoint";
+import Checklists from "./Checklist";
+import Description from "./description";
 import Enhacements from "./enhacements";
 import Featured from "./features";
-import Checklists from "./Checklist";
-import { Checklist as ChecklistType } from "@/types";
+import Header from "./header";
 
 const CardModal = () => {
   const id = useCardModal((state) => state.id);
@@ -55,6 +55,12 @@ const CardModal = () => {
         <div className="grid grid-cols-1 md:grid-cols-4 md:gap-4">
           <div className="col-span-3">
             <div className="w-full space-y-6">
+              {cardData?.point && (
+                <div>
+                  <p className="text-sm font-medium">Story point</p>
+                  <CardPoint point={cardData?.point} cardId={cardData.id} />
+                </div>
+              )}
               {!cardData ? (
                 <Description.Skeleton />
               ) : (
@@ -73,7 +79,7 @@ const CardModal = () => {
           </div>
           <div>
             <Featured cardId={cardData?.id!} />
-            <Enhacements />
+            <Enhacements cardId={cardData?.id!} />
             {!cardData ? <Actions.Skeleton /> : <Actions data={cardData} />}
           </div>
         </div>

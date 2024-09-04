@@ -1,13 +1,13 @@
 "use client";
 
+import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
+import { cn } from "@/lib/utils";
 import { ListWithCards } from "@/types";
-import ListHeader from "./ListHeader";
+import { Draggable, Droppable } from "@hello-pangea/dnd";
 import { useRef, useState } from "react";
 import CardForm from "./CardForm";
-import { cn } from "@/lib/utils";
 import CardItem from "./CardItem";
-import { Draggable, Droppable } from "@hello-pangea/dnd";
-import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
+import ListHeader from "./ListHeader";
 
 type ListItemProps = {
   data: ListWithCards;
@@ -36,13 +36,12 @@ const ListItem = ({ data, index }: ListItemProps) => {
         <li
           {...provided.draggableProps}
           ref={provided.innerRef}
-          className="shrink-0 w-[366px] select-none"
+          className="shrink-0 w-80 select-none"
         >
           <div
             {...provided.dragHandleProps}
             className="w-full flex flex-col rounded-md shadow-md pb-2 h-full"
           >
-            
             <ListHeader onAddCard={enableEditing} data={data} />
             <div className="h-4 bg-[#f1f2f4]" />
             <Droppable droppableId={data.id} type="card">
@@ -52,8 +51,7 @@ const ListItem = ({ data, index }: ListItemProps) => {
                     {...provided.droppableProps}
                     ref={provided.innerRef}
                     className={cn(
-                      "px-4 py-0.5 flex flex-col gap-y-2 flex-1 basis-auto h-full bg-[#f1f2f4]",
-                      
+                      "px-4 py-0.5 flex flex-col gap-y-2 flex-1 basis-auto h-full bg-[#f1f2f4]"
                     )}
                   >
                     {data.cards.map((card, index) => (
@@ -61,7 +59,10 @@ const ListItem = ({ data, index }: ListItemProps) => {
                     ))}
                     {provided.placeholder}
                   </ol>
-                  <ScrollBar orientation="vertical" className="bg-neutral-500/20" />
+                  <ScrollBar
+                    orientation="vertical"
+                    className="bg-neutral-500/20"
+                  />
                 </ScrollArea>
               )}
             </Droppable>

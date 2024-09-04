@@ -5,11 +5,11 @@ import ListItem from "./ListItem";
 
 import { DragDropContext, Droppable } from "@hello-pangea/dnd";
 
-import { useEffect, useState } from "react";
-import { useAction } from "@/hoooks/use-action";
-import { updateListOrder } from "@/actions/update-list order";
-import { toast } from "sonner";
 import { updateCardOrder } from "@/actions/update-card order";
+import { updateListOrder } from "@/actions/update-list order";
+import { useAction } from "@/hoooks/use-action";
+import { useEffect, useState } from "react";
+import { toast } from "sonner";
 
 type ListContainerProps = {
   data: ListWithCards[];
@@ -149,7 +149,7 @@ const ListContainer = ({ boardId, data }: ListContainerProps) => {
           <ol
             {...provided.droppableProps}
             ref={provided.innerRef}
-            className="flex gap-x-3 h-full"
+            className="flex gap-x-3 h-full overflow-x-auto"
           >
             {orderedData.map((list, idx) => (
               <ListItem key={list.id} index={idx} data={list} />

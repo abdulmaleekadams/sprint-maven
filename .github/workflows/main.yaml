@@ -14,12 +14,12 @@ jobs:
         run: |
           branch_name=${GITHUB_HEAD_REF}
           echo "pr branch name: $branch_name"
-          
+
           target_branch=${GITHUB_BASE_REF}
           echo "target branch: $target_branch"
           dev_regex="^(bug|feature|code-cleanup|hotfix)/sprinthub-story-[0-9]+.*$"
           qa_regex="^kickback/sprinthub-story-[0-9]+.*$"
-          
+
           if [[ "$branch_name" =~ $dev_regex ]]; then
             echo "Branch name matches the first regex pattern."
             if [[ "$target_branch" != "dev" ]]; then
@@ -50,4 +50,3 @@ jobs:
         run: |
           npm install
           npm run build --if-present
-

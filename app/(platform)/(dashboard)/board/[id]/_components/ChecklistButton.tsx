@@ -12,10 +12,16 @@ import { useAction } from "@/hoooks/use-action";
 import { useQueryClient } from "@tanstack/react-query";
 import { CheckSquareIcon } from "lucide-react";
 import { useParams } from "next/navigation";
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import { toast } from "sonner";
 
-const ChecklistForm = ({ cardId }: { cardId: string }) => {
+const ChecklistForm = ({
+  cardId,
+  closePopover,
+}: {
+  cardId: string;
+  closePopover: () => void;
+}) => {
   const queryClient = useQueryClient();
   const params = useParams();
 
@@ -29,6 +35,7 @@ const ChecklistForm = ({ cardId }: { cardId: string }) => {
       });
       toast.success(`Checklist "${data.title}" added`);
       formRef.current?.reset();
+      closePopover(); // Close the popover when submission is successful
     },
     onError: (error) => {
       toast.error(error);
@@ -58,8 +65,14 @@ const ChecklistForm = ({ cardId }: { cardId: string }) => {
 };
 
 const ChecklistButton = ({ cardId }: { cardId: string }) => {
+  const [isPopoverOpen, setIsPopoverOpen] = useState(false);
+
+  const closePopover = () => {
+    setIsPopoverOpen(false);
+  };
+
   return (
-    <Popover>
+    <Popover onOpenChange={setIsPopoverOpen} open={isPopoverOpen}>
       <PopoverTrigger asChild>
         <Button variant="grey" className="w-full justify-start" size="inline">
           <CheckSquareIcon className="h-4 w-4 mr-2 " />
@@ -72,7 +85,7 @@ const ChecklistButton = ({ cardId }: { cardId: string }) => {
 
           <div>
             <div>
-              <ChecklistForm cardId={cardId} />
+              <ChecklistForm cardId={cardId} closePopover={closePopover} />
             </div>
             <p>Select from existing</p>
           </div>

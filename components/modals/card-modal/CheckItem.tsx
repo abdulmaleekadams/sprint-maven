@@ -1,7 +1,8 @@
 "use client";
 import { deleteCheckitem } from "@/actions/delete-checkitem";
 import { updateChecklistItem } from "@/actions/update-checklist-item";
-import FormInput from "@/components/form-input";
+import FormSubmit from "@/components/form-submit";
+import FormTextarea from "@/components/form-textarea";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import {
@@ -15,7 +16,7 @@ import { CheckItems } from "@prisma/client";
 import { useQueryClient } from "@tanstack/react-query";
 import { MoreHorizontal } from "lucide-react";
 import { useParams } from "next/navigation";
-import React, { useRef, useState } from "react";
+import { useRef, useState } from "react";
 import { toast } from "sonner";
 import { useEventListener, useOnClickOutside } from "usehooks-ts";
 
@@ -28,7 +29,7 @@ const CheckItem = ({ data, cardId }: CheckItemProps) => {
   const params = useParams();
   const queryClient = useQueryClient();
   const [isEditing, setIsEditing] = useState(false);
-  const inputRef = useRef<HTMLInputElement>(null);
+  const inputRef = useRef<HTMLTextAreaElement>(null);
   const formRef = useRef<HTMLFormElement>(null);
 
   const [isChecked, setIsChecked] = useState(data.checked);
@@ -129,15 +130,23 @@ const CheckItem = ({ data, cardId }: CheckItemProps) => {
         />
         <div className="w-full">
           {isEditing ? (
-            <FormInput
-              name="title"
-              id="title"
-              defaultValue={data.title || undefined}
-              placeholder="Add a title"
-              errors={fieldErrors}
-              ref={inputRef}
-              className="py-2 h-auto w-full"
-            />
+            <div>
+              <FormTextarea
+                name="title"
+                id="title"
+                defaultValue={data.title || undefined}
+                placeholder="Add a title"
+                errors={fieldErrors}
+                ref={inputRef}
+                className="py-2 h-auto w-full"
+              />
+              <div className="mt-2 flex gap-3">
+                <FormSubmit>Save</FormSubmit>
+                <Button size="sm" onClick={disableEditing}>
+                  Cancel
+                </Button>
+              </div>
+            </div>
           ) : (
             <div className="flex items-center justify-between hover:bg-neutral-100 px-2 cursor-pointer group">
               <div
@@ -155,11 +164,11 @@ const CheckItem = ({ data, cardId }: CheckItemProps) => {
                   <MoreHorizontal className="w-4 h-4" />
                 </PopoverTrigger>
                 <PopoverContent>
-                  <p className="text-center mb-4 w-full font-semibold">
+                  <p className=" mb-4 w-full font-semibold text-sm ">
                     Item actions
                   </p>
                   <div className="flex flex-col gap-2">
-                    <Button className="" variant="ghost" size="sm">
+                    <Button className="" variant="outline" size="sm">
                       Make a card
                     </Button>
                     <Button

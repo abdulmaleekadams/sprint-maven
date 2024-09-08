@@ -52,6 +52,7 @@ model Card {
   order       Int
   point       Int?
   priority    Int?
+  severity    String?
 
   listdId String
   List    List   @relation(fields: [listdId], references: [id], onDelete: Cascade)

@@ -62,7 +62,7 @@ const Header = ({ data }: { data: CardWithListLabel }) => {
   };
 
   return (
-    <div className="flex items-start gap-x-3 mb-6 w-full">
+    <div className="flex items-start gap-x-3 mb-6 w-full px-4">
       <LayoutIcon className="h-5 w-5 text-neutral-500 mt-1" />
       <div className="w-full">
         {isEditing ? (
@@ -99,7 +99,7 @@ const Header = ({ data }: { data: CardWithListLabel }) => {
 
 Header.Skeleton = function HeaderSkelton() {
   return (
-    <div className="flex items-start gap-x-3 mb-6 w-full">
+    <div className="flex items-start gap-x-3 mb-6 w-full px-4">
       <Skeleton className="h-6 w-6 bg-neutral-200 mt-1" />
       <div className="">
         <Skeleton className="h-6 w-24 mb-1 bg-neutral-200 mt-1" />

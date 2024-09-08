@@ -2,6 +2,7 @@ import { updateCard } from "@/actions/update-card";
 import FormInput from "@/components/form-input";
 import { Button } from "@/components/ui/button";
 import { useAction } from "@/hoooks/use-action";
+import { cn, generatePastelColor } from "@/lib/utils";
 import { useQueryClient } from "@tanstack/react-query";
 import { X } from "lucide-react";
 import { useParams } from "next/navigation";
@@ -14,6 +15,8 @@ const CardPoint = ({ point, cardId }: { point: number; cardId: string }) => {
   const inputRef = useRef<HTMLInputElement>(null);
   const queryClient = useQueryClient();
   const params = useParams();
+
+  const labelColor = generatePastelColor(point);
 
   const { execute, fieldErrors, isLoading } = useAction(updateCard, {
     onSuccess: (data) => {
@@ -78,15 +81,22 @@ const CardPoint = ({ point, cardId }: { point: number; cardId: string }) => {
         name="velocity"
         id="velocity"
         defaultValue={velocity}
-        className="font-semibold text-base px-1 h-auto border-orange-500  py-0 w-20 text-orange-500 !border bg-transparent  relative  focus-visible:bg-white focus-visible:border-input mb-0.5"
+        className={cn(
+          "font-semibold text-base px-2 h-auto py-1 w-24 border-opacity-30 text-center3rd !border relative focus-visible:bg-white focus-visible:ring-0 focus-visible:border-input mb-0.5"
+        )}
         onBlur={disableEditing}
         disabled={isLoading}
       />
     </form>
   ) : (
-    <div className="bg-orange-500 w-20 px-2 text-center text-white font-medium rounded-sm cursor-pointer  group flex items-center justify-between">
+    <div
+      className="w-24 h-9 px-2 p-1 text-center text-black font-medium rounded-sm cursor-pointer  group flex items-center justify-between"
+      style={{
+        backgroundColor: labelColor,
+      }}
+    >
       <p
-        className="text-center text-white font-medium flex-1"
+        className="text-center font-medium flex-1 text-base"
         onClick={enableEditing}
         tabIndex={0} // Ensures onBlur can be fired
         onBlur={disableEditing}

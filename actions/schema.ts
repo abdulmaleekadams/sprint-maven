@@ -133,6 +133,7 @@ export const UpdateCardFormSchema = z.object({
   ),
   labels: z.array(z.string()).optional(),
   point: z.number().min(1).nullable().optional(),
+  priority: z.number().min(1).nullable().optional(),
 });
 
 export const CopyCardSchema = z.object({

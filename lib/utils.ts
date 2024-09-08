@@ -31,3 +31,34 @@ export const calcCheckedListItemProps = (
   return Math.ceil(percent);
 };
 
+export const generatePastelColor = (digit: number) => {
+  // Ensure the input digit is between 0 and 9
+  const normalizedDigit = digit % 10;
+
+  // Map the digit to a hue value (0-360)
+  const hue = normalizedDigit * 36; // Each digit will give a different hue
+
+  // Use fixed values for saturation and lightness to get a pastel color
+  const saturation = 50; // Pastel colors typically have low saturation
+  const lightness = 85; // Pastel colors are generally very light
+
+  // Generate the HSL color
+  const pastelColor = `hsl(${hue}, ${saturation}%, ${lightness}%)`;
+
+  return pastelColor;
+};
+
+export const getOrdinalSuffix = (number: number) => {
+  const remainder = number % 10;
+  const remainderHundred = number % 100;
+
+  if (remainder === 1 && remainderHundred !== 11) {
+    return `${number}st`;
+  } else if (remainder === 2 && remainderHundred !== 12) {
+    return `${number}nd`;
+  } else if (remainder === 3 && remainderHundred !== 13) {
+    return `${number}rd`;
+  } else {
+    return `${number}th`;
+  }
+};

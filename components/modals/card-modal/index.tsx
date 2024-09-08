@@ -1,6 +1,7 @@
 "use client";
 
 import { Dialog, DialogContent } from "@/components/ui/dialog";
+import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useCardModal } from "@/hoooks/use-card-modal";
 import { fetcher } from "@/lib/fetcher";
@@ -10,6 +11,7 @@ import { format } from "date-fns";
 import { CalendarDaysIcon } from "lucide-react";
 import Actions from "./actions";
 import CardPoint from "./cardPoint";
+import CardPriority from "./cardPriority";
 import Checklists from "./Checklist";
 import Description from "./description";
 import Enhacements from "./enhacements";
@@ -32,7 +34,7 @@ const CardModal = () => {
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
       <DialogContent
-        className=""
+        className="h-[80%] flex flex-col px-0"
         onEscapeKeyDown={(e) => {
           e.preventDefault();
         }}
@@ -43,46 +45,64 @@ const CardModal = () => {
         {!cardData ? <Header.Skeleton /> : <Header data={cardData} />}
 
         {!cardData ? (
-          <Skeleton className="h-4 w-20" />
+          <Skeleton className="h-4 w-20 px-4" />
         ) : (
-          <div className="flex items-center gap-1">
+          <div className="flex items-center gap-1 px-4">
             <CalendarDaysIcon className="w-4 h-4 mr-2" />
             <p className=" text-neutral-500 text-sm">
               {format(cardData?.createdAt, "PP")}
             </p>
           </div>
         )}
-        <div className="grid grid-cols-1 md:grid-cols-4 md:gap-4">
-          <div className="col-span-3">
-            <div className="w-full space-y-6">
-              {cardData?.point && (
-                <div>
-                  <p className="text-sm font-medium">Story point</p>
-                  <CardPoint point={cardData?.point} cardId={cardData.id} />
-                </div>
-              )}
-              {!cardData ? (
-                <Description.Skeleton />
-              ) : (
-                <>
-                  <Description data={cardData} />
-
-                  {/* Attachments  */}
-                  {/* Checklist */}
-                  {checklists && checklists.length > 0 && (
-                    <Checklists cardId={cardData.id} data={checklists} />
+        <ScrollArea className="flex-1">
+          <div className="grid grid-cols-1 md:grid-cols-4 md:gap-4 px-4 pb-4">
+            <div className="col-span-3 h-full">
+              <div className="w-full space-y-6">
+                <div className="flex gap-6">
+                  {cardData?.point && (
+                    <div className="flex flex-col items-center">
+                      <p className="text-sm font-medium mb-1">Velocity Point</p>
+                      <CardPoint point={cardData?.point} cardId={cardData.id} />
+                    </div>
                   )}
-                  {/* Activity & Comments  */}
-                </>
-              )}
+                  {cardData?.priority && (
+                    <div>
+                      <p className="text-sm font-medium mb-1">Priority</p>
+                      <CardPriority
+                        priority={cardData?.priority}
+                        cardId={cardData.id}
+                      />
+                    </div>
+                  )}
+                </div>
+                {!cardData ? (
+                  <Description.Skeleton />
+                ) : (
+                  <>
+                    <Description data={cardData} />
+
+                    {/* Attachments  */}
+                    {/* Checklist */}
+                    {checklists && checklists.length > 0 && (
+                      <Checklists cardId={cardData.id} data={checklists} />
+                    )}
+                    {/* Activity & Comments  */}
+                  </>
+                )}
+              </div>
+            </div>
+
+            <div className="">
+              <Featured cardId={cardData?.id!} />
+              <Enhacements
+                initialPriority={cardData?.priority}
+                cardId={cardData?.id!}
+              />
+              {!cardData ? <Actions.Skeleton /> : <Actions data={cardData} />}
             </div>
           </div>
-          <div>
-            <Featured cardId={cardData?.id!} />
-            <Enhacements cardId={cardData?.id!} />
-            {!cardData ? <Actions.Skeleton /> : <Actions data={cardData} />}
-          </div>
-        </div>
+          <ScrollBar orientation="vertical" />
+        </ScrollArea>
       </DialogContent>
     </Dialog>
   );

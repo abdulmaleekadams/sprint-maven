@@ -9,10 +9,9 @@ import { CardWithList } from "@/types";
 import { useQueryClient } from "@tanstack/react-query";
 import { AlignLeft } from "lucide-react";
 import { useParams } from "next/navigation";
-import React, { useRef, useState } from "react";
+import { useRef, useState } from "react";
 import { toast } from "sonner";
 import { useEventListener, useOnClickOutside } from "usehooks-ts";
-import Actions from "./actions";
 
 type DescriptionProps = {
   data: CardWithList;
@@ -102,7 +101,7 @@ const Description = ({ data }: DescriptionProps) => {
         ) : (
           <div
             role="button"
-            className="min-h-[78px] bg-neutral-200 text-sm font-medium py-3 px-3.5 rounded-md"
+            className="h-auto text-sm font-medium py-3 px-3.5 rounded-md"
             onClick={enableEditing}
           >
             {data.description || "Add a more detailed description"}

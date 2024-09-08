@@ -51,6 +51,7 @@ model Card {
   description String? @db.Text
   order       Int
   point       Int?
+  priority    Int?
 
   listdId String
   List    List   @relation(fields: [listdId], references: [id], onDelete: Cascade)

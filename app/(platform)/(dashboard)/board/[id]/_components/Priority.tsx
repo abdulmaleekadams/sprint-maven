@@ -69,7 +69,7 @@ const Priority = ({
       <PopoverTrigger asChild>
         <Button
           disabled={isLoading}
-          variant="grey"
+          variant="secondary"
           className="w-full justify-start"
           size="inline"
         >

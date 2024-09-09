@@ -74,7 +74,11 @@ const ChecklistButton = ({ cardId }: { cardId: string }) => {
   return (
     <Popover onOpenChange={setIsPopoverOpen} open={isPopoverOpen}>
       <PopoverTrigger asChild>
-        <Button variant="grey" className="w-full justify-start" size="inline">
+        <Button
+          variant="secondary"
+          className="w-full justify-start"
+          size="inline"
+        >
           <CheckSquareIcon className="h-4 w-4 mr-2 " />
           Checklists
         </Button>

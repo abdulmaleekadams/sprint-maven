@@ -18,7 +18,11 @@ export const GET = async (
         cardId: params.cardId,
       },
       include: {
-        checkItems: true,
+        checkItems: {
+          orderBy: {
+            createdAt: "asc",
+          },
+        },
       },
     });
     return NextResponse.json(checklists);

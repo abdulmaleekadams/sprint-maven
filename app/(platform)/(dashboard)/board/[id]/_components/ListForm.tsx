@@ -1,16 +1,16 @@
 "use client";
 
-import { Plus, X } from "lucide-react";
-import ListWrapper from "./ListWrapper";
-import { useRef, useState } from "react";
-import { useEventListener, useOnClickOutside } from "usehooks-ts";
+import { createList } from "@/actions/create-list";
 import FormInput from "@/components/form-input";
-import { useParams, useRouter } from "next/navigation";
 import FormSubmit from "@/components/form-submit";
 import { Button } from "@/components/ui/button";
 import { useAction } from "@/hoooks/use-action";
-import { createList } from "@/actions/create-list";
+import { Plus, X } from "lucide-react";
+import { useParams, useRouter } from "next/navigation";
+import { useRef, useState } from "react";
 import { toast } from "sonner";
+import { useEventListener, useOnClickOutside } from "usehooks-ts";
+import ListWrapper from "./ListWrapper";
 
 const ListForm = () => {
   const params = useParams();
@@ -63,7 +63,7 @@ const ListForm = () => {
       <ListWrapper>
         <form
           ref={formRef}
-          className="w-full p-3 rounded-md bg-white space-y-4 shadow-md"
+          className="w-full p-3 rounded-md bg-muted/90 space-y-4 shadow-md"
           action={onSubmit}
         >
           <FormInput
@@ -90,7 +90,7 @@ const ListForm = () => {
     <ListWrapper>
       <button
         type="button"
-        className="w-full rounded-md bg-white/80 text-sm font-medium p-3 flex items-center transition hover:bg-white/50"
+        className="w-full rounded-md bg-muted/70 text-sm font-medium p-3 flex items-center transition hover:bg-muted/90"
         onClick={enableEditing}
       >
         <Plus className="w-4 h-4 mr-2" />

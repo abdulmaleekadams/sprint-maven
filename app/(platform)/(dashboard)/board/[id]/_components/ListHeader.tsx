@@ -3,7 +3,7 @@ import { updateList } from "@/actions/update-list";
 import FormInput from "@/components/form-input";
 import { useAction } from "@/hoooks/use-action";
 import { List } from "@prisma/client";
-import React, { useRef, useState } from "react";
+import { useRef, useState } from "react";
 import { toast } from "sonner";
 import { useEventListener, useOnClickOutside } from "usehooks-ts";
 import ListOptions from "./ListOptions";
@@ -66,10 +66,8 @@ const ListHeader = ({ data, onAddCard }: ListHeaderProps) => {
     execute({ title, id, boardId: data.boardId });
   };
 
-  
-
   return (
-    <div className="pt-2 px-2 text-sm font-semibold flex justify-between items-center gap-x-2 bg-[#f1f2f4] rounded-t-md">
+    <div className="pt-2 px-2 text-sm font-semibold flex justify-between items-center gap-x-2 bg-muted/90 rounded-t-md">
       {isEditing ? (
         <form ref={formRef} className="flex-1 px-[2px]" action={onSubmit}>
           <FormInput

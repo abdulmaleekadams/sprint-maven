@@ -11,7 +11,11 @@ const Point = ({ cardId }: { cardId: string }) => {
   return (
     <Popover>
       <PopoverTrigger asChild>
-        <Button variant="grey" className="w-full justify-start" size="inline">
+        <Button
+          variant="secondary"
+          className="w-full justify-start"
+          size="inline"
+        >
           <Dices className="h-4 w-4 mr-2 " />
           Velocity Point
         </Button>

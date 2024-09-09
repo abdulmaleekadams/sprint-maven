@@ -43,7 +43,7 @@ const ListItem = ({ data, index }: ListItemProps) => {
             className="w-full flex flex-col rounded-md shadow-md pb-2 h-full"
           >
             <ListHeader onAddCard={enableEditing} data={data} />
-            <div className="h-4 bg-[#f1f2f4]" />
+            <div className="h-4 bg-muted/90" />
             <Droppable droppableId={data.id} type="card">
               {(provided) => (
                 <ScrollArea>
@@ -51,7 +51,7 @@ const ListItem = ({ data, index }: ListItemProps) => {
                     {...provided.droppableProps}
                     ref={provided.innerRef}
                     className={cn(
-                      "px-4 py-0.5 flex flex-col gap-y-2 flex-1 basis-auto h-full bg-[#f1f2f4]"
+                      "px-4 py-0.5 flex flex-col gap-y-2 flex-1 basis-auto h-full bg-muted/90"
                     )}
                   >
                     {data.cards.map((card, index) => (

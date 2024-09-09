@@ -62,7 +62,11 @@ const Severity = ({
   return (
     <Popover>
       <PopoverTrigger asChild>
-        <Button variant="grey" className="w-full justify-start" size="inline">
+        <Button
+          variant="secondary"
+          className="w-full justify-start"
+          size="inline"
+        >
           <Flame className="h-4 w-4 mr-2" />
           Severity
         </Button>

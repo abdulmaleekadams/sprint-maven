@@ -5,9 +5,10 @@ const OrganizationLayout = ({ children }: { children: React.ReactNode }) => {
     <main className="pt-20 md:pt-24 max-w-6xl 2xl:max-w-screen-2xl mx-auto px-4">
       <div className="flex gap-x-7">
         <aside className="w-64 shrink-0 hidden md:block px-4">
-            <Sidebar />
+          <Sidebar />
         </aside>
-        {children}</div>
+        {children}
+      </div>
     </main>
   );
 };

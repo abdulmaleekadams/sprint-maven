@@ -8,7 +8,6 @@ import { useCardModal } from "@/hoooks/use-card-modal";
 import { CardWithList } from "@/types";
 import { CaravanIcon, Copy, Trash } from "lucide-react";
 import { useParams } from "next/navigation";
-import React from "react";
 import { toast } from "sonner";
 
 type ActionsProps = {
@@ -67,7 +66,7 @@ const Actions = ({ data }: ActionsProps) => {
     <div className="space-y-2 mt-2">
       <p className="font-medium text-neutral-700 text-sm">Actions</p>
       <Button
-        variant="grey"
+        variant="secondary"
         className="w-full justify-start"
         size="inline"
         disabled={copyLoading || deleteLoading}
@@ -76,12 +75,16 @@ const Actions = ({ data }: ActionsProps) => {
         <Copy className="h-4 w-4 mr-2" />
         Copy
       </Button>
-      <Button variant="grey" className="w-full justify-start" size="inline">
+      <Button
+        variant="secondary"
+        className="w-full justify-start"
+        size="inline"
+      >
         <CaravanIcon className="h-4 w-4 mr-2" />
         Move
       </Button>
       <Button
-        variant="grey"
+        variant="secondary"
         className="w-full justify-start text-rose-500"
         size="inline"
         disabled={copyLoading || deleteLoading}

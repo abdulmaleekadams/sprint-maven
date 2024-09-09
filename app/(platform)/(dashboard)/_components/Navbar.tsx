@@ -1,13 +1,14 @@
+import FormPopover from "@/components/form-popover";
 import Logo from "@/components/Logo";
+import { ModeToggle } from "@/components/ModeToggle";
 import { Button } from "@/components/ui/button";
 import { OrganizationSwitcher, UserButton } from "@clerk/nextjs";
 import { Plus } from "lucide-react";
 import MobileSidebar from "./MobileSidebar";
-import FormPopover from "@/components/form-popover";
 
 const Navbar = () => {
   return (
-    <nav className="sticky z-50 top-0 w-full px-4 h-14 border-b shadow-sm bg-white flex items-center">
+    <nav className="sticky z-50 top-0 w-full px-4 h-14 border-b shadow-sm bg-card flex items-center">
       <MobileSidebar />
       <div className="flex items-center gap-x-4">
         <div className="hidden md:flex">
@@ -56,6 +57,7 @@ const Navbar = () => {
             },
           }}
         />
+        <ModeToggle />
       </div>
     </nav>
   );

@@ -143,13 +143,13 @@ const CheckItem = ({ data, cardId }: CheckItemProps) => {
               />
               <div className="mt-2 flex gap-3">
                 <FormSubmit>Save</FormSubmit>
-                <Button size="sm" onClick={disableEditing}>
+                <Button size="sm" variant="ghost" onClick={disableEditing}>
                   Cancel
                 </Button>
               </div>
             </div>
           ) : (
-            <div className="flex items-center justify-between hover:bg-neutral-100 px-2 cursor-pointer group">
+            <div className="flex items-center justify-between px-2 cursor-pointer group">
               <div
                 role="button"
                 className={cn(

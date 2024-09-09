@@ -8,7 +8,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
 import { cn } from "@/lib/utils";
-import { Activity, Layout, Settings, CreditCard } from "lucide-react";
+import { Activity, CreditCard, Layout, Settings } from "lucide-react";
 import Image from "next/image";
 import { usePathname, useRouter } from "next/navigation";
 
@@ -67,7 +67,7 @@ const NavItem = ({
         onClick={() => onExpand(organization.id)}
         className={cn(
           "flex items-center gap-x-2 p-1.5 text-neutral-700 rounded-md hover:bg-neutral-500/10 transition text-start no-underline hover:no-underline",
-          isActive && !isExpanded && "bg-sky-500/10 text-sky-700"
+          isActive && !isExpanded && "bg-secondary text-primary"
         )}
       >
         <div className="flex items-center gap-x-2">
@@ -89,7 +89,7 @@ const NavItem = ({
             key={route.href}
             className={cn(
               "w-full font-normal justify-start pl-10 mb-1",
-              pathname === route.href && "bg-sky-500/10 text-sky-700"
+              pathname === route.href && "bg-secondary text-primary"
             )}
             onClick={() => onRouteClick(route.href)}
             variant={"ghost"}

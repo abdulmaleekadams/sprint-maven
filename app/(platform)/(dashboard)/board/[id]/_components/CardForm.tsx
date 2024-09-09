@@ -7,7 +7,7 @@ import { Button } from "@/components/ui/button";
 import { useAction } from "@/hoooks/use-action";
 import { Plus, X } from "lucide-react";
 import { useParams } from "next/navigation";
-import React, { KeyboardEventHandler, forwardRef, useRef } from "react";
+import { KeyboardEventHandler, forwardRef, useRef } from "react";
 import { toast } from "sonner";
 import { useEventListener, useOnClickOutside } from "usehooks-ts";
 
@@ -19,9 +19,9 @@ type CardFormProps = {
 };
 
 const CardForm = forwardRef<HTMLTextAreaElement, CardFormProps>(
-  ({ disableEditing, enableEditing, isEditing, listId,  }, ref) => {
+  ({ disableEditing, enableEditing, isEditing, listId }, ref) => {
     const params = useParams();
-    
+
     const formRef = useRef<HTMLFormElement>(null);
 
     const { execute, fieldErrors } = useAction(createCard, {
@@ -63,7 +63,7 @@ const CardForm = forwardRef<HTMLTextAreaElement, CardFormProps>(
         <form
           ref={formRef}
           action={onSubmit}
-          className="m-1 py-0.5 px-1 space-y-4"
+          className="m-1 py-0.5 px-1 space-y-4 bg-muted/90"
         >
           <FormTextarea
             id="title"
@@ -83,10 +83,10 @@ const CardForm = forwardRef<HTMLTextAreaElement, CardFormProps>(
       );
     }
     return (
-      <div className="pt-2 px-2 bg-[#f1f2f4] rounded-b-md">
+      <div className="pt-2 px-2 bg-muted/90 rounded-b-md">
         <Button
           onClick={enableEditing}
-          className="px-2 h-auto w-full py-1.5 text-muted-foreground justify-start text-sm "
+          className="px-2 h-auto w-full py-1.5 text-muted-foreground justify-start text-sm  hover:bg-muted/90"
           variant="ghost"
           size="sm"
         >

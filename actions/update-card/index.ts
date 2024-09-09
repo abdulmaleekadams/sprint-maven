@@ -34,7 +34,7 @@ const handler = async (data: InputType): Promise<ReturnType> => {
           connect: values.labels?.map((labelId) => ({ id: labelId })),
         },
         point: data.point === null ? null : data.point,
-        priority: data.point === null ? null : data.priority,
+        priority: data.priority === null ? null : data.priority,
       },
     });
   } catch (error) {

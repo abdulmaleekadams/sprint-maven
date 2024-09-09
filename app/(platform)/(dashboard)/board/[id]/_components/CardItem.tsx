@@ -26,14 +26,14 @@ const CardItem = ({ data, index }: CardItemProps) => {
           ref={provided.innerRef}
           role="button"
           className={cn(
-            "border-2 border-transparent hover:border-black/30 transition-color text-sm bg-white rounded-md shadow-sm",
+            " hover:border-primary/20 transition-color text-sm bg-card rounded-md shadow-sm",
             data?.priority === 1
-              ? " animate-border bg-gradient-to-r from-red-500 via-purple-500 to-blue-500 bg-[length:400%_400%]"
-              : "duration-500"
+              ? " animate-border border-2 border-transparent bg-gradient-to-r from-red-500 via-purple-500 to-blue-500 bg-[length:400%_400%]"
+              : "duration-500 border-2 "
           )}
           onClick={() => cardModal.onOpen(data.id)}
         >
-          <div className="bg-white px-3 py-2 rounded-md space-y-2 ">
+          <div className="bg-card px-3 py-2 rounded-md space-y-2 ">
             <div className="space-y-2">
               <div className="flex flex-wrap gap-2  items-center">
                 {/* Story Point */}

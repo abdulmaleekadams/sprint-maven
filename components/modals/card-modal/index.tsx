@@ -34,7 +34,7 @@ const CardModal = () => {
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
       <DialogContent
-        className="h-[80%] flex flex-col px-0"
+        className="h-[80%] flex flex-col px-0 border-muted"
         onEscapeKeyDown={(e) => {
           e.preventDefault();
         }}

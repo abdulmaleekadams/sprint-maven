@@ -1,19 +1,18 @@
-import { Checkbox } from "@/components/ui/checkbox";
-import { CheckCheckIcon, Plus } from "lucide-react";
-import React, { useEffect, useRef, useState } from "react";
-import CheckItem from "./CheckItem";
-import { Checklist as ChecklistType } from "@/types";
-import FormInput from "@/components/form-input";
-import { useQueryClient } from "@tanstack/react-query";
-import { useParams } from "next/navigation";
-import { useAction } from "@/hoooks/use-action";
 import { createChecklistItem } from "@/actions/create-checklist-item";
-import { toast } from "sonner";
-import { Button } from "@/components/ui/button";
-import { useEventListener } from "usehooks-ts";
-import { Progress } from "@/components/ui/progress";
-import { calcCheckedItemProps } from "@/lib/utils";
 import { deleteChecklist } from "@/actions/delete-checklist";
+import FormInput from "@/components/form-input";
+import { Button } from "@/components/ui/button";
+import { Progress } from "@/components/ui/progress";
+import { useAction } from "@/hoooks/use-action";
+import { calcCheckedItemProps } from "@/lib/utils";
+import { Checklist as ChecklistType } from "@/types";
+import { useQueryClient } from "@tanstack/react-query";
+import { CheckCheckIcon, Plus } from "lucide-react";
+import { useParams } from "next/navigation";
+import { useEffect, useRef, useState } from "react";
+import { toast } from "sonner";
+import { useEventListener } from "usehooks-ts";
+import CheckItem from "./CheckItem";
 
 const Checklists = ({
   data,
@@ -118,7 +117,7 @@ const Checklists = ({
                     ref={formRef}
                     action={(formData) => onSubmit(formData, checklist.id)}
                     className="space-y-4"
-                    onBlur={()=>setActiveChecklistId(null)}
+                    onBlur={() => setActiveChecklistId(null)}
                   >
                     <FormInput
                       id="title"

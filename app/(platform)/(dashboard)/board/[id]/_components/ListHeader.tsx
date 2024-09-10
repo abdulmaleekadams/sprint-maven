@@ -74,7 +74,7 @@ const ListHeader = ({ data, onAddCard }: ListHeaderProps) => {
             name="title"
             ref={inputRef}
             id="title"
-            className="text-sm px-2 py-1 h-7 font-medium border-transparent hover:border-input focus:border-input transition truncate bg-transparent focus:bg-white"
+            className="text-sm px-2 py-1 h-7 font-medium border-transparent hover:border-input focus:border-primary transition truncate bg-transparent"
             placeholder="Enter list title"
             // errors={fieldErrors}
             defaultValue={title}

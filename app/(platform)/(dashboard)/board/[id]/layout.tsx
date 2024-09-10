@@ -54,7 +54,7 @@ const SingleBoardLayout = async ({
         style={{ backgroundImage: `url(${board.imageFullUrl})` }}
       >
         <BoardNavbar data={board} />
-        <div className="absolute bg-black/80 inset-0" />
+        <div className="absolute bg-black/20 inset-0" />
         <main className="relative flex-1 overflow-y-hidden">{children}</main>
       </div>
     </div>

@@ -41,14 +41,12 @@ jobs:
       - name: Install dependencies
         run: npm ci
       - name: Build application
-        run: |
-          npm run build
-          mkdir dist
+        run: npm run build
       - name: upload build
         uses: actions/upload-artifact@v4
         with:
-          name: dist-files
-          path: dist
+          name: build-files
+          path: .next
   deploying:
     needs: build
     runs-on: ubuntu-latest

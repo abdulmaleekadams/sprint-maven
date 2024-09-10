@@ -42,10 +42,12 @@ jobs:
         run: npm ci
       - name: Build application
         run: npm run build
+      - name: List .next directory
+        run: ls -la .next
       - name: upload build
         uses: actions/upload-artifact@v4
         with:
-          name: build-files
+          name: next-build-files
           path: .next
   deploying:
     needs: build

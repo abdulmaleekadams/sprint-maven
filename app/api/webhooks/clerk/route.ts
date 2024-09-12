@@ -1,10 +1,13 @@
+import { db } from "@/lib/db";
+import { clerkClient } from "@clerk/nextjs";
 import { WebhookEvent } from "@clerk/nextjs/server";
 import { headers } from "next/headers";
+import { NextResponse } from "next/server";
 import { Webhook } from "svix";
 
 export async function POST(req: Request) {
   // You can find this in the Clerk Dashboard -> Webhooks -> choose the endpoint
-  const WEBHOOK_SECRET = process.env.WEBHOOK_SECRET;
+  const WEBHOOK_SECRET = process.env.CLERK_WEBHOOK_SECRET;
 
   if (!WEBHOOK_SECRET) {
     throw new Error(
@@ -52,8 +55,41 @@ export async function POST(req: Request) {
   // For this guide, you simply log the payload to the console
   const { id } = evt.data;
   const eventType = evt.type;
-  console.log(`Webhook with and ID of ${id} and type of ${eventType}`);
-  console.log("Webhook body:", body);
 
-  return new Response("", { status: 200 });
+  if (eventType === "user.created") {
+    // Create user in database
+    const { email_addresses, id, image_url, first_name, last_name, username } =
+      evt.data;
+
+    const newDBUser = await db.user.create({
+      data: {
+        email: email_addresses[0].email_address,
+        avatarUrl: image_url,
+        first_name,
+        last_name,
+        clerkId: id,
+        username: username!,
+      },
+    });
+
+    if (newDBUser) {
+      await clerkClient.users.updateUserMetadata(id, {
+        publicMetadata: {
+          userId: newDBUser.id,
+        },
+      });
+    }
+    console.log(`Webhook with and ID of ${id} and type of ${eventType}`);
+    console.log("Webhook body:", body);
+
+    return NextResponse.json(
+      { message: "New user created", data: newDBUser },
+      { status: 200 }
+    );
+  }
+
+  return NextResponse.json(
+    { message: "Failed to create user" },
+    { status: 500 }
+  );
 }

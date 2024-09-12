@@ -4,7 +4,7 @@ import { NextResponse } from "next/server";
 export default authMiddleware({
   // Allow signed out users to access the specified routes:
   // publicRoutes: ['/anyone-can-visit-this-route'],
-  publicRoutes: ["/"],
+  publicRoutes: ["/", "/api/webhooks/clerk"],
   afterAuth(auth, req) {
     if (auth.userId && auth.isPublicRoute) {
       let path = "/select-org";
@@ -23,7 +23,6 @@ export default authMiddleware({
     }
 
     if (auth.userId && !auth.orgId && req.nextUrl.pathname !== "/select-org") {
-      
       const orgSelection = new URL("/select-org", req.url);
       return NextResponse.redirect(orgSelection);
     }

@@ -191,3 +191,7 @@ export const DeleteCheckitemSchema = z.object({
   id: z.string(),
   checklistId: z.string(),
 });
+
+export const UserFormSchema = z.object({
+  avatarUrl: z.string().url(),
+});

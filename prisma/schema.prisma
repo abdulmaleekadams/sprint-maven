@@ -13,6 +13,67 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+model User {
+  id        String  @id @default(uuid())
+  username  String
+  email     String
+  avatarUrl String?
+  clerkId   String  @unique
+
+  teamId        String
+  team          Team?           @relation(fields: [teamId], references: [id])
+  workspaceUser WorkspaceUser[]
+
+  // assignedTask Task[]
+}
+
+model Team {
+  id           String        @id @default(uuid())
+  name         String
+  projectTeams ProjectTeam[]
+  users        User[]
+}
+
+model Projects {
+  id          String  @id @default(uuid())
+  name        String
+  description String?
+
+  startDate    DateTime?
+  endDate      DateTime?
+  // tasks        Task[]
+  projectTeams ProjectTeam[]
+}
+
+model ProjectTeam {
+  id        String    @id @default(uuid())
+  teamId    String
+  projectId String
+  team      Team?     @relation(fields: [teamId], references: [id])
+  projects  Projects? @relation(fields: [projectId], references: [id])
+}
+
+model Workspace {
+  id            String          @id @default(uuid())
+  workspaceUser WorkspaceUser[]
+}
+
+model WorkspaceUser {
+  id          String    @id @default(uuid())
+  userId      String
+  workspaceId String
+  user        User      @relation(fields: [userId], references: [id])
+  workspace   Workspace @relation(fields: [workspaceId], references: [id])
+}
+
+model Invitation {
+  id      String   @id @default(uuid())
+  token   String
+  email   String
+  roleId  String
+  expires DateTime
+}
+
 model Board {
   id            String @id @default(uuid())
   title         String
@@ -107,4 +168,9 @@ model Label {
   updateAt  DateTime @updatedAt
 
   @@unique([title, boardId])
+}
+
+model Role {
+  id   String @id @default(uuid())
+  tile String
 }

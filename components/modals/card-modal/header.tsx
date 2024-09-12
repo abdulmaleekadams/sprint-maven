@@ -78,7 +78,7 @@ const Header = ({ data }: { data: CardWithListLabel }) => {
           </form>
         ) : (
           <p
-            className="font-semibold text-xl px-1 text-neutral-700 bg-transparent border-transparent relative -left-1.5 w-[95%] mb-0.5"
+            className="font-semibold text-xl px-1 text-foreground bg-transparent border-transparent relative -left-1.5 w-[95%] mb-0.5"
             onClick={enableEditing}
           >
             {title}

@@ -46,39 +46,42 @@ const handler = async (data: InputType): Promise<ReturnType> => {
       },
     });
 
-    label = await db.label.upsert({
-      where: {
-        title: labelExist?.title,
-      },
-      update: {
-        title,
-        color,
-        board: {
-          connect: {
-            id: boardId,
+    label = labelExist
+      ? await db.label.update({
+          where: {
+            id: labelExist?.id,
           },
-        },
-        cards: {
-          connect: {
-            id: cardId,
+          data: {
+            title,
+            color,
+            board: {
+              connect: {
+                id: boardId,
+              },
+            },
+            cards: {
+              connect: {
+                id: cardId,
+              },
+            },
           },
-        },
-      },
-      create: {
-        title,
-        color,
-        board: {
-          connect: {
-            id: boardId,
+        })
+      : await db.label.create({
+          data: {
+            title,
+            color,
+            board: {
+              connect: {
+                id: boardId,
+              },
+            },
+            cards: {
+              connect: {
+                id: cardId,
+              },
+            },
           },
-        },
-        cards: {
-          connect: {
-            id: cardId,
-          },
-        },
-      },
-    });
+        });
   } catch (error) {
     console.log(error);
 

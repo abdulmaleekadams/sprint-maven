@@ -1,6 +1,6 @@
 "use server";
 
-import { auth } from "@clerk/nextjs";
+import { auth } from "@/auth";
 import { db } from "./db";
 
 export const getLabels = async (boardId: string) => {
@@ -28,4 +28,10 @@ export const getLabels = async (boardId: string) => {
       error: "Failed to fetch labels",
     };
   }
+};
+
+export const getCurrentUser = async () => {
+  const session = await auth();
+
+  return session?.user;
 };

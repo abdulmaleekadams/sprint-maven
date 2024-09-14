@@ -1,14 +1,14 @@
 "use client";
 
 import { Skeleton } from "@/components/ui/skeleton";
-import { useOrganization } from "@clerk/nextjs";
+import { useOrganization } from "@/provider/OrganizationContext";
 import { CreditCard } from "lucide-react";
 import Image from "next/image";
 
 const Info = () => {
-  const { organization, isLoaded } = useOrganization();
+  const { activeOrganization, isLoading } = useOrganization();
 
-  if (!isLoaded) {
+  if (isLoading) {
     return <Info.Skeleton />;
   }
   return (
@@ -16,13 +16,13 @@ const Info = () => {
       <div className="w-[60px] h-[60px] relative">
         <Image
           fill
-          src={organization?.imageUrl!}
+          src={"/bank.png"}
           alt="Organization"
           className="rounded-md object-cover"
         />
       </div>
       <div className="space-y-1">
-        <p className="font-semibold text-xl">{organization?.name}</p>
+        <p className="font-semibold text-xl">{activeOrganization?.name}</p>
         <div className="flex items-center text-xs text-muted-foreground">
           <CreditCard className="w-3 h-3 mr-1" />
           Free

@@ -3,11 +3,12 @@
 import { Accordion } from "@/components/ui/accordion";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
+import { useOrganization } from "@/provider/OrganizationContext";
 import { Plus } from "lucide-react";
 import Link from "next/link";
 import { Suspense } from "react";
 import { useLocalStorage } from "usehooks-ts";
-import NavItem, { Organization } from "./NavItem";
+import NavItem from "./NavItem";
 
 type SidebarProps = {
   storageKey?: string;
@@ -18,6 +19,13 @@ const Sidebar = ({ storageKey = "t-sidebar-state" }: SidebarProps) => {
     storageKey,
     {}
   );
+
+  const {
+    organization: organizations,
+    isLoading,
+    activeOrganization,
+    setActiveOrganization,
+  } = useOrganization();
 
   const defaultAccordionValue: string[] = Object.keys(expanded).reduce(
     (acc: string[], key: string) => {
@@ -36,19 +44,21 @@ const Sidebar = ({ storageKey = "t-sidebar-state" }: SidebarProps) => {
     }));
   };
 
-  // return (
-  //   <>
-  //     <div className="flex items-center font-medium  mb-2">
-  //       <Skeleton className="h-10 w-[50%]" />
-  //       <Skeleton className="h-10 w-10" />
-  //     </div>
-  //     <div className="space-y-2">
-  //       <NavItem.Skeleton />
-  //       <NavItem.Skeleton />
-  //       <NavItem.Skeleton />
-  //     </div>
-  //   </>
-  // );
+  if (isLoading || !organizations) {
+    return (
+      <>
+        <div className="flex items-center font-medium  mb-2">
+          <Skeleton className="h-10 w-[50%]" />
+          <Skeleton className="h-10 w-10" />
+        </div>
+        <div className="space-y-2">
+          <NavItem.Skeleton />
+          <NavItem.Skeleton />
+          <NavItem.Skeleton />
+        </div>
+      </>
+    );
+  }
 
   return (
     <Suspense
@@ -84,14 +94,14 @@ const Sidebar = ({ storageKey = "t-sidebar-state" }: SidebarProps) => {
       <Accordion
         type="multiple"
         defaultValue={defaultAccordionValue}
-        className="space-y-2"
+        className="space-y-2 w-full"
       >
-        {userMemberships?.data?.map(({ organization }) => (
+        {organizations?.map((organization) => (
           <NavItem
             key={organization.id}
             isActive={activeOrganization?.id === organization.id}
             isExpanded={expanded[organization.id]}
-            organization={organization as Organization}
+            organization={organization}
             onExpand={onExpand}
           />
         ))}

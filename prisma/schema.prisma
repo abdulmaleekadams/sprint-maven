@@ -46,7 +46,7 @@ model User {
   team          Team?           @relation(fields: [teamId], references: [id])
   workspaceUser WorkspaceUser[]
   accounts      Account[]
-
+  workspaces    Workspace[]
   // assignedTask Task[]
 }
 
@@ -96,7 +96,12 @@ model ProjectTeam {
 
 model Workspace {
   id            String          @id @default(uuid())
+  name          String
+  description   String?
+  ownerId       String
+  owner         User            @relation(fields: [ownerId], references: [id], onDelete: Cascade)
   workspaceUser WorkspaceUser[]
+  board         Board[]
 }
 
 model WorkspaceUser {
@@ -118,18 +123,20 @@ model Invitation {
 model Board {
   id            String @id @default(uuid())
   title         String
-  orgId         String
+  workspaceId   String @unique
   imageId       String
   imageThumbUrl String @db.Text()
   imageFullUrl  String @db.Text()
   imageLinkHTML String @db.Text()
   imageUserName String @db.Text()
 
-  createdAt  DateTime    @default(now())
-  updateAt   DateTime    @updatedAt
   lists      List[]
   labels     Label[]
   checklists Checklist[]
+  workspace  Workspace   @relation(fields: [workspaceId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now())
+  updateAt  DateTime @updatedAt
 }
 
 model List {

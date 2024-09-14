@@ -15,7 +15,7 @@ const handler = async (data: InputType): Promise<ReturnType> => {
       error: "Unauthorized",
     };
   }
-  const { avatarUrl } = data;
+  const { image } = data;
 
   let board;
   try {

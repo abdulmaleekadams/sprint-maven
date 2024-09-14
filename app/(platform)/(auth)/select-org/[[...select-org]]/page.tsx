@@ -1,5 +1,9 @@
-import { OrganizationList } from "@clerk/nextjs";
+import WorkspaceSelector from "../_components/WorkspaceSelector";
 
 export default function CreateOrganizationPage() {
-  return <OrganizationList hidePersonal  afterSelectOrganizationUrl={"/organization/:id"} />;
+  return (
+    <div>
+      <WorkspaceSelector />
+    </div>
+  );
 }

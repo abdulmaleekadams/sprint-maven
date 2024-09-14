@@ -1,16 +1,16 @@
 "use server";
 
-import { auth } from "@clerk/nextjs";
-import { InputType, ReturnType } from "./types";
+import { auth } from "@/auth";
+import { createSafeAction } from "@/lib/create-safe-action";
 import { db } from "@/lib/db";
 import { revalidatePath } from "next/cache";
-import { createSafeAction } from "@/lib/create-safe-action";
 import { CreateBoardFormSchema } from "../schema";
+import { InputType, ReturnType } from "./types";
 
 const handler = async (data: InputType): Promise<ReturnType> => {
-  const { userId, orgId } = auth();
+  const session = await auth();
 
-  if (!userId || !orgId) {
+  if (!session?.user || !session.user.id || !session.user.workspaceId) {
     return {
       error: "Unauthorized",
     };
@@ -20,11 +20,17 @@ const handler = async (data: InputType): Promise<ReturnType> => {
   const [imageId, imageThumbUrl, imageFullUrl, imageLinkHTML, imageUserName] =
     image.split("|");
 
-    if (!imageId|| !imageThumbUrl|| !imageFullUrl|| !imageLinkHTML|| !imageUserName){
-      return {
-        error: "Missing fields. Failed to create board",
-      }
-    }
+  if (
+    !imageId ||
+    !imageThumbUrl ||
+    !imageFullUrl ||
+    !imageLinkHTML ||
+    !imageUserName
+  ) {
+    return {
+      error: "Missing fields. Failed to create board",
+    };
+  }
 
   let board;
 
@@ -37,7 +43,7 @@ const handler = async (data: InputType): Promise<ReturnType> => {
         imageFullUrl,
         imageLinkHTML,
         imageUserName,
-        orgId
+        workspaceId: session.user.workspaceId,
       },
     });
   } catch (error) {

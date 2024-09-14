@@ -1,5 +1,5 @@
+import { auth } from "@/auth";
 import { db } from "@/lib/db";
-import { auth } from "@clerk/nextjs";
 import { startCase } from "lodash";
 import { notFound, redirect } from "next/navigation";
 import React from "react";
@@ -10,9 +10,9 @@ export const generateMetadata = async ({
 }: {
   params: { id: string };
 }) => {
-  const { orgId } = auth();
+  const session = await auth();
 
-  if (!orgId) {
+  if (!session?.user?.workspaceId) {
     return {
       title: "Board",
     };
@@ -20,7 +20,9 @@ export const generateMetadata = async ({
 
   const { id } = params;
 
-  const board = await db.board.findUnique({ where: { id, orgId } });
+  const { workspaceId } = session.user;
+
+  const board = await db.board.findUnique({ where: { id, workspaceId } });
   return {
     title: startCase(board?.title || "Board"),
   };
@@ -33,14 +35,16 @@ const SingleBoardLayout = async ({
   children: React.ReactNode;
   params: { id: string };
 }) => {
-  const { orgId } = { orgId: "sgsjhs" };
-  if (!orgId) {
+  const session = await auth();
+  if (!session?.user?.workspaceId) {
     redirect("/select-org");
   }
 
   const { id } = params;
 
-  const board = await db.board.findUnique({ where: { id, orgId } });
+  const { workspaceId } = session.user;
+
+  const board = await db.board.findUnique({ where: { id, workspaceId } });
 
   if (!board) {
     notFound();

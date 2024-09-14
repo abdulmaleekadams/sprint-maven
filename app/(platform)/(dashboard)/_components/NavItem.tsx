@@ -14,8 +14,8 @@ import { usePathname, useRouter } from "next/navigation";
 
 export type Organization = {
   id: string;
-  slug: string;
-  imageUrl: string;
+  slug?: string;
+  imageUrl?: string;
   name: string;
 };
 
@@ -62,24 +62,26 @@ const NavItem = ({
   ];
 
   return (
-    <AccordionItem value={organization.id} className="border-none">
+    <AccordionItem value={organization.id} className="border-none w-full">
       <AccordionTrigger
         onClick={() => onExpand(organization.id)}
         className={cn(
-          "flex items-center gap-x-2 p-1.5 text-neutral-700 rounded-md hover:bg-neutral-500/10 transition text-start no-underline hover:no-underline",
+          "flex w-full items-center gap-x-2 p-1.5 text-neutral-700 rounded-md hover:bg-neutral-500/10 transition text-start no-underline hover:no-underline",
           isActive && !isExpanded && "bg-secondary text-primary"
         )}
       >
-        <div className="flex items-center gap-x-2">
-          <div className="w-7 h-7 relative">
+        <div className="flex items-center gap-x-2 w-11/12 overflow-hidden">
+          <div className="w-5 h-5 relative shrink-0">
             <Image
               fill
-              src={organization.imageUrl}
+              src={organization.imageUrl ?? "/bank.png"}
               alt={organization.name}
               className="rounded-sm object-cover"
             />
           </div>
-          <span className="font-medium text-sm">{organization.name}</span>
+          <span className="font-medium text-sm whitespace-nowrap truncate">
+            {organization.name}
+          </span>
         </div>
       </AccordionTrigger>
 

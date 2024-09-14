@@ -193,11 +193,25 @@ export const DeleteCheckitemSchema = z.object({
 });
 
 export const UserFormSchema = z.object({
-  avatarUrl: z.string().url(),
+  image: z.string().url(),
 });
 
 export const UpdateUserFormSchema = z.object({
   username: z.string().min(1).optional(),
   name: z.string().min(1).optional(),
   email: z.string().min(1).email().optional(),
+});
+
+export const CreateWorkSpaceFormSchema = z.object({
+  name: z
+    .string()
+    .trim()
+    .min(1, { message: "Workspace name cannot be empty" })
+    .max(50, { message: "Workspace name cannot exceed 50 characters" }),
+  description: z
+    .string()
+    .trim()
+    .min(1, { message: "Workspace description cannot be empty" })
+    .max(100, { message: "Workspace description cannot exceed 100 characters" })
+    .optional(),
 });

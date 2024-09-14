@@ -15,6 +15,7 @@ declare module "next-auth" {
       role: string;
       id: string;
       username: string;
+      workspaceId: string;
       /**
        * By default, TypeScript merges new interface properties and overwrites existing ones.
        * In this case, the default session user properties will be overwritten,
@@ -67,6 +68,9 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       if (token.username && session.user) {
         session.user.username = token.username as string;
       }
+      if (token.workspaceId && session.user) {
+        session.user.workspaceId = token.workspaceId as string;
+      }
 
       return session;
     },
@@ -83,8 +87,13 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       token.name = name;
       token.username = username;
 
+      if (session?.workspaceId) token.workspaceId = session.workspaceId;
+
       if (trigger === "update" && session.username) {
         token.username = session.username;
+      }
+      if (trigger === "update" && session.workspaceId) {
+        token.workspaceId = session.workspaceId;
       }
 
       return token;

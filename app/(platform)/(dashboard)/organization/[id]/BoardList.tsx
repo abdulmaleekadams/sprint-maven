@@ -1,22 +1,21 @@
+import { auth } from "@/auth";
 import FormPopover from "@/components/form-popover";
 import Hint from "@/components/hint";
 import { Skeleton } from "@/components/ui/skeleton";
 import { db } from "@/lib/db";
-import { auth } from "@clerk/nextjs";
 import { HelpCircle, User2 } from "lucide-react";
 import Link from "next/link";
 import { redirect } from "next/navigation";
-import React from "react";
 
 const BoardList = async () => {
-  const { orgId } = auth();
+  const session = await auth();
 
-  if (!orgId) {
+  if (!session?.user?.workspaceId) {
     return redirect("/select-org");
   }
 
   const boards = await db.board.findMany({
-    where: { orgId },
+    where: { workspaceId: session.user.workspaceId },
     orderBy: {
       createdAt: "desc",
     },
@@ -31,7 +30,7 @@ const BoardList = async () => {
 
       <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
         {/* Todo Fetch board */}
-        {boards.length > 0  ? (
+        {boards.length > 0 ? (
           boards.map((board) => (
             <Link
               href={`/board/${board.id}`}

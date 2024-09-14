@@ -195,3 +195,9 @@ export const DeleteCheckitemSchema = z.object({
 export const UserFormSchema = z.object({
   avatarUrl: z.string().url(),
 });
+
+export const UpdateUserFormSchema = z.object({
+  username: z.string().min(1).optional(),
+  name: z.string().min(1).optional(),
+  email: z.string().min(1).email().optional(),
+});

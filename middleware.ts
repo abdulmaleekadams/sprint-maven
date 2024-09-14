@@ -1,4 +1,5 @@
 import NextAuth from "next-auth";
+import { NextResponse } from "next/server";
 import authConfig from "./auth.config";
 import { apiAuthPrefix, authRoutes, publicRoutes } from "./routes";
 
@@ -7,77 +8,41 @@ const { auth: authMiddleware } = NextAuth(authConfig);
 export default authMiddleware(async (req) => {
   const { auth: session, nextUrl } = req;
 
-  const isLoggedIn = !!session;
-
+  const isLoggedIn = !!session?.user;
   const isApiAuthRoute = nextUrl.pathname.startsWith(apiAuthPrefix);
   const isPublicRoute = publicRoutes.includes(nextUrl.pathname);
   const isAuthRoute = authRoutes.includes(nextUrl.pathname);
 
+  // 1. Bypass API routes from authentication logic
   if (isApiAuthRoute) {
-    return;
+    return NextResponse.next();
   }
 
+  // 3. Handle Auth Routes (like sign in/sign up) when user is already logged in
   if (isAuthRoute) {
     if (isLoggedIn) {
-      const currentRoute = req.headers.get("referer");
-      if (currentRoute) {
-        return Response.redirect(new URL(currentRoute));
-      }
-      return Response.redirect(new URL("/", nextUrl));
+      // Redirect to referer or home after sign-in
+      const referer = req.headers.get("referer") || "/";
+      return NextResponse.redirect(new URL(referer, nextUrl));
     }
-    return;
+    return NextResponse.next(); // Allow access to sign-in page
   }
 
+  // 4. Redirect to sign-in if user is not logged in and trying to access a protected route
   if (!isLoggedIn && !isPublicRoute) {
-    let callback = nextUrl.pathname;
-    if (nextUrl.search) {
-      callback += nextUrl.search;
-    }
-    const encodedCallbackUrl = encodeURIComponent(callback);
-    return Response.redirect(
-      new URL(`/auth/signin?callbackUrl=${encodedCallbackUrl}`, nextUrl)
+    const callbackUrl = encodeURIComponent(nextUrl.pathname + nextUrl.search);
+    return NextResponse.redirect(
+      new URL(`/auth/signin?callbackUrl=${callbackUrl}`, nextUrl)
     );
   }
 
-  // check if route is AuthRoute
-
-  // check if is protected route
-
-  //  check if is public route
-
-  // Allow signed out users to access the specified routes:
-  // publicRoutes: ['/anyone-can-visit-this-route'],
-  // publicRoutes: ["/", "/api/webhooks/clerk"],
-  // afterAuth(auth, req) {
-  //   if (auth.userId && auth.isPublicRoute) {
-  //     let path = "/select-org";
-
-  //     if (auth.orgId) {
-  //       path = `/organization/${auth.orgId}`;
-  //     }
-
-  //     const orgSelection = new URL(path, req.url);
-
-  //     return NextResponse.redirect(orgSelection);
-  //   }
-
-  //   if (!auth.userId && !auth.isPublicRoute) {
-  //     return redirectToSignIn({ returnBackUrl: req.url });
-  //   }
-
-  //   if (auth.userId && !auth.orgId && req.nextUrl.pathname !== "/select-org") {
-  //     const orgSelection = new URL("/select-org", req.url);
-  //     return NextResponse.redirect(orgSelection);
-  //   }
-  // },
+  // 5. Allow access to public routes and protected routes if logged in
+  return NextResponse.next();
 });
 
 export const config = {
   matcher: [
-    // Exclude files with a "." followed by an extension, which are typically static files.
-    // Exclude files in the _next directory, which are Next.js internals.
-    "/((?!.+\\.[\\w]+$|_next).*)",
-    // Re-include any files in the api or trpc folders that might have an extension
-    "/(api|trpc)(.*)",
+    "/((?!.*\\..*|_next).*)", // Exclude static files and Next.js internals
+    "/(api|trpc)(.*)", // Include API routes
   ],
 };

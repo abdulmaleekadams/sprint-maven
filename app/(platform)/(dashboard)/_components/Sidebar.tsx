@@ -2,14 +2,12 @@
 
 import { Accordion } from "@/components/ui/accordion";
 import { Button } from "@/components/ui/button";
-import { Separator } from "@/components/ui/separator";
 import { Skeleton } from "@/components/ui/skeleton";
-import { useOrganization, useOrganizationList } from "@clerk/nextjs";
 import { Plus } from "lucide-react";
 import Link from "next/link";
+import { Suspense } from "react";
 import { useLocalStorage } from "usehooks-ts";
 import NavItem, { Organization } from "./NavItem";
-import { Suspense } from "react";
 
 type SidebarProps = {
   storageKey?: string;
@@ -20,15 +18,6 @@ const Sidebar = ({ storageKey = "t-sidebar-state" }: SidebarProps) => {
     storageKey,
     {}
   );
-
-  const { organization: activeOrganization, isLoaded: isLoadedOrg } =
-    useOrganization();
-
-  const { userMemberships, isLoaded: isLoadedOrgList } = useOrganizationList({
-    userMemberships: {
-      infinite: true,
-    },
-  });
 
   const defaultAccordionValue: string[] = Object.keys(expanded).reduce(
     (acc: string[], key: string) => {
@@ -47,20 +36,19 @@ const Sidebar = ({ storageKey = "t-sidebar-state" }: SidebarProps) => {
     }));
   };
 
-  if (!isLoadedOrg || !isLoadedOrgList || userMemberships.isLoading)
-    return (
-      <>
-        <div className="flex items-center font-medium  mb-2">
-          <Skeleton className="h-10 w-[50%]" />
-          <Skeleton className="h-10 w-10" />
-        </div>
-        <div className="space-y-2">
-          <NavItem.Skeleton />
-          <NavItem.Skeleton />
-          <NavItem.Skeleton />
-        </div>
-      </>
-    );
+  // return (
+  //   <>
+  //     <div className="flex items-center font-medium  mb-2">
+  //       <Skeleton className="h-10 w-[50%]" />
+  //       <Skeleton className="h-10 w-10" />
+  //     </div>
+  //     <div className="space-y-2">
+  //       <NavItem.Skeleton />
+  //       <NavItem.Skeleton />
+  //       <NavItem.Skeleton />
+  //     </div>
+  //   </>
+  // );
 
   return (
     <Suspense

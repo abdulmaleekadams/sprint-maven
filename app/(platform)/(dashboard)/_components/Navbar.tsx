@@ -1,8 +1,6 @@
 import FormPopover from "@/components/form-popover";
 import Logo from "@/components/Logo";
-import { ModeToggle } from "@/components/ModeToggle";
 import { Button } from "@/components/ui/button";
-import { OrganizationSwitcher, UserButton } from "@clerk/nextjs";
 import { Plus } from "lucide-react";
 import MobileSidebar from "./MobileSidebar";
 
@@ -30,7 +28,7 @@ const Navbar = () => {
         </FormPopover>
       </div>
 
-      <div className="ml-auto flex items-center gap-x-2">
+      {/* <div className="ml-auto flex items-center gap-x-2">
         <OrganizationSwitcher
           hidePersonal
           afterSelectOrganizationUrl={"/organization/:id"}
@@ -58,7 +56,7 @@ const Navbar = () => {
           }}
         />
         <ModeToggle />
-      </div>
+      </div> */}
     </nav>
   );
 };

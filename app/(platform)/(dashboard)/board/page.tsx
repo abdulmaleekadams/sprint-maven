@@ -1,8 +1,7 @@
-import { redirect } from 'next/navigation'
-import React from 'react'
+import { redirect } from "next/navigation";
 
 const BoardPage = () => {
-  return redirect('/')
-}
+  return redirect("/");
+};
 
-export default BoardPage
+export default BoardPage;

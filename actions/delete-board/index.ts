@@ -1,21 +1,23 @@
 "use server";
 
-import { auth } from "@clerk/nextjs";
-import { InputType, ReturnType } from "./types";
+import { auth } from "@/auth";
+import { createSafeAction } from "@/lib/create-safe-action";
 import { db } from "@/lib/db";
 import { revalidatePath } from "next/cache";
-import { createSafeAction } from "@/lib/create-safe-action";
-import { DeleteBoardFormSchema } from "../schema";
 import { redirect } from "next/navigation";
+import { DeleteBoardFormSchema } from "../schema";
+import { InputType, ReturnType } from "./types";
 
 const handler = async (data: InputType): Promise<ReturnType> => {
-  const { userId, orgId } = auth();
+  const session = await auth();
 
-  if (!userId || !orgId) {
+  if (!session?.user?.workspaceId) {
     return {
       error: "Unauthorized",
     };
   }
+
+  const workspaceId = session.user.workspaceId;
   const { id } = data;
 
   let board;
@@ -23,7 +25,7 @@ const handler = async (data: InputType): Promise<ReturnType> => {
     board = await db.board.delete({
       where: {
         id,
-        orgId,
+        workspaceId,
       },
     });
   } catch (error) {
@@ -32,8 +34,8 @@ const handler = async (data: InputType): Promise<ReturnType> => {
     };
   }
 
-  revalidatePath(`/organization/${orgId}`);
-  redirect(`/organization/${orgId}`)
+  revalidatePath(`/organization/${session.user.workspaceId}`);
+  redirect(`/organization/${session.user.workspaceId}`);
 };
 
 export const deleteBoard = createSafeAction(DeleteBoardFormSchema, handler);

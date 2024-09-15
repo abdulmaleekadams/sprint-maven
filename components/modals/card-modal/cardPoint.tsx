@@ -82,7 +82,7 @@ const CardPoint = ({ point, cardId }: { point: number; cardId: string }) => {
         id="velocity"
         defaultValue={velocity}
         className={cn(
-          "font-semibold text-base px-2 h-auto py-1 w-24 border-opacity-30 text-center3rd !border relative focus-visible:bg-white focus-visible:ring-0 focus-visible:border-input mb-0.5"
+          "font-semibold text-base px-2 h-auto py-1 w-24 border-opacity-30 text-center3rd !border relative focus-visible:ring-0 focus-visible:border-input mb-0.5"
         )}
         onBlur={disableEditing}
         disabled={isLoading}

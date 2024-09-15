@@ -186,10 +186,12 @@ export const UpdateChecklistItemFormSchema = z.object({
 export const DeleteChecklistSchema = z.object({
   id: z.string(),
   cardId: z.string(),
+  boardId: z.string(),
 });
 export const DeleteCheckitemSchema = z.object({
   id: z.string(),
   checklistId: z.string(),
+  boardId: z.string(),
 });
 
 export const UserFormSchema = z.object({

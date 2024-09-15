@@ -1,5 +1,5 @@
+import { auth } from "@/auth";
 import { db } from "@/lib/db";
-import { auth } from "@clerk/nextjs";
 import { redirect } from "next/navigation";
 import ListContainer from "./_components/ListContainer";
 
@@ -9,9 +9,9 @@ type SingleBoardPageProps = {
   };
 };
 const SingleBoardPage = async ({ params }: SingleBoardPageProps) => {
-  const { orgId } = auth();
+  const session = await auth();
 
-  if (!orgId) {
+  if (!session?.user?.workspaceId) {
     redirect("/select-org");
   }
 
@@ -19,7 +19,7 @@ const SingleBoardPage = async ({ params }: SingleBoardPageProps) => {
     where: {
       boardId: params.id,
       board: {
-        orgId,
+        workspaceId: session.user.workspaceId,
       },
     },
     include: {

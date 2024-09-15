@@ -1,20 +1,22 @@
 "use server";
 
-import { auth } from "@clerk/nextjs";
-import { InputType, ReturnType } from "./types";
+import { auth } from "@/auth";
+import { createSafeAction } from "@/lib/create-safe-action";
 import { db } from "@/lib/db";
 import { revalidatePath } from "next/cache";
-import { createSafeAction } from "@/lib/create-safe-action";
 import { UpdateListFormSchema } from "../schema";
+import { InputType, ReturnType } from "./types";
 
 const handler = async (data: InputType): Promise<ReturnType> => {
-  const { userId, orgId } = auth();
+  const session = await auth();
 
-  if (!userId || !orgId) {
+  if (!session?.user?.workspaceId) {
     return {
       error: "Unauthorized",
     };
   }
+
+  const workspaceId = session.user.workspaceId;
   const { title, id, boardId } = data;
 
   let list;
@@ -24,7 +26,7 @@ const handler = async (data: InputType): Promise<ReturnType> => {
         id,
         boardId,
         board: {
-          orgId,
+          workspaceId,
         },
       },
       data: {

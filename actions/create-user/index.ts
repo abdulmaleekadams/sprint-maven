@@ -1,23 +1,24 @@
 "use server";
 
+import { auth } from "@/auth";
 import { createSafeAction } from "@/lib/create-safe-action";
-import { auth } from "@clerk/nextjs";
-import { revalidatePath } from "next/cache";
-import { redirect } from "next/navigation";
+import { User } from "@prisma/client";
 import { UserFormSchema } from "../schema";
 import { InputType, ReturnType } from "./types";
 
 const handler = async (data: InputType): Promise<ReturnType> => {
-  const { userId, orgId } = auth();
+  const session = await auth();
 
-  if (!userId || !orgId) {
+  if (!session?.user?.workspaceId) {
     return {
       error: "Unauthorized",
     };
   }
+
+  const workspaceId = session.user.workspaceId;
   const { image } = data;
 
-  let board;
+  let user: User;
   try {
   } catch (error) {
     return {
@@ -25,8 +26,7 @@ const handler = async (data: InputType): Promise<ReturnType> => {
     };
   }
 
-  revalidatePath(`/organization/${orgId}`);
-  redirect(`/organization/${orgId}`);
+  return { data: user! };
 };
 
 export const deleteBoard = createSafeAction(UserFormSchema, handler);

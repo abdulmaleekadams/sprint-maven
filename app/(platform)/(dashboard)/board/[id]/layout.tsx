@@ -4,6 +4,7 @@ import { startCase } from "lodash";
 import { notFound, redirect } from "next/navigation";
 import React from "react";
 import BoardNavbar from "./_components/BoardNavbar";
+import BoardSidebar from "./_components/BoardSidebar";
 
 export const generateMetadata = async ({
   params,
@@ -51,7 +52,7 @@ const SingleBoardLayout = async ({
   }
   return (
     <div className="overflow-hidden flex">
-      {/* <BoardSidebar orgId={orgId} /> */}
+      <BoardSidebar workspaceId={workspaceId} />
       <div
         className="relative h-[calc(100vh_-_56px)] flex flex-col bg-no-repeat bg-cover bg-center flex-1"
         style={{ backgroundImage: `url(${board.imageFullUrl})` }}

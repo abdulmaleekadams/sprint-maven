@@ -11,6 +11,7 @@ import { getOrdinalSuffix } from "@/lib/utils";
 import { useQueryClient } from "@tanstack/react-query";
 import { Dot, Zap } from "lucide-react";
 import { useParams } from "next/navigation";
+import { useState } from "react";
 import { toast } from "sonner";
 
 const Priority = ({
@@ -22,6 +23,11 @@ const Priority = ({
 }) => {
   const params = useParams();
   const queryClient = useQueryClient();
+  const [isPopoverOpen, setIsPopoverOpen] = useState(false);
+
+  const closePopover = () => {
+    setIsPopoverOpen(false);
+  };
 
   const { execute, fieldErrors, isLoading } = useAction(updateCard, {
     onSuccess: (data) => {
@@ -36,6 +42,7 @@ const Priority = ({
             )}" priority`
           )
         : toast.success(`Story priority removed`);
+      closePopover();
     },
     onError: (error) => {
       toast.error(error);
@@ -49,11 +56,6 @@ const Priority = ({
     event.preventDefault(); // Prevent default form submission behavior
     const boardId = params.id as string;
 
-    //  if (Number(priority) === initialPriority) {
-    //    disableEditing();
-    //    return;
-    //  }
-
     execute({ boardId, priority, id: cardId });
   };
 
@@ -64,8 +66,9 @@ const Priority = ({
     const boardId = params.id as string;
     execute({ boardId, priority: null, id: cardId });
   };
+
   return (
-    <Popover>
+    <Popover onOpenChange={setIsPopoverOpen} open={isPopoverOpen}>
       <PopoverTrigger asChild>
         <Button
           disabled={isLoading}

@@ -66,10 +66,8 @@ export async function POST(req: Request) {
     const newDBUser = await db.user.create({
       data: {
         email: email_addresses[0].email_address,
-        avatarUrl: image_url,
-        first_name,
-        last_name,
-        clerkId: id,
+        image: image_url,
+        name: `${first_name} ${last_name}`,
         username: username!,
       },
     });

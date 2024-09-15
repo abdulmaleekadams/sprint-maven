@@ -9,8 +9,10 @@ import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
 import { cn } from "@/lib/utils";
 import { Activity, CreditCard, Layout, Settings } from "lucide-react";
+import { useSession } from "next-auth/react";
 import Image from "next/image";
 import { usePathname, useRouter } from "next/navigation";
+import { useTransition } from "react";
 
 export type Organization = {
   id: string;
@@ -33,9 +35,19 @@ const NavItem = ({
 }: NavItemProps) => {
   const router = useRouter();
   const pathname = usePathname();
+  const { update } = useSession();
+  const [isPending, startTransition] = useTransition();
 
-  const onRouteClick = (href: string) => {
-    router.push(href);
+  const onRouteClick = ({
+    href,
+    workspaceId,
+  }: {
+    href: string;
+    workspaceId: string;
+  }) => {
+    startTransition(() => {
+      update({ workspaceId }).then(() => router.push(href));
+    });
   };
 
   const routes = [
@@ -86,19 +98,19 @@ const NavItem = ({
       </AccordionTrigger>
 
       <AccordionContent className="pt-1 text-neutral-700">
-        {routes.map((route) => (
+        {routes.map(({ Icon, href, label }) => (
           <Button
-            key={route.href}
+            key={href}
             className={cn(
               "w-full font-normal justify-start pl-10 mb-1",
-              pathname === route.href && "bg-secondary text-primary"
+              pathname === href && "bg-secondary text-primary"
             )}
-            onClick={() => onRouteClick(route.href)}
+            onClick={() => onRouteClick({ href, workspaceId: organization.id })}
             variant={"ghost"}
           >
             {}
-            <route.Icon className="w-4 h-4 mr-2" />
-            {route.label}
+            <Icon className="w-4 h-4 mr-2" />
+            {label}
           </Button>
         ))}
       </AccordionContent>

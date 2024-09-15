@@ -5,11 +5,17 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import { Dices } from "lucide-react";
+import { useState } from "react";
 import PointForm from "./PointForm";
 
 const Point = ({ cardId }: { cardId: string }) => {
+  const [isPopoverOpen, setIsPopoverOpen] = useState(false);
+
+  const closePopover = () => {
+    setIsPopoverOpen(false);
+  };
   return (
-    <Popover>
+    <Popover onOpenChange={setIsPopoverOpen} open={isPopoverOpen}>
       <PopoverTrigger asChild>
         <Button
           variant="secondary"
@@ -23,7 +29,7 @@ const Point = ({ cardId }: { cardId: string }) => {
       <PopoverContent side="left">
         <div className="space-y-3">
           <p className="text-sm font-semibold">Add Point</p>
-          <PointForm cardId={cardId} />
+          <PointForm closePopover={closePopover} cardId={cardId} />
         </div>
       </PopoverContent>
     </Popover>

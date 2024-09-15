@@ -1,6 +1,8 @@
 import { createChecklistItem } from "@/actions/create-checklist-item";
 import { deleteChecklist } from "@/actions/delete-checklist";
 import FormInput from "@/components/form-input";
+import FormSubmit from "@/components/form-submit";
+import FormTextarea from "@/components/form-textarea";
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
 import { useAction } from "@/hoooks/use-action";
@@ -80,7 +82,9 @@ const Checklists = ({
   };
 
   const handleDeleteChecklist = (id: string) => {
-    executeDeleteChecklist({ id, cardId });
+    const boardId = params.id as string;
+
+    executeDeleteChecklist({ id, cardId, boardId });
   };
 
   return (
@@ -146,12 +150,13 @@ const Checklists = ({
                 action={(formData) => onSubmit(formData, checklist.id)}
                 className="space-y-4 mt-4"
               >
-                <FormInput
+                <FormTextarea
                   id="title"
                   name="title"
                   placeholder="Title"
                   errors={fieldErrors}
                 />
+                <FormSubmit>Save</FormSubmit>
               </form>
             )}
           </div>

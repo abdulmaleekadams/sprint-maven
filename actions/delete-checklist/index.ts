@@ -1,29 +1,29 @@
 "use server";
 
-import { auth } from "@clerk/nextjs";
-import { InputType, ReturnType } from "./types";
+import { auth } from "@/auth";
+import { createSafeAction } from "@/lib/create-safe-action";
 import { db } from "@/lib/db";
 import { revalidatePath } from "next/cache";
-import { createSafeAction } from "@/lib/create-safe-action";
 import { DeleteChecklistSchema } from "../schema";
+import { InputType, ReturnType } from "./types";
 
 const handler = async (data: InputType): Promise<ReturnType> => {
-  const { userId, orgId } = auth();
+  const session = await auth();
 
-  if (!userId || !orgId) {
+  if (!session?.user?.workspaceId || !session) {
     return {
       error: "Unauthorized",
     };
   }
-  const { id, cardId } = data;
+
+  const { id, cardId, boardId } = data;
 
   let checklist;
   try {
     checklist = await db.checklist.delete({
       where: {
         id,
-        cardId
-       
+        cardId,
       },
     });
     if (!checklist) {
@@ -37,6 +37,7 @@ const handler = async (data: InputType): Promise<ReturnType> => {
     };
   }
 
+  revalidatePath(`/board/${boardId}`);
   return { data: checklist };
 };
 

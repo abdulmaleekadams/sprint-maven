@@ -1,4 +1,4 @@
-const ClerkLayout = ({ children }: { children: React.ReactNode }) => {
+const SelectLayout = ({ children }: { children: React.ReactNode }) => {
   return (
     <div className="h-screen w-full flex items-center justify-center">
       {children}
@@ -6,4 +6,4 @@ const ClerkLayout = ({ children }: { children: React.ReactNode }) => {
   );
 };
 
-export default ClerkLayout;
+export default SelectLayout;

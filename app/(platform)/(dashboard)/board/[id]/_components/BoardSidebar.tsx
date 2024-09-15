@@ -11,10 +11,10 @@ import {
 } from "lucide-react";
 import BoardLink from "./BoardLink";
 
-const BoardSidebar = async ({ orgId }: { orgId: string }) => {
+const BoardSidebar = async ({ workspaceId }: { workspaceId: string }) => {
   const boards = await db.board.findMany({
     where: {
-      orgId,
+      workspaceId,
     },
   });
 

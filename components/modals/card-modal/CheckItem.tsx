@@ -108,7 +108,8 @@ const CheckItem = ({ data, cardId }: CheckItemProps) => {
     checklistId: string;
     id: string;
   }) => {
-    executeDeleteCheckitem({ checklistId, id });
+    const boardId = params.id as string;
+    executeDeleteCheckitem({ checklistId, id, boardId });
   };
 
   return (

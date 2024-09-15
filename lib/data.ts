@@ -4,20 +4,22 @@ import { auth } from "@/auth";
 import { db } from "./db";
 
 export const getLabels = async (boardId: string) => {
-  const { userId, orgId } = auth();
+  const session = await auth();
 
-  if (!userId || !orgId) {
+  if (!session || !session.user.workspaceId) {
     return {
       error: "Unauthorized",
     };
   }
+
+  const workspaceId = session.user.workspaceId;
 
   try {
     const labels = db.label.findMany({
       where: {
         board: {
           id: boardId,
-          orgId,
+          workspaceId,
         },
       },
     });

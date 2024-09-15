@@ -8,7 +8,13 @@ import { useParams } from "next/navigation";
 import { useRef } from "react";
 import { toast } from "sonner";
 
-const PointForm = ({ cardId }: { cardId: string }) => {
+const PointForm = ({
+  cardId,
+  closePopover,
+}: {
+  cardId: string;
+  closePopover: () => void;
+}) => {
   const queryClient = useQueryClient();
   const params = useParams();
 
@@ -24,6 +30,7 @@ const PointForm = ({ cardId }: { cardId: string }) => {
       });
       toast.success(`Story point "${data.point}" added`);
       formRef.current?.reset();
+      closePopover();
     },
     onError: (error) => {
       toast.error(error);

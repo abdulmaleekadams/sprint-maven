@@ -1,5 +1,5 @@
+import { auth } from "@/auth";
 import { db } from "@/lib/db";
-import { auth } from "@clerk/nextjs";
 import { NextResponse } from "next/server";
 
 export const GET = async (
@@ -7,9 +7,9 @@ export const GET = async (
   { params }: { params: { cardId: string } }
 ) => {
   try {
-    const { userId, orgId } = auth();
+    const session = await auth();
 
-    if (!userId || !orgId) {
+    if (!session || !session.user.workspaceId) {
       return new NextResponse("Unauthorized", { status: 401 });
     }
 

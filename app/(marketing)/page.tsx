@@ -1,9 +1,11 @@
-import { Button } from "@/components/ui/button";
-import { Medal } from "lucide-react";
-import Link from "next/link";
-import { Rowdies } from "next/font/google";
-import { Poppins } from "next/font/google";
-import { cn } from "@/lib/utils";
+import { Poppins, Rowdies } from "next/font/google";
+import Banner from "./_components/Banner";
+import FAQs from "./_components/FAQs";
+import Features from "./_components/Features";
+import Hero from "./_components/Hero";
+import LogoTicker from "./_components/LogoTicker";
+import Navbar from "./_components/Navbar";
+import ProductShowcase from "./_components/ProductShowcase";
 
 const rowdies = Rowdies({ subsets: ["latin"], weight: ["700"] });
 const poppins = Poppins({
@@ -13,34 +15,14 @@ const poppins = Poppins({
 
 const MarketingPage = () => {
   return (
-    <div className="flex items-center justify-center flex-col">
-      <div
-        className={cn(
-          "flex items-center justify-center flex-col",
-          rowdies.className
-        )}
-      >
-        <div className="mb-4 flex items-center border shadow-sm bg-amber-100 text-amber-700 rounded-full uppercase p-4">
-          <Medal className="w-6 h-6 mr-2" />
-          No 1 task management
-        </div>
-
-        <h1 className="text-3xl md:text-6xl text-center text-neutral-800 mb-6">
-          SprintHub helps team move
-        </h1>
-        <div className="text-3xl md:text-6xl bg-gradient-to-r from-fuchsia-600 to-pink-600 pb-4 w-fit px-4 pt-2 rounded-md text-white">
-          work forward.
-        </div>
-      </div>
-
-      <p className={cn("text-sm md:text-xl text-neutral-400 mt-4 max-w-xs md:max-w-2xl text-center mx-auto", poppins.className)}>
-        Collaborate, manage projects, and reach new productivity peaks. From
-        high rises to the home office, the way your team works is unique -
-        accomplish it all with SprintHub.
-      </p>
-      <Button className="mt-6" size="lg">
-        <Link href={"/sign-up"}>Get SprintHub for free</Link>
-      </Button>
+    <div className="flex flex-col items-center min-h-screen  *:w-full">
+      <Banner />
+      <Navbar />
+      <Hero />
+      <LogoTicker />
+      <Features />
+      <ProductShowcase />
+      <FAQs />
     </div>
   );
 };

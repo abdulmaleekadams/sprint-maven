@@ -20,7 +20,6 @@ const OrganizationContext = createContext<
 // Create a provider
 export const OrganizationProvider = ({ children }: { children: ReactNode }) => {
   const { data: sessionData } = useSession();
-  console.log(sessionData);
 
   const [activeOrganization, setActiveOrganization] =
     useState<Workspace | null>(null);

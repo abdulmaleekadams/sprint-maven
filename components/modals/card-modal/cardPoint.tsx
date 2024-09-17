@@ -27,8 +27,6 @@ const CardPoint = ({ point, cardId }: { point: number; cardId: string }) => {
       queryClient.invalidateQueries({
         queryKey: ["labels"],
       });
-      console.log(data);
-
       data.point
         ? toast.success(`Story point updated to "${data.point}"`)
         : toast.success(`Story point removed`);

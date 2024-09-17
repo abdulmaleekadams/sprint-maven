@@ -1,12 +1,15 @@
 "use client";
-import { useAction } from "@/hoooks/use-action";
 import { createBoard } from "@/actions/create-board";
-import FormButton from "../../../../../components/form-button";
 import FormInput from "@/components/form-input";
+import { useAction } from "@/hoooks/use-action";
+import { toast } from "sonner";
+import FormButton from "../../../../../components/form-button";
 
 const Form = () => {
   const { execute, fieldErrors, isLoading } = useAction(createBoard, {
-    onSuccess: (data) => console.log("SUCCESS!", data),
+    onSuccess: (data) => {
+      toast.success(`${data.title} board created`);
+    },
     onError: (error) => console.error(error),
   });
 

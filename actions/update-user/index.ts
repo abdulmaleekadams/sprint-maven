@@ -30,12 +30,12 @@ const handler = async (data: InputType): Promise<ReturnType> => {
           username: username ? username : userExist.username,
         },
       });
-      console.log(updateUser);
     }
   } catch (error) {
     return {
       error: "Failed to reorder",
     };
+    console.log(error);
   }
 
   return { data: updatedUser };

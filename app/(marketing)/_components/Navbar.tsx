@@ -1,8 +1,8 @@
 "use client";
 
+import Logo from "@/components/Logo";
 import { Button } from "@/components/ui/button";
 import useWindowSize from "@/hoooks/use-window-size";
-import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import MobileMenu from "./MobileMenu";
@@ -21,19 +21,14 @@ const Navbar = () => {
   }, [windowSize]);
 
   return (
-    <header className="bg-[#0c0a09]">
+    <header className="bg-black">
       <div className="container ">
         <div className="relative py-4 flex justify-between items-center">
           <div className="relative">
-            <div className="absolute w-full h-full top-2 bottom-0 bg-[linear-gradient(to_right,#FB92CF,#FFDD9B,#C2F0B1,#2FD8FE)] blur-md " />
+            {/* <div className="absolute w-full h-full top-2 bottom-0 bg-[linear-gradient(to_right,#FB92CF,#FFDD9B,#C2F0B1,#2FD8FE)] blur-md " /> */}
+            <div className="absolute w-full h-full top-2 bottom-0  " />
 
-            <Image
-              src="/assets/images/logosass.png"
-              alt="Brand Logo"
-              className="w-12 h-12 bg-black rounded relative"
-              width={48}
-              height={48}
-            />
+            <Logo />
           </div>
           {currentWindow.width >= 768 ? (
             <nav className="flex gap-6 items-center">

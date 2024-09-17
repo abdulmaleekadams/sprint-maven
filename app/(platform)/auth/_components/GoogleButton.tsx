@@ -13,14 +13,7 @@ const GoogleButton = ({ buttonText }: { buttonText: string }) => {
   };
 
   return (
-    <Button
-      variant="outline"
-      onClick={async () => {
-        const res = GoogleAuth();
-        console.log(res);
-      }}
-      className="relative gap-3"
-    >
+    <Button variant="outline" onClick={GoogleAuth} className="relative gap-3">
       <FcGoogle size={20} className="" />
       {buttonText}
     </Button>

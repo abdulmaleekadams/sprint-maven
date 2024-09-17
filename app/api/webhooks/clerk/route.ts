@@ -56,8 +56,6 @@ export async function POST(req: Request) {
   const { id } = evt.data;
   const eventType = evt.type;
 
-  console.log(eventType);
-
   if (eventType === "user.created") {
     // Create user in database
     const { email_addresses, id, image_url, first_name, last_name, username } =
@@ -79,8 +77,6 @@ export async function POST(req: Request) {
         },
       });
     }
-    console.log(`Webhook with and ID of ${id} and type of ${eventType}`);
-    console.log("Webhook body:", body);
 
     return NextResponse.json(
       { message: "New user created", data: newDBUser },

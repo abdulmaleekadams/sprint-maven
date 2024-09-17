@@ -44,8 +44,8 @@ const Hero = () => {
         </div>
         <div className="flex justify-center">
           <p className="text-center text-xl max-w-md">
-            Celebrate the joy of accomplishment with an app designed to track
-            progress, motivate your efforts, and celebrate your successes
+            Collaborate, manage projects, and reach new productivity peaks. From
+            high rises to the home office, the way your team works is unique.
           </p>
         </div>
         <div className="mt-8 flex justify-center items-center">

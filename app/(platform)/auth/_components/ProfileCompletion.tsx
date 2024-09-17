@@ -23,8 +23,6 @@ const ProfileCompletion = () => {
 
   const { fieldErrors, execute, isLoading, data } = useAction(updateUser, {
     onSuccess(data) {
-      console.log(status);
-
       updateSession({ username: data.username });
       toast.success(`${data.username} saved successfully`);
       router.refresh();

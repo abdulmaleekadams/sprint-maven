@@ -18,8 +18,6 @@ const CreateWorkspaceForm = () => {
     createWorkspace,
     {
       onSuccess: (data) => {
-        console.log(data);
-
         if (data.id) {
           update({ workspaceId: data.id });
           queryClient.invalidateQueries({

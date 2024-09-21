@@ -1,0 +1,224 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Account {
+  id                String  @id @default(uuid())
+  userId            String  @map("user_id")
+  type              String
+  provider          String
+  providerAccountId String  @map("provider_account_id")
+  refresh_token     String? @db.Text
+  access_token      String? @db.Text
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String? @db.Text
+  session_state     String?
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
+  @@map("accounts")
+}
+
+model User {
+  id            String    @id @default(uuid())
+  username      String?
+  email         String    @unique
+  emailVerified DateTime?
+
+  name  String
+  image String?
+
+  teamId        String?
+  team          Team?           @relation(fields: [teamId], references: [id])
+  workspaceUser WorkspaceUser[]
+  accounts      Account[]
+  workspaces    Workspace[]
+  // assignedTask Task[]
+}
+
+model VerificationToken {
+  id      String   @id @default(uuid())
+  email   String
+  token   String   @unique
+  expires DateTime
+
+  @@unique([email, token])
+}
+
+model PasswordResetToken {
+  id      String   @id @default(uuid())
+  email   String
+  token   String   @unique
+  expires DateTime
+
+  @@unique([email, token])
+}
+
+model Team {
+  id           String        @id @default(uuid())
+  name         String
+  projectTeams ProjectTeam[]
+  users        User[]
+}
+
+model Projects {
+  id          String  @id @default(uuid())
+  name        String
+  description String?
+
+  startDate    DateTime?
+  endDate      DateTime?
+  // tasks        Task[]
+  projectTeams ProjectTeam[]
+}
+
+model ProjectTeam {
+  id        String    @id @default(uuid())
+  teamId    String
+  projectId String
+  team      Team?     @relation(fields: [teamId], references: [id])
+  projects  Projects? @relation(fields: [projectId], references: [id])
+}
+
+model Workspace {
+  id            String          @id @default(uuid())
+  name          String
+  description   String?
+  ownerId       String
+  owner         User            @relation(fields: [ownerId], references: [id], onDelete: Cascade)
+  workspaceUser WorkspaceUser[]
+  board         Board[]
+}
+
+model WorkspaceUser {
+  id          String    @id @default(uuid())
+  userId      String
+  workspaceId String
+  user        User      @relation(fields: [userId], references: [id])
+  workspace   Workspace @relation(fields: [workspaceId], references: [id])
+}
+
+model Invitation {
+  id      String   @id @default(uuid())
+  token   String
+  email   String
+  roleId  String
+  expires DateTime
+}
+
+model Board {
+  id            String @id @default(uuid())
+  title         String
+  workspaceId   String @unique
+  imageId       String
+  imageThumbUrl String @db.Text()
+  imageFullUrl  String @db.Text()
+  imageLinkHTML String @db.Text()
+  imageUserName String @db.Text()
+
+  lists      List[]
+  labels     Label[]
+  checklists Checklist[]
+  workspace  Workspace   @relation(fields: [workspaceId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now())
+  updateAt  DateTime @updatedAt
+}
+
+model List {
+  id    String @id @default(uuid())
+  title String
+  order Int
+
+  boardId String
+  board   Board  @relation(fields: [boardId], references: [id], onDelete: Cascade)
+  cards   Card[]
+
+  createdAt DateTime @default(now())
+  updateAt  DateTime @updatedAt
+
+  @@index([boardId])
+}
+
+model Card {
+  id          String  @id @default(uuid())
+  title       String
+  description String? @db.Text
+  order       Int
+  point       Int?
+  priority    Int?
+  severity    String?
+
+  listdId String
+  List    List   @relation(fields: [listdId], references: [id], onDelete: Cascade)
+
+  checklist Checklist[]
+  labels    Label[]
+
+  createdAt DateTime @default(now())
+  updateAt  DateTime @updatedAt
+
+  @@index([listdId])
+}
+
+model Checklist {
+  id     String @id @default(uuid())
+  title  String
+  cardId String
+  card   Card   @relation(fields: [cardId], references: [id], onDelete: Cascade)
+
+  checkItems CheckItems[]
+
+  boardId String
+  board   Board  @relation(fields: [boardId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now())
+  updateAt  DateTime @updatedAt
+}
+
+model CheckItems {
+  id      String  @id @default(uuid())
+  title   String  @unique
+  checked Boolean @default(false)
+
+  checklistId String
+  checklist   Checklist @relation(fields: [checklistId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now())
+  updateAt  DateTime @updatedAt
+
+  @@index([checklistId, title])
+}
+
+model Label {
+  id    String @id @default(uuid())
+  title String @unique
+  color String
+
+  boardId   String
+  cards     Card[]
+  board     Board    @relation(fields: [boardId], references: [id], onDelete: Cascade)
+  createdAt DateTime @default(now())
+  updateAt  DateTime @updatedAt
+
+  @@unique([title, boardId])
+}
+
+model Role {
+  id   String @id @default(uuid())
+  tile String
+}

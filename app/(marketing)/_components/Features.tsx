@@ -1,4 +1,4 @@
-import { Leaf } from "lucide-react";
+import Feature from "./Feature";
 
 const features = [
   {
@@ -34,16 +34,7 @@ const Features = () => {
 
         <div className="flex max-sm:flex-col gap-4 mt-16">
           {features.map(({ description, title }) => (
-            <div
-              key={title}
-              className="border border-white/30 px-5 py-10 text-center rounded-xl sm:flex-1"
-            >
-              <div className="inline-flex bg-white w-14 h-14 rounded-lg justify-center items-center">
-                <Leaf className="text-black" />
-              </div>
-              <h3 className="mt-6 font-bold">{title}</h3>
-              <p className="mt-2 text-white/70">{description}</p>
-            </div>
+            <Feature description={description} title={title} key={title} />
           ))}
         </div>
       </div>

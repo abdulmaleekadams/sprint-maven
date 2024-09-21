@@ -1,8 +1,9 @@
+"use client";
 import { Button } from "@/components/ui/button";
+import { motion } from "framer-motion";
 import { ArrowRightIcon } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-
 const Hero = () => {
   return (
     <div className="bg-black text-white bg-[linear-gradient(to_bottom,#000,#200D42_34%,#4F21A1_65%,#A46EDB_82%)] py-[72px] sm:py-24 relative overflow-clip">
@@ -26,20 +27,34 @@ const Hero = () => {
             <h1 className="text-7xl sm:text-9xl font-bold tracking-tighter text-center inline-flex">
               One Task <br /> at a Time
             </h1>
-            <Image
-              src={"/assets/images/cursor.png"}
-              height={200}
-              width={200}
-              alt=""
+            <motion.div
+              drag
+              dragSnapToOrigin
               className="absolute w-[200px] h-[200px] right-[476px] top-[108px] hidden sm:inline"
-            />
-            <Image
-              src={"/assets/images/message.png"}
-              height={200}
-              width={200}
-              alt=""
+            >
+              <Image
+                src={"/assets/images/cursor.png"}
+                height={200}
+                width={200}
+                alt=""
+                className="max-w-none"
+                draggable="false"
+              />
+            </motion.div>
+            <motion.div
+              drag
+              dragSnapToOrigin
               className="absolute w-[200px] h-[200px] left-[498px] top-[56px] hidden sm:inline"
-            />
+            >
+              <Image
+                src={"/assets/images/message.png"}
+                height={200}
+                width={200}
+                alt=""
+                className="max-w-none"
+                draggable="false"
+              />
+            </motion.div>
           </div>
         </div>
         <div className="flex justify-center">

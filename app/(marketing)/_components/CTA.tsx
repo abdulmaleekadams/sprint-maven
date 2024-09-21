@@ -1,26 +1,42 @@
 "use client";
 import FormButton from "@/components/form-button";
 import FormInput from "@/components/form-input";
+import { motion, useScroll, useTransform } from "framer-motion";
 import Image from "next/image";
+import { useRef } from "react";
 
 const CTA = () => {
+  const containerRef = useRef<HTMLDivElement>(null);
+  const { scrollYProgress } = useScroll({
+    target: containerRef,
+    offset: ["start end", "end end"],
+  });
+
+  const translateY = useTransform(scrollYProgress, [0, 1], [-80, 80]);
   return (
-    <div className="bg-black text-white text-center py-[72px] sm:py-24 overflow-x-hidden">
+    <div
+      ref={containerRef}
+      className="bg-black text-white text-center py-[72px] sm:py-24 overflow-x-hidden"
+    >
       <div className="container max-w-xl relative">
-        <Image
-          src="/assets/images/settings.png"
-          alt=""
-          width={200}
-          height={200}
-          className="absolute top-6 left-full lg:left-[calc(100%+36px)]"
-        />
-        <Image
-          src="/assets/images/pie.png"
-          alt=""
-          width={200}
-          height={200}
-          className="absolute -top-[100px] right-full lg:right-[calc(100%+24px)]"
-        />
+        <motion.div style={{ translateY }}>
+          <Image
+            src="/assets/images/settings.png"
+            alt=""
+            width={200}
+            height={200}
+            className="absolute top-6 left-full lg:left-[calc(100%+36px)]"
+          />
+        </motion.div>
+        <motion.div style={{ translateY }}>
+          <Image
+            src="/assets/images/pie.png"
+            alt=""
+            width={200}
+            height={200}
+            className="absolute -top-[100px] right-full lg:right-[calc(100%+24px)]"
+          />
+        </motion.div>
         <h2 className="font-bold text-5xl sm:text-6xl tracking-tighter">
           Get instant access
         </h2>

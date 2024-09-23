@@ -2,6 +2,7 @@ import {
   Card,
   CheckItems,
   Checklist as CheckListType,
+  Comment,
   Label,
   List,
 } from "@prisma/client";
@@ -18,6 +19,15 @@ export type CardFullDetails = Card & {
   List: List;
   labels: Label[];
   checklist: Checklist[];
+};
+
+export type CommentWithUser = Comment & {
+  user: {
+    id: string;
+    username: string | null;
+    name: string;
+    image: string | null;
+  };
 };
 
 export type CardList = Card & {

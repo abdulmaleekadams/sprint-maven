@@ -62,3 +62,11 @@ export const getOrdinalSuffix = (number: number) => {
     return `${number}th`;
   }
 };
+
+export const getInitials = (name: string) => {
+  return name
+    .split(" ") // Split the name by spaces
+    .slice(0, 2) // Take only the first two words
+    .map((word) => word[0].toUpperCase()) // Get the first letter of each word and convert it to uppercase
+    .join(""); // Join the initials together
+};

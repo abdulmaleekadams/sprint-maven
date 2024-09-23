@@ -217,3 +217,28 @@ export const CreateWorkSpaceFormSchema = z.object({
     .max(100, { message: "Workspace description cannot exceed 100 characters" })
     .optional(),
 });
+
+export const CreateCommentFormSchema = z.object({
+  content: z
+    .string({
+      required_error: "Comment content is required",
+      invalid_type_error: "Comment content is required",
+    })
+    .min(1, { message: "Comment content is required" }),
+  cardId: z.string(),
+  boardId: z.string(),
+});
+
+export const UpdateCommentFormSchema = z.object({
+  content: z
+    .string({
+      required_error: "Comment content is required",
+      invalid_type_error: "Comment content is required",
+    })
+    .min(1, { message: "Comment content is required" }),
+  id: z.string(),
+});
+
+export const DeleteCommentFormSchema = z.object({
+  id: z.string(),
+});

@@ -15,6 +15,7 @@ type CardItemProps = {
     labels: Label[];
     checklist: { checkItems: CheckItems[] }[];
     user: { name: string };
+    _count: {comments: number, attachments:number}
   };
   index: number;
 };
@@ -87,12 +88,18 @@ const CardItem = ({ data, index }: CardItemProps) => {
               </div>
               {/* Attachment */}
               <div className="flex  gap-2">
+                {
+                  data._count.attachments > 0 &&
                 <p className=" flex items-center gap-1 text-xs font-bold">
-                  <Paperclip className="w-4 h-4" /> 10
+                  <Paperclip className="w-4 h-4" /> {data._count.attachments}
                 </p>
+                }
+                {
+                  data._count.comments > 0 &&
                 <p className=" flex items-center gap-1 text-xs font-bold">
-                  <MessageCircleMore className="w-4 h-4" /> 8
+                  <MessageCircleMore className="w-4 h-4" /> {data._count.comments}
                 </p>
+                }
               </div>
             </div>
             {/* Creator */}

@@ -28,6 +28,12 @@ const SingleBoardPage = async ({ params }: SingleBoardPageProps) => {
           order: "asc",
         },
         include: {
+          _count: {
+            select: {
+              comments:true,
+              attachments:true
+            }
+          },
           labels: true,
           user: {
             select: {

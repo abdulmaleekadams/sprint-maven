@@ -5,14 +5,20 @@ import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useCardModal } from "@/hoooks/use-card-modal";
 import { fetcher } from "@/lib/fetcher";
-import { CardFullDetails, Checklist as ChecklistType } from "@/types";
+import {
+  CardFullDetails,
+  Checklist as ChecklistType,
+  CommentWithUser,
+} from "@/types";
 import { useQuery } from "@tanstack/react-query";
 import { format } from "date-fns";
 import { CalendarDaysIcon } from "lucide-react";
+import { useState } from "react";
 import Actions from "./actions";
 import CardPoint from "./cardPoint";
 import CardPriority from "./cardPriority";
 import Checklists from "./Checklist";
+import Comment from "./comment";
 import Comments from "./comments";
 import Description from "./description";
 import Enhacements from "./enhacements";
@@ -23,6 +29,9 @@ const CardModal = () => {
   const id = useCardModal((state) => state.id);
   const { isOpen, onOpen, onClose } = useCardModal();
 
+  // Comment edit
+   const [currentEditingId, setCurrentEditingId] = useState<string | null>(null);
+
   const { data: cardData } = useQuery<CardFullDetails>({
     queryKey: ["card", id],
     queryFn: () => fetcher(`/api/cards/${id}`),
@@ -30,6 +39,10 @@ const CardModal = () => {
   const { data: checklists } = useQuery<ChecklistType[]>({
     queryKey: ["checklists", id],
     queryFn: () => fetcher(`/api/checklist/${id}`),
+  });
+  const { data: comments } = useQuery<CommentWithUser[]>({
+    queryKey: ["comments", id],
+    queryFn: () => fetcher(`/api/comments/${id}`),
   });
 
   return (
@@ -89,6 +102,18 @@ const CardModal = () => {
                     )}
                     {/* Activity & Comments  */}
                     <Comments cardId={cardData.id} />
+                    {comments && comments.length > 0 && (
+                      <div className="flex w-full flex-col gap-4">
+                        {comments.map((commentData) => (
+                          <Comment
+                            key={commentData.id}
+                            commentData={commentData}
+                            currentEditingId={currentEditingId}
+                            setCurrentEditingId={setCurrentEditingId}
+                          />
+                        ))}
+                      </div>
+                    )}
                   </>
                 )}
               </div>

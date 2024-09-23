@@ -248,6 +248,9 @@ model Comment {
   uploadedById String
   card         Card   @relation(fields: [taskId], references: [id])
   user         User   @relation(fields: [uploadedById], references: [id])
+
+  createdAt DateTime @default(now())
+  updateAt  DateTime @updatedAt
 }
 
 model Attachment {

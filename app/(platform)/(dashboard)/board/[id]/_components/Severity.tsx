@@ -66,6 +66,7 @@ const Severity = ({
           variant="secondary"
           className="w-full justify-start"
           size="inline"
+          disabled
         >
           <Flame className="h-4 w-4 mr-2" />
           Severity

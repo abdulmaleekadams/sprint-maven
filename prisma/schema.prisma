@@ -43,11 +43,21 @@ model User {
   image String?
 
   teamId        String?
-  team          Team?           @relation(fields: [teamId], references: [id])
+  team          Team?            @relation(fields: [teamId], references: [id])
   workspaceUser WorkspaceUser[]
   accounts      Account[]
   workspaces    Workspace[]
-  // assignedTask Task[]
+  comments      Comment[]
+  creator       Card[]           @relation("TaskAuthor")
+  assignedTask  TaskAssignment[]
+}
+
+model TaskAssignment {
+  id     String @id @default(uuid())
+  userId String
+  taskId String
+  user   User   @relation(fields: [userId], references: [id])
+  card   Card   @relation(fields: [taskId], references: [id])
 }
 
 model VerificationToken {
@@ -123,7 +133,7 @@ model Invitation {
 model Board {
   id            String @id @default(uuid())
   title         String
-  workspaceId   String @unique
+  workspaceId   String
   imageId       String
   imageThumbUrl String @db.Text()
   imageFullUrl  String @db.Text()
@@ -166,11 +176,18 @@ model Card {
   listdId String
   List    List   @relation(fields: [listdId], references: [id], onDelete: Cascade)
 
-  checklist Checklist[]
-  labels    Label[]
+  checklist       Checklist[]
+  labels          Label[]
+  attachments     Attachment[]
+  comments        Comment[]
+  taskAssignments TaskAssignment[]
+
+  authorId String @db.Text
+  user     User   @relation("TaskAuthor", fields: [authorId], references: [id])
 
   createdAt DateTime @default(now())
-  updateAt  DateTime @updatedAt
+
+  updateAt DateTime @updatedAt
 
   @@index([listdId])
 }
@@ -221,4 +238,24 @@ model Label {
 model Role {
   id   String @id @default(uuid())
   tile String
+}
+
+model Comment {
+  id      String @id @default(uuid())
+  content String
+
+  taskId       String
+  uploadedById String
+  card         Card   @relation(fields: [taskId], references: [id])
+  user         User   @relation(fields: [uploadedById], references: [id])
+}
+
+model Attachment {
+  id           String  @id @default(uuid())
+  fileURL      String
+  fileName     String?
+  taskId       String
+  uploadedById String
+
+  card Card @relation(fields: [taskId], references: [id])
 }

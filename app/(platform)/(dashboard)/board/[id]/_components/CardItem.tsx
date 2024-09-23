@@ -11,7 +11,11 @@ import PriorityLabel from "./PriorityLabel";
 import TagLabel from "./TagLabel";
 
 type CardItemProps = {
-  data: Card & { labels: Label[]; checklist: { checkItems: CheckItems[] }[] };
+  data: Card & {
+    labels: Label[];
+    checklist: { checkItems: CheckItems[] }[];
+    user: { name: string };
+  };
   index: number;
 };
 
@@ -91,6 +95,8 @@ const CardItem = ({ data, index }: CardItemProps) => {
                 </p>
               </div>
             </div>
+            {/* Creator */}
+            <p className="text-muted-foreground text-xs !mt-4">{`Created by ${data.user.name}`}</p>
           </div>
         </div>
       )}

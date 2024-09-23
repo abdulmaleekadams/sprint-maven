@@ -10,7 +10,7 @@ import { InputType, ReturnType } from "./types";
 const handler = async (data: InputType): Promise<ReturnType> => {
   const session = await auth();
 
-  if (!session?.user?.workspaceId) {
+  if (!session?.user?.workspaceId || !session?.user?.id) {
     return {
       error: "Unauthorized",
     };
@@ -50,6 +50,7 @@ const handler = async (data: InputType): Promise<ReturnType> => {
         title,
         order: newOrder,
         listdId: listId,
+        authorId: session.user.id,
       },
     });
   } catch (error) {

@@ -12,6 +12,7 @@ const Featured = ({ cardId }: { cardId: string }) => {
         variant="secondary"
         className="w-full justify-start"
         size="inline"
+        disabled
       >
         <Users className="h-4 w-4 mr-2" />
         Members
@@ -22,6 +23,7 @@ const Featured = ({ cardId }: { cardId: string }) => {
         variant="secondary"
         className="w-full justify-start"
         size="inline"
+        disabled
       >
         <Paperclip className="h-4 w-4 mr-2 " />
         Attachment

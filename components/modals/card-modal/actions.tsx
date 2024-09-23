@@ -79,6 +79,7 @@ const Actions = ({ data }: ActionsProps) => {
         variant="secondary"
         className="w-full justify-start"
         size="inline"
+        disabled
       >
         <CaravanIcon className="h-4 w-4 mr-2" />
         Move

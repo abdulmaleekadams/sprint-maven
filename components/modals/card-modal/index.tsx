@@ -13,6 +13,7 @@ import Actions from "./actions";
 import CardPoint from "./cardPoint";
 import CardPriority from "./cardPriority";
 import Checklists from "./Checklist";
+import Comments from "./comments";
 import Description from "./description";
 import Enhacements from "./enhacements";
 import Featured from "./features";
@@ -87,6 +88,7 @@ const CardModal = () => {
                       <Checklists cardId={cardData.id} data={checklists} />
                     )}
                     {/* Activity & Comments  */}
+                    <Comments cardId={cardData.id} />
                   </>
                 )}
               </div>

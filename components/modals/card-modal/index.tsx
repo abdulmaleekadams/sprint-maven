@@ -30,7 +30,7 @@ const CardModal = () => {
   const { isOpen, onOpen, onClose } = useCardModal();
 
   // Comment edit
-   const [currentEditingId, setCurrentEditingId] = useState<string | null>(null);
+  const [currentEditingId, setCurrentEditingId] = useState<string | null>(null);
 
   const { data: cardData } = useQuery<CardFullDetails>({
     queryKey: ["card", id],
@@ -48,7 +48,7 @@ const CardModal = () => {
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
       <DialogContent
-        className="h-[80%] flex flex-col px-0 border-muted"
+        className="h-[80%] flex flex-col px-4 !py-4 border-muted"
         onEscapeKeyDown={(e) => {
           e.preventDefault();
         }}

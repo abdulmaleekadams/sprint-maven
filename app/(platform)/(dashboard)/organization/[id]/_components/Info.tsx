@@ -4,6 +4,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { useOrganization } from "@/provider/OrganizationContext";
 import { CreditCard } from "lucide-react";
 import Image from "next/image";
+import Members from "./Members";
 
 const Info = () => {
   const { activeOrganization, isLoading } = useOrganization();
@@ -12,22 +13,25 @@ const Info = () => {
     return <Info.Skeleton />;
   }
   return (
-    <div className="flex items-center gap-x-4">
-      <div className="w-[60px] h-[60px] relative">
-        <Image
-          fill
-          src={"/bank.png"}
-          alt="Organization"
-          className="rounded-md object-cover"
-        />
-      </div>
-      <div className="space-y-1">
-        <p className="font-semibold text-xl">{activeOrganization?.name}</p>
-        <div className="flex items-center text-xs text-muted-foreground">
-          <CreditCard className="w-3 h-3 mr-1" />
-          Free
+    <div className="flex justify-between">
+      <div className="flex items-center gap-x-4">
+        <div className="w-[60px] h-[60px] relative">
+          <Image
+            fill
+            src={"/bank.png"}
+            alt="Organization"
+            className="rounded-md object-cover"
+          />
+        </div>
+        <div className="space-y-1">
+          <p className="font-semibold text-xl">{activeOrganization?.name}</p>
+          <div className="flex items-center text-xs text-muted-foreground">
+            <CreditCard className="w-3 h-3 mr-1" />
+            Free
+          </div>
         </div>
       </div>
+      <Members />
     </div>
   );
 };

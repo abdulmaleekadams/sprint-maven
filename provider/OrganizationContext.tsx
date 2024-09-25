@@ -29,6 +29,12 @@ export const OrganizationProvider = ({ children }: { children: ReactNode }) => {
     queryFn: async () => {
       const res = await fetchWorkspaces();
       if (res.success) {
+        if (sessionData?.user?.workspaceId) {
+          const currentWorkspace = res.data.find(
+            (workspace) => workspace.id === sessionData.user?.workspaceId
+          );
+          currentWorkspace && setActiveOrganization(currentWorkspace);
+        }
         return res.data;
       }
       return [];

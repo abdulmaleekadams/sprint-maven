@@ -1,8 +1,10 @@
 import FormPopover from "@/components/form-popover";
 import Logo from "@/components/Logo";
 import { Button } from "@/components/ui/button";
+import UserButton from "@/components/UserButton";
 import { Plus } from "lucide-react";
 import MobileSidebar from "./MobileSidebar";
+import OrganizationSwitcher from "./OrganizationSwitcher";
 
 const Navbar = () => {
   return (
@@ -28,35 +30,24 @@ const Navbar = () => {
         </FormPopover>
       </div>
 
-      {/* <div className="ml-auto flex items-center gap-x-2">
+      <div className="ml-auto flex items-center gap-x-2">
         <OrganizationSwitcher
-          hidePersonal
-          afterSelectOrganizationUrl={"/organization/:id"}
-          afterCreateOrganizationUrl={"/organization/:id"}
-          afterLeaveOrganizationUrl={"/organization/:id"}
-          appearance={{
-            elements: {
-              rootBox: {
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
-              },
-            },
-          }}
+        // hidePersonal
+        // afterSelectOrganizationUrl={"/organization/:id"}
+        // afterCreateOrganizationUrl={"/organization/:id"}
+        // afterLeaveOrganizationUrl={"/organization/:id"}
+        // appearance={{
+        //   elements: {
+        //     rootBox: {
+        //       display: "flex",
+        //       justifyContent: "center",
+        //       alignItems: "center",
+        //     },
+        //   },
+        // }}
         />
-        <UserButton
-          afterSignOutUrl="/"
-          appearance={{
-            elements: {
-              avatarBox: {
-                height: 30,
-                width: 30,
-              },
-            },
-          }}
-        />
-        <ModeToggle />
-      </div> */}
+        <UserButton />
+      </div>
     </nav>
   );
 };

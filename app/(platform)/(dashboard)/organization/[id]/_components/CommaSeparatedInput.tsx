@@ -2,14 +2,19 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { X } from "lucide-react";
-import { useRef, useState } from "react";
+import { Dispatch, SetStateAction, useRef, useState } from "react";
 
 // Regular expression to validate email addresses
 const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
-const CommaSeparatedInput = () => {
+const CommaSeparatedInput = ({
+  selectedEmails,
+  setSelectedEmails,
+}: {
+  setSelectedEmails: Dispatch<SetStateAction<string[]>>;
+  selectedEmails: string[];
+}) => {
   const [emailsInput, setEmailsInput] = useState("");
-  const [selectedEmails, setSelectedEmails] = useState<string[]>([]);
   const [errorMessage, setErrorMessage] = useState<string>("");
 
   const inputRef = useRef<HTMLInputElement | null>(null);

@@ -63,7 +63,7 @@ const WorkSpaceSearchList = ({ workspaces }: { workspaces: Workspace[] }) => {
                     setValue(currentValue === value ? "" : currentValue);
                     update({ workspaceId: workspace.id });
                     setOpen(false);
-                    router.push(`/organization/${workspace.id}`);
+                    router.replace(`/organization/${workspace.id}`);
                   }}
                 >
                   <Image

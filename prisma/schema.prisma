@@ -113,14 +113,17 @@ model Workspace {
   workspaceUser WorkspaceUser[]
   board         Board[]
   invitations   Invitation[]
+  roles         Role[]
 }
 
 model WorkspaceUser {
   id          String    @id @default(uuid())
   userId      String
   workspaceId String
+  roleId      String
   user        User      @relation(fields: [userId], references: [id])
   workspace   Workspace @relation(fields: [workspaceId], references: [id])
+  role        Role      @relation(fields: [roleId], references: [id])
 }
 
 model Invitation {
@@ -246,6 +249,12 @@ model Label {
 model Role {
   id   String @id @default(uuid())
   tile String
+
+  workspaceId   String
+  workspace     Workspace       @relation(fields: [workspaceId], references: [id])
+  workspaceUser WorkspaceUser[]
+
+  @@unique([tile, workspaceId])
 }
 
 model Comment {

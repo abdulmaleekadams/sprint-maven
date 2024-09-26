@@ -1,4 +1,5 @@
 "use client";
+import { inviteMembers } from "@/actions/invite-member";
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -19,13 +20,42 @@ import {
 } from "@/components/ui/select";
 import { Separator } from "@/components/ui/separator";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { useAction } from "@/hoooks/use-action";
 import { SlashIcon, UserPlus } from "lucide-react";
+import { useParams } from "next/navigation";
 import { useState } from "react";
 import CommaSeparatedInput from "./CommaSeparatedInput";
 
 const Members = () => {
   const [showInviteForm, setShowInviteForm] = useState(false);
   const [defaultValue, setDefaultValue] = useState("invitations");
+  const [selectedEmails, setSelectedEmails] = useState<string[]>([]);
+
+  const params = useParams();
+
+  const { execute, error, fieldErrors, isLoading } = useAction(inviteMembers, {
+    onSuccess: (data) => {
+      console.log(data);
+    },
+  });
+  const handleInvitation = (formData: FormData) => {
+    const workspaceId = params.id;
+    const role = formData.get("role") as string;
+
+    console.log(selectedEmails);
+    console.log(selectedEmails.length === 0);
+    console.log(role);
+    console.log(workspaceId);
+
+    if (!selectedEmails || selectedEmails.length === 0 || !workspaceId || !role)
+      return;
+
+    execute({
+      emails: selectedEmails as [string],
+      role,
+      workspaceId: workspaceId as string,
+    });
+  };
   return (
     <Dialog>
       <DialogTrigger>
@@ -62,7 +92,7 @@ const Members = () => {
               </p>
             </div>
 
-            <form className="space-y-10" action="">
+            <form className="space-y-10" action={handleInvitation}>
               <div>
                 <p>Email addresses</p>
                 <p className="text-muted-foreground text-sm">
@@ -70,11 +100,14 @@ const Members = () => {
                   spaces or commas
                 </p>
               </div>
-              <CommaSeparatedInput />
+              <CommaSeparatedInput
+                selectedEmails={selectedEmails}
+                setSelectedEmails={setSelectedEmails}
+              />
 
               <div className="space-y-2">
                 <p>Role</p>
-                <Select>
+                <Select name="role">
                   <SelectTrigger className="w-40">
                     <SelectValue placeholder="Select an option" />
                   </SelectTrigger>
@@ -121,7 +154,11 @@ const Members = () => {
                 >
                   CANCEL
                 </Button>
-                <Button className="text-[0.8rem] " size="sm">
+                <Button
+                  disabled={isLoading}
+                  className="text-[0.8rem] "
+                  size="sm"
+                >
                   SEND INVITATIONS
                 </Button>
               </div>

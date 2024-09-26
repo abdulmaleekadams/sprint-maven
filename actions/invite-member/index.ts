@@ -61,4 +61,4 @@ const handler = async (data: InputType): Promise<ReturnType> => {
   return { data: invitations };
 };
 
-export const createTag = createSafeAction(InviteMembersSchema, handler);
+export const inviteMembers = createSafeAction(InviteMembersSchema, handler);

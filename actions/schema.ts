@@ -242,3 +242,11 @@ export const UpdateCommentFormSchema = z.object({
 export const DeleteCommentFormSchema = z.object({
   id: z.string(),
 });
+
+export const InviteMembersSchema = z.object({
+  workspaceId: z.string().nonempty("Please provide a Workspace ID."),
+  emails: z
+    .array(z.string().email("Please enter a valid email address."))
+    .nonempty("Please enter at least one email address."),
+  role: z.string(),
+});

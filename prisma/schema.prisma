@@ -112,6 +112,7 @@ model Workspace {
   owner         User            @relation(fields: [ownerId], references: [id], onDelete: Cascade)
   workspaceUser WorkspaceUser[]
   board         Board[]
+  invitations   Invitation[]
 }
 
 model WorkspaceUser {
@@ -123,11 +124,18 @@ model WorkspaceUser {
 }
 
 model Invitation {
-  id      String   @id @default(uuid())
-  token   String
-  email   String
-  roleId  String
-  expires DateTime
+  id          String    @id @default(uuid())
+  token       String    @unique
+  email       String
+  roleId      String
+  expires     DateTime
+  workspaceId String
+  workspace   Workspace @relation(fields: [workspaceId], references: [id])
+
+  createdAt DateTime @default(now())
+  updateAt  DateTime @updatedAt
+
+  @@unique([email, token])
 }
 
 model Board {

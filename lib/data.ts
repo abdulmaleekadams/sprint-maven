@@ -37,3 +37,15 @@ export const getCurrentUser = async () => {
 
   return session?.user;
 };
+
+export const getInvitationTokenByEmail = async (email: string) => {
+  try {
+    const invitationToken = await db.invitation.findFirst({
+      where: { email },
+    });
+
+    return invitationToken;
+  } catch (error) {
+    return null;
+  }
+};

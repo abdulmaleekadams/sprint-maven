@@ -1,7 +1,7 @@
 import NextAuth from "next-auth";
 import { NextResponse } from "next/server";
 import authConfig from "./auth.config";
-import { apiAuthPrefix, authRoutes, publicRoutes } from "./routes";
+import { apiAuthPrefix, authPrefix, authRoutes, publicRoutes } from "./routes";
 
 const { auth: authMiddleware } = NextAuth(authConfig);
 
@@ -12,9 +12,14 @@ export default authMiddleware(async (req) => {
   const isApiAuthRoute = nextUrl.pathname.startsWith(apiAuthPrefix);
   const isPublicRoute = publicRoutes.includes(nextUrl.pathname);
   const isAuthRoute = authRoutes.includes(nextUrl.pathname);
+  const isAuthPrefix = nextUrl.pathname.startsWith(authPrefix);
 
   // 1. Bypass API routes from authentication logic
   if (isApiAuthRoute) {
+    return NextResponse.next();
+  }
+
+  if (isAuthPrefix) {
     return NextResponse.next();
   }
 

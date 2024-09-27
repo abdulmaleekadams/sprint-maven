@@ -41,6 +41,16 @@ export const getCurrentUser = async () => {
   return session?.user;
 };
 
+export const getUserByEmail = async (email: string) => {
+  const userExist = await db.user.findUnique({
+    where: {
+      email,
+    },
+  });
+
+  return userExist;
+};
+
 export const getInvitationTokenByEmail = async (email: string) => {
   try {
     const invitationToken = await db.invitation.findFirst({

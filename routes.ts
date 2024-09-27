@@ -3,11 +3,7 @@
  * These routes do not require authentication
  * @type {string[]}
  */
-export const publicRoutes: string[] = [
-  "/",
-  "/about",
-  "/auth/verification",
-];
+export const publicRoutes: string[] = ["/", "/about", "/auth/verification"];
 
 /**
  * An array of routes that are used for authentication
@@ -20,6 +16,7 @@ export const authRoutes: string[] = [
   "/auth/error",
   "/auth/reset",
   "/auth/new-password",
+  "/auth/accept-invite",
 ];
 
 /**
@@ -28,5 +25,6 @@ export const authRoutes: string[] = [
  * authentication purposes
  * @type {string}
  */
+export const authPrefix: string = "/auth";
 export const apiAuthPrefix: string = "/api/auth";
 export const isUploadthingApi: string = "/api/uploadthing";

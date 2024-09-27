@@ -25,6 +25,9 @@ export const fetchWorkspaces = async () => {
           },
         ],
       },
+      include: {
+        roles: true,
+      },
     });
 
     return { success: true, data: userWorkspaces };

@@ -247,14 +247,14 @@ model Label {
 }
 
 model Role {
-  id   String @id @default(uuid())
-  tile String
+  id    String @id @default(uuid())
+  title String @unique
 
   workspaceId   String
   workspace     Workspace       @relation(fields: [workspaceId], references: [id])
   workspaceUser WorkspaceUser[]
 
-  @@unique([tile, workspaceId])
+  @@unique([title, workspaceId])
 }
 
 model Comment {

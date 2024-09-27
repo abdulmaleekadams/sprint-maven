@@ -1,18 +1,20 @@
 "use client";
 
 import { fetchWorkspaces } from "@/actions/workspaces/fetch-workspaces";
-import { Workspace } from "@prisma/client";
+import { Role, Workspace } from "@prisma/client";
 import { useQuery } from "@tanstack/react-query";
 import { useSession } from "next-auth/react";
 import { createContext, ReactNode, useContext, useState } from "react";
 
+type WorkspaceWithRole = Workspace & { roles: Role[] };
+
 // Context for Workspaces
 const OrganizationContext = createContext<
   | {
-      organization: Workspace[] | undefined;
+      organization: WorkspaceWithRole[] | undefined;
       isLoading: boolean;
-      activeOrganization: Workspace | null;
-      setActiveOrganization: (id: Workspace | null) => void;
+      activeOrganization: WorkspaceWithRole | null;
+      setActiveOrganization: (id: WorkspaceWithRole | null) => void;
     }
   | undefined
 >(undefined);
@@ -22,7 +24,7 @@ export const OrganizationProvider = ({ children }: { children: ReactNode }) => {
   const { data: sessionData } = useSession();
 
   const [activeOrganization, setActiveOrganization] =
-    useState<Workspace | null>(null);
+    useState<WorkspaceWithRole | null>(null);
 
   const { data: organization, isLoading } = useQuery({
     queryKey: ["organization"],

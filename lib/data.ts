@@ -1,6 +1,7 @@
 "use server";
 
 import { auth } from "@/auth";
+import { redirect } from "next/navigation";
 import { db } from "./db";
 
 export const getLabels = async (boardId: string) => {
@@ -34,6 +35,8 @@ export const getLabels = async (boardId: string) => {
 
 export const getCurrentUser = async () => {
   const session = await auth();
+
+  if (!session) redirect("/");
 
   return session?.user;
 };

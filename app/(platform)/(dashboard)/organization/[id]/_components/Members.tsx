@@ -1,4 +1,5 @@
 "use client";
+import { createRole } from "@/actions/create-role";
 import { inviteMembers } from "@/actions/invite-member";
 import {
   Breadcrumb,
@@ -8,36 +9,69 @@ import {
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
 import { Button } from "@/components/ui/button";
-import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
 import {
-  Select,
-  SelectContent,
-  SelectGroup,
-  SelectItem,
-  SelectLabel,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
+  Command,
+  CommandEmpty,
+  CommandGroup,
+  CommandInput,
+  CommandItem,
+  CommandList,
+} from "@/components/ui/command";
+import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
+import { Label } from "@/components/ui/label";
+import {
+  Popover,
+  PopoverClose,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
 import { Separator } from "@/components/ui/separator";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useAction } from "@/hoooks/use-action";
+import { cn } from "@/lib/utils";
+import { useOrganization } from "@/provider/OrganizationContext";
+import { Role } from "@prisma/client";
 import { SlashIcon, UserPlus } from "lucide-react";
 import { useParams } from "next/navigation";
 import { useState } from "react";
+import { toast } from "sonner";
 import CommaSeparatedInput from "./CommaSeparatedInput";
+import InvitationTable from "./InvitationTable";
 
 const Members = () => {
   const [showInviteForm, setShowInviteForm] = useState(false);
   const [defaultValue, setDefaultValue] = useState("invitations");
   const [selectedEmails, setSelectedEmails] = useState<string[]>([]);
 
+  const [role, setRole] = useState<string | undefined>(undefined);
+  const { activeOrganization } = useOrganization();
+  const [roles, setRoles] = useState<Role[]>(activeOrganization?.roles || []);
+  const [searchInput, setSearchInput] = useState<string | undefined>(undefined);
+
   const params = useParams();
 
-  const { execute, error, fieldErrors, isLoading } = useAction(inviteMembers, {
+  const {
+    execute: executeInviteMembers,
+    error,
+    fieldErrors,
+    isLoading,
+  } = useAction(inviteMembers, {
     onSuccess: (data) => {
       console.log(data);
     },
   });
+  const {
+    execute: executeCreateRole,
+    error: createRoleError,
+    fieldErrors: createRoleFieldError,
+    isLoading: createRoleIsLoading,
+  } = useAction(createRole, {
+    onSuccess: (data) => {
+      toast.success(`"${data.title}" role created successfully`);
+      setRoles((prev) => [data, ...prev]);
+    },
+  });
+
   const handleInvitation = (formData: FormData) => {
     const workspaceId = params.id;
     const role = formData.get("role") as string;
@@ -50,12 +84,21 @@ const Members = () => {
     if (!selectedEmails || selectedEmails.length === 0 || !workspaceId || !role)
       return;
 
-    execute({
+    executeInviteMembers({
       emails: selectedEmails as [string],
       role,
       workspaceId: workspaceId as string,
     });
   };
+
+  const handleCreateRole = () => {
+    if (!searchInput) return;
+    const role = searchInput;
+    const workspaceId = params.id as string;
+
+    executeCreateRole({ role, workspaceId });
+  };
+
   return (
     <Dialog>
       <DialogTrigger>
@@ -105,40 +148,59 @@ const Members = () => {
                 setSelectedEmails={setSelectedEmails}
               />
 
-              <div className="space-y-2">
-                <p>Role</p>
-                <Select name="role">
-                  <SelectTrigger className="w-40">
-                    <SelectValue placeholder="Select an option" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectGroup className="flex flex-col ">
-                      <SelectLabel>Roles</SelectLabel>
-                      <Button
-                        variant="ghost"
-                        className="relative justify-start px-0"
-                      >
-                        <SelectItem
-                          className="w-full justify-start "
-                          value="admin"
-                        >
-                          Admin
-                        </SelectItem>
-                      </Button>
-                      <Button
-                        variant="ghost"
-                        className="relative justify-start px-0"
-                      >
-                        <SelectItem
-                          className="w-full justify-start"
-                          value="member"
-                        >
-                          Member
-                        </SelectItem>
-                      </Button>
-                    </SelectGroup>
-                  </SelectContent>
-                </Select>
+              <div className="space-y-2dd">
+                <p className="mb-2">Role</p>
+
+                <Popover>
+                  <PopoverTrigger className="w-40" asChild>
+                    <Button
+                      role="combobox"
+                      variant="outline"
+                      className={cn("", !role && "text-muted-foreground")}
+                    >
+                      {role ? role : "Select role"}
+                    </Button>
+                  </PopoverTrigger>
+                  <PopoverContent>
+                    <Command className="flex flex-col ">
+                      <CommandInput
+                        onValueChange={(value) => setSearchInput(value)}
+                        placeholder="Search role..."
+                      />
+                      <CommandList>
+                        {/* Role creation */}
+                        <CommandEmpty className="mt-3">
+                          <Label>Add new role</Label>
+                          <Button
+                            className="w-full mt-2"
+                            disabled={createRoleIsLoading}
+                            onClick={handleCreateRole}
+                          >
+                            <p className="!text-ellipsis line-clamp-1 whitespace-nowrap block">
+                              Create {`"${searchInput}"`}
+                            </p>
+                          </Button>
+                        </CommandEmpty>
+                        {/* Roles list */}
+                        <CommandGroup>
+                          <div className="flex flex-col">
+                            {roles.map(({ id, title }) => (
+                              <PopoverClose key={id}>
+                                <CommandItem
+                                  onSelect={(value) => setRole(value)}
+                                  value={title}
+                                  className="cursor-pointer"
+                                >
+                                  {title}
+                                </CommandItem>
+                              </PopoverClose>
+                            ))}
+                          </div>
+                        </CommandGroup>
+                      </CommandList>
+                    </Command>
+                  </PopoverContent>
+                </Popover>
               </div>
 
               <div className="flex gap-2 items-center justify-end">
@@ -191,13 +253,8 @@ const Members = () => {
               </div>
 
               <div className="mt-6 flex flex-col gap-4">
-                <div className="grid grid-cols-7">
-                  <p className="col-span-3">User</p>
-                  <p className="col-span-2">Invited</p>
-                  <p className="col-span-2">Role</p>
-                </div>
                 <Separator className="" />
-                <Separator className="" />
+                <InvitationTable />
               </div>
             </TabsContent>
           </Tabs>

@@ -250,3 +250,10 @@ export const InviteMembersSchema = z.object({
     .nonempty("Please enter at least one email address."),
   role: z.string(),
 });
+
+export const CreateRoleFormSchema = z.object({
+  role: z
+    .string({ required_error: "Please provide a role title" })
+    .min(1, { message: "Please provide a role title" }),
+  workspaceId: z.string(),
+});

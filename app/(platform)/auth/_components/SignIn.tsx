@@ -15,11 +15,16 @@ import {
 import { Form, FormLabel } from "@/components/ui/form";
 import { Separator } from "@/components/ui/separator";
 import Link from "next/link";
+import { useSearchParams } from "next/navigation";
 import { useForm } from "react-hook-form";
 import GoogleButton from "./GoogleButton";
 
 const SignIn = () => {
   const form = useForm({});
+
+  const searchParams = useSearchParams();
+
+  const callbackUrl = searchParams.get("callbackUrl");
 
   return (
     <div>
@@ -77,7 +82,7 @@ const SignIn = () => {
             <p className="text-left mt-5 text-sm">
               Not registered yet?
               <Link
-                href="/auth/sign-up"
+                href={`/auth/signup${callbackUrl ? `?callbackUrl=${encodeURIComponent(callbackUrl)}` : ""}`}
                 className="ml-1 hover:underline text-primary"
               >
                 Create an account

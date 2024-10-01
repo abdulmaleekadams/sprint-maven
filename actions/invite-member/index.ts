@@ -18,7 +18,6 @@ const handler = async (data: InputType): Promise<ReturnType> => {
     };
   }
 
-  const workspaceIds = session.user.workspaceId;
   const { emails, role, workspaceId } = data;
 
   let invitations;

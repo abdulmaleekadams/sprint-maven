@@ -124,6 +124,8 @@ model WorkspaceUser {
   user        User      @relation(fields: [userId], references: [id])
   workspace   Workspace @relation(fields: [workspaceId], references: [id])
   role        Role      @relation(fields: [roleId], references: [id])
+
+  @@unique([userId, workspaceId])
 }
 
 model Invitation {

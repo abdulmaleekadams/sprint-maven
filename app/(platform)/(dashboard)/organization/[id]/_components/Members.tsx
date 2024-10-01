@@ -43,7 +43,7 @@ const Members = () => {
   const [defaultValue, setDefaultValue] = useState("invitations");
   const [selectedEmails, setSelectedEmails] = useState<string[]>([]);
 
-  const [role, setRole] = useState<string | undefined>(undefined);
+  const [role, setRole] = useState<Role | undefined>(undefined);
   const { activeOrganization } = useOrganization();
   const [roles, setRoles] = useState<Role[]>(activeOrganization?.roles || []);
   const [searchInput, setSearchInput] = useState<string | undefined>(undefined);
@@ -74,7 +74,6 @@ const Members = () => {
 
   const handleInvitation = (formData: FormData) => {
     const workspaceId = params.id;
-    const role = formData.get("role") as string;
 
     console.log(selectedEmails);
     console.log(selectedEmails.length === 0);
@@ -86,7 +85,7 @@ const Members = () => {
 
     executeInviteMembers({
       emails: selectedEmails as [string],
-      role,
+      role: role.id,
       workspaceId: workspaceId as string,
     });
   };
@@ -158,7 +157,7 @@ const Members = () => {
                       variant="outline"
                       className={cn("", !role && "text-muted-foreground")}
                     >
-                      {role ? role : "Select role"}
+                      {role ? role.title : "Select role"}
                     </Button>
                   </PopoverTrigger>
                   <PopoverContent>
@@ -184,14 +183,14 @@ const Members = () => {
                         {/* Roles list */}
                         <CommandGroup>
                           <div className="flex flex-col">
-                            {roles.map(({ id, title }) => (
-                              <PopoverClose key={id}>
+                            {roles.map((rl) => (
+                              <PopoverClose key={rl.id}>
                                 <CommandItem
-                                  onSelect={(value) => setRole(value)}
-                                  value={title}
+                                  onSelect={() => setRole(rl)}
+                                  value={rl.title}
                                   className="cursor-pointer"
                                 >
-                                  {title}
+                                  {rl.title}
                                 </CommandItem>
                               </PopoverClose>
                             ))}

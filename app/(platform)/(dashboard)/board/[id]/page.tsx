@@ -30,9 +30,9 @@ const SingleBoardPage = async ({ params }: SingleBoardPageProps) => {
         include: {
           _count: {
             select: {
-              comments:true,
-              attachments:true
-            }
+              comments: true,
+              attachments: true,
+            },
           },
           labels: true,
           user: {

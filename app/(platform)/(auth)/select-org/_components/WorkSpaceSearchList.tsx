@@ -1,4 +1,6 @@
 "use client";
+
+import { Button } from "@/components/ui/button";
 import {
   Command,
   CommandEmpty,
@@ -7,18 +9,13 @@ import {
   CommandItem,
   CommandList,
 } from "@/components/ui/command";
-
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
-
-import { ChevronsUpDown } from "lucide-react";
-
-import { Button } from "@/components/ui/button";
-
 import { Workspace } from "@prisma/client";
+import { ChevronsUpDown } from "lucide-react";
 import { useSession } from "next-auth/react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
@@ -28,8 +25,18 @@ const WorkSpaceSearchList = ({ workspaces }: { workspaces: Workspace[] }) => {
   const { update } = useSession();
   const [open, setOpen] = useState(false);
   const [value, setValue] = useState("");
-
   const router = useRouter();
+
+  const handleSelect = async (currentValue: string, workspaceId: string) => {
+    setValue(currentValue === value ? "" : currentValue);
+    setOpen(false);
+
+    // Update session with selected workspaceId
+    await update({ workspaceId });
+
+    // Navigate to the selected workspace
+    router.replace(`/organization/${workspaceId}`);
+  };
 
   return (
     <Popover open={open} onOpenChange={setOpen}>
@@ -52,19 +59,14 @@ const WorkSpaceSearchList = ({ workspaces }: { workspaces: Workspace[] }) => {
       <PopoverContent side="bottom" align="start" className="w-[200px] p-0">
         <Command className="rounded-lg border shadow-md md:min-w-[450px]">
           <CommandInput placeholder="Type a command or search..." />
-          <CommandList className="">
+          <CommandList>
             <CommandEmpty>No results found.</CommandEmpty>
             <CommandGroup heading="Suggestions">
               {workspaces.map((workspace) => (
                 <CommandItem
                   key={workspace.id}
                   value={workspace.name}
-                  onSelect={(currentValue) => {
-                    setValue(currentValue === value ? "" : currentValue);
-                    update({ workspaceId: workspace.id });
-                    setOpen(false);
-                    router.replace(`/organization/${workspace.id}`);
-                  }}
+                  onSelect={() => handleSelect(workspace.name, workspace.id)}
                 >
                   <Image
                     width={20}

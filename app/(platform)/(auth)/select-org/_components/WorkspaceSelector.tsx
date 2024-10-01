@@ -9,6 +9,7 @@ import {
 import { Separator } from "@/components/ui/separator";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useOrganization } from "@/provider/OrganizationContext";
+import React from "react";
 import CreateWorkspaceForm from "./CreateWorkspaceForm";
 import WorkSpaceSearchList from "./WorkSpaceSearchList";
 
@@ -33,7 +34,7 @@ const WorkspaceSelector = () => {
       </CardHeader>
       <CardContent>
         {organization.length > 0 ? (
-          <>
+          <React.Fragment>
             <WorkSpaceSearchList workspaces={organization} />
             <Separator className="my-10" />
             <div className="mt-10 space-y-4">
@@ -43,7 +44,7 @@ const WorkspaceSelector = () => {
               </div>
               <CreateWorkspaceForm />
             </div>
-          </>
+          </React.Fragment>
         ) : (
           <CreateWorkspaceForm />
         )}

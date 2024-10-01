@@ -7,15 +7,18 @@ import { HelpCircle, User2 } from "lucide-react";
 import Link from "next/link";
 import { redirect } from "next/navigation";
 
-const BoardList = async () => {
+const BoardList = async ({ workspaceId }: { workspaceId: string }) => {
+  // Wait for session data
   const session = await auth();
 
-  if (!session?.user?.workspaceId) {
+  // If no workspaceId is present in the session, redirect to organization selection
+  if (!workspaceId) {
     return redirect("/select-org");
   }
 
+  // Fetch the boards for the workspace
   const boards = await db.board.findMany({
-    where: { workspaceId: session.user.workspaceId },
+    where: { workspaceId },
     orderBy: {
       createdAt: "desc",
     },
@@ -29,7 +32,6 @@ const BoardList = async () => {
       </div>
 
       <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
-        {/* Todo Fetch board */}
         {boards.length > 0 ? (
           boards.map((board) => (
             <Link
@@ -66,6 +68,7 @@ const BoardList = async () => {
   );
 };
 
+// Skeleton loader for board list
 BoardList.Skeleton = function SkeletonBoardList() {
   return (
     <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">

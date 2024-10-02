@@ -13,7 +13,7 @@ import {
 import { useQuery } from "@tanstack/react-query";
 import { format } from "date-fns";
 import { CalendarDaysIcon } from "lucide-react";
-import { useState } from "react";
+import React, { useState } from "react";
 import Actions from "./actions";
 import CardPoint from "./cardPoint";
 import CardPriority from "./cardPriority";
@@ -92,7 +92,7 @@ const CardModal = () => {
                 {!cardData ? (
                   <Description.Skeleton />
                 ) : (
-                  <>
+                  <React.Fragment>
                     <Description data={cardData} />
 
                     {/* Attachments  */}
@@ -114,13 +114,16 @@ const CardModal = () => {
                         ))}
                       </div>
                     )}
-                  </>
+                  </React.Fragment>
                 )}
               </div>
             </div>
 
             <div className="">
-              <Featured cardId={cardData?.id!} />
+              <Featured
+                cardId={cardData?.id!}
+                boardId={cardData?.List.boardId!}
+              />
               <Enhacements
                 initialPriority={cardData?.priority}
                 cardId={cardData?.id!}

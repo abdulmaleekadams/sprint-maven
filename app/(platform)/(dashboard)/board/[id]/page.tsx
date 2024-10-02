@@ -45,6 +45,17 @@ const SingleBoardPage = async ({ params }: SingleBoardPageProps) => {
               checkItems: true,
             },
           },
+          taskAssignments: {
+            select: {
+              id: true,
+              user: {
+                select: {
+                  name: true,
+                  image: true,
+                },
+              },
+            },
+          },
         },
       },
     },

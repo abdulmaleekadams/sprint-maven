@@ -27,6 +27,22 @@ export const fetchWorkspaces = async () => {
       },
       include: {
         roles: true,
+        workspaceUser: {
+          include: {
+            role: {
+              select: {
+                title: true,
+                id: true,
+              },
+            },
+            user: {
+              select: {
+                name: true,
+                email: true,
+              },
+            },
+          },
+        },
       },
     });
 

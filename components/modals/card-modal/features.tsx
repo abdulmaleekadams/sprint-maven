@@ -2,21 +2,14 @@ import ChecklistButton from "@/app/(platform)/(dashboard)/board/[id]/_components
 import Tag from "@/app/(platform)/(dashboard)/board/[id]/_components/Tag";
 import { Button } from "@/components/ui/button";
 import { Briefcase, Clock7, Paperclip, Users } from "lucide-react";
+import AssignedUsers from "./assigned-users";
 
-const Featured = ({ cardId }: { cardId: string }) => {
+const Featured = ({ cardId, boardId }: { cardId: string; boardId: string }) => {
   return (
     <div className="space-y-2 mt-2">
       <p className="font-medium text-neutral-700 text-sm">Featured</p>
 
-      <Button
-        variant="secondary"
-        className="w-full justify-start"
-        size="inline"
-        disabled
-      >
-        <Users className="h-4 w-4 mr-2" />
-        Members
-      </Button>
+      <AssignedUsers cardId={cardId} boardId={boardId} />
       <Button
         variant="secondary"
         className="w-full justify-start"

@@ -5,14 +5,15 @@ import TagLabel from "@/app/(platform)/(dashboard)/board/[id]/_components/TagLab
 import FormInput from "@/components/form-input";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useAction } from "@/hoooks/use-action";
-import { CardWithListLabel } from "@/types";
+import { CardFullDetails } from "@/types";
 import { useQueryClient } from "@tanstack/react-query";
 import { LayoutIcon } from "lucide-react";
 import { useParams } from "next/navigation";
 import { useRef, useState } from "react";
 import { toast } from "sonner";
+import MemberCard from "./memberCard";
 
-const Header = ({ data }: { data: CardWithListLabel }) => {
+const Header = ({ data }: { data: CardFullDetails }) => {
   const [isEditing, setIsEditing] = useState(false);
 
   const queryClient = useQueryClient();
@@ -90,6 +91,11 @@ const Header = ({ data }: { data: CardWithListLabel }) => {
         <div className="flex gap-2 flex-wrap mt-4">
           {data.labels.map((label) => (
             <TagLabel name={label.title} key={label.id} color={label.color} />
+          ))}
+        </div>
+        <div>
+          {data?.taskAssignments?.map((taskAssignment) => (
+            <MemberCard member={taskAssignment} boardId={params.id as string} />
           ))}
         </div>
       </div>

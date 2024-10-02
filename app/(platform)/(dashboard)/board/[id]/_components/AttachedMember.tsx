@@ -1,24 +1,40 @@
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import React from "react";
+import { getInitials } from "@/lib/utils";
 
-const AttachedMember = () => {
+const AttachedMember = ({
+  members,
+}: {
+  members: {
+    id: string;
+    user: {
+      name: string;
+      image: string;
+    };
+  }[];
+}) => {
   return (
     <div className="flex -space-x-4 rtl:space-x-reverse">
-        <Avatar className="w-8 h-8 shrink-0" >
-          <AvatarFallback className="bg-red-500 font-semibold text-white text-xs">
-            K
-          </AvatarFallback>
-        </Avatar>
-        <Avatar className="w-8 h-8 shrink-0" >
+      <Avatar className="w-8 h-8 shrink-0">
+        <AvatarImage src={members[0].user.image} />
+        <AvatarFallback className="bg-red-500 font-semibold text-white text-xs">
+          {getInitials(members[0].user.name)}
+        </AvatarFallback>
+      </Avatar>
+      {members.length > 1 && (
+        <Avatar className="w-8 h-8 shrink-0">
+          <AvatarImage src={members[1].user.image} />
           <AvatarFallback className="bg-teal-500 font-semibold text-white text-xs">
-            A
+            {getInitials(members[1].user.name)}
           </AvatarFallback>
         </Avatar>
-        <Avatar className="w-8 h-8 shrink-0" >
+      )}
+      {members.length > 2 && (
+        <Avatar className="w-8 h-8 shrink-0">
           <AvatarFallback className="bg-neutral-500 font-semibold text-white text-xs">
-            +2
+            +{members.length - 2}
           </AvatarFallback>
         </Avatar>
+      )}
     </div>
   );
 };

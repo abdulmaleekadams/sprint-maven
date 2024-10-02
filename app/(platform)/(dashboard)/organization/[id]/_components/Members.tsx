@@ -37,6 +37,7 @@ import { useState } from "react";
 import { toast } from "sonner";
 import CommaSeparatedInput from "./CommaSeparatedInput";
 import InvitationTable from "./InvitationTable";
+import MemberTable from "./MemberTable";
 
 const Members = () => {
   const [showInviteForm, setShowInviteForm] = useState(false);
@@ -74,12 +75,6 @@ const Members = () => {
 
   const handleInvitation = (formData: FormData) => {
     const workspaceId = params.id;
-
-    console.log(selectedEmails);
-    console.log(selectedEmails.length === 0);
-    console.log(role);
-    console.log(workspaceId);
-
     if (!selectedEmails || selectedEmails.length === 0 || !workspaceId || !role)
       return;
 
@@ -231,7 +226,9 @@ const Members = () => {
               <TabsTrigger value="members">Members</TabsTrigger>
               <TabsTrigger value="invitations">Invitations</TabsTrigger>
             </TabsList>
-            <TabsContent value="members"></TabsContent>
+            <TabsContent value="members">
+              <MemberTable />
+            </TabsContent>
             <TabsContent value="invitations">
               <div className="flex gap-4 justify-between">
                 <div>

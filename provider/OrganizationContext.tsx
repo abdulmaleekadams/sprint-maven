@@ -1,12 +1,24 @@
 "use client";
 
 import { fetchWorkspaces } from "@/actions/workspaces/fetch-workspaces";
-import { Role, Workspace } from "@prisma/client";
+import { Role, Workspace, WorkspaceUser } from "@prisma/client";
 import { useQuery } from "@tanstack/react-query";
 import { useSession } from "next-auth/react";
 import { createContext, ReactNode, useContext, useState } from "react";
 
-type WorkspaceWithRole = Workspace & { roles: Role[] };
+type WorkspaceWithRole = Workspace & {
+  roles: Role[];
+  workspaceUser: (WorkspaceUser & {
+    role: {
+      title: string;
+      id: string;
+    };
+    user: {
+      name: string;
+      email: string;
+    };
+  })[];
+};
 
 // Context for Workspaces
 const OrganizationContext = createContext<

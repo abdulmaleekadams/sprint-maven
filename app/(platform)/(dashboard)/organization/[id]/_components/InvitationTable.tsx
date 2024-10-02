@@ -33,9 +33,6 @@ const InvitationTable = () => {
       return res;
     },
   });
-  if (invitations) {
-    console.log(invitations);
-  }
   return (
     <Table>
       <TableHeader>

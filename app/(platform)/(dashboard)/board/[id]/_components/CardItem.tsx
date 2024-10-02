@@ -3,20 +3,15 @@
 import { Progress } from "@/components/ui/progress";
 import { useCardModal } from "@/hoooks/use-card-modal";
 import { calcCheckedListItemProps, cn } from "@/lib/utils";
+import { CardList } from "@/types";
 import { Draggable } from "@hello-pangea/dnd";
-import { Card, CheckItems, Label } from "@prisma/client";
 import { MessageCircleMore, Paperclip } from "lucide-react";
 import AttachedMember from "./AttachedMember";
 import PriorityLabel from "./PriorityLabel";
 import TagLabel from "./TagLabel";
 
 type CardItemProps = {
-  data: Card & {
-    labels: Label[];
-    checklist: { checkItems: CheckItems[] }[];
-    user: { name: string };
-    _count: {comments: number, attachments:number}
-  };
+  data: CardList;
   index: number;
 };
 
@@ -83,23 +78,24 @@ const CardItem = ({ data, index }: CardItemProps) => {
             {/* Extras and Member */}
             <div className="flex items-center gap-6 justify-between">
               {/* Members */}
-              <div>
-                <AttachedMember />
-              </div>
+              {data?.taskAssignments?.length > 0 && (
+                <div>
+                  <AttachedMember members={data.taskAssignments} />
+                </div>
+              )}
               {/* Attachment */}
               <div className="flex  gap-2">
-                {
-                  data._count.attachments > 0 &&
-                <p className=" flex items-center gap-1 text-xs font-bold">
-                  <Paperclip className="w-4 h-4" /> {data._count.attachments}
-                </p>
-                }
-                {
-                  data._count.comments > 0 &&
-                <p className=" flex items-center gap-1 text-xs font-bold">
-                  <MessageCircleMore className="w-4 h-4" /> {data._count.comments}
-                </p>
-                }
+                {data._count.attachments > 0 && (
+                  <p className=" flex items-center gap-1 text-xs font-bold">
+                    <Paperclip className="w-4 h-4" /> {data._count.attachments}
+                  </p>
+                )}
+                {data._count.comments > 0 && (
+                  <p className=" flex items-center gap-1 text-xs font-bold">
+                    <MessageCircleMore className="w-4 h-4" />{" "}
+                    {data._count.comments}
+                  </p>
+                )}
               </div>
             </div>
             {/* Creator */}

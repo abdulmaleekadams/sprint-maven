@@ -6,7 +6,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { useOrganization } from "@/provider/OrganizationContext";
 import { Plus } from "lucide-react";
 import Link from "next/link";
-import { Suspense } from "react";
+import React, { Suspense } from "react";
 import { useLocalStorage } from "usehooks-ts";
 import NavItem from "./NavItem";
 
@@ -46,7 +46,7 @@ const Sidebar = ({ storageKey = "t-sidebar-state" }: SidebarProps) => {
 
   if (isLoading || !organizations) {
     return (
-      <>
+      <React.Fragment>
         <div className="flex items-center font-medium  mb-2">
           <Skeleton className="h-10 w-[50%]" />
           <Skeleton className="h-10 w-10" />
@@ -56,7 +56,7 @@ const Sidebar = ({ storageKey = "t-sidebar-state" }: SidebarProps) => {
           <NavItem.Skeleton />
           <NavItem.Skeleton />
         </div>
-      </>
+      </React.Fragment>
     );
   }
 

@@ -31,6 +31,18 @@ export const GET = async (
           },
         },
         labels: true,
+        taskAssignments: {
+          include: {
+            user: {
+              select: {
+                name: true,
+                image: true,
+                email: true,
+                username: true,
+              },
+            },
+          },
+        },
       },
     });
     return NextResponse.json(card);

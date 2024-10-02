@@ -19,6 +19,17 @@ export type CardFullDetails = Card & {
   List: List;
   labels: Label[];
   checklist: Checklist[];
+  taskAssignments: {
+    id: string;
+    userId: string;
+    taskId: string;
+    user: {
+      name: string;
+      image: string;
+      email: string;
+      username: string;
+    };
+  }[];
 };
 
 export type CommentWithUser = Comment & {
@@ -33,4 +44,13 @@ export type CommentWithUser = Comment & {
 export type CardList = Card & {
   labels: Label[];
   checklist: { checkItems: CheckItems[] }[];
+  user: { name: string };
+  _count: { comments: number; attachments: number };
+  taskAssignments: {
+    id: string;
+    user: {
+      name: string;
+      image: string;
+    };
+  }[];
 };

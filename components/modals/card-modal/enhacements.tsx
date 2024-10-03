@@ -1,6 +1,6 @@
-import Point from "@/app/(platform)/(dashboard)/board/[id]/_components/Points";
-import Priority from "@/app/(platform)/(dashboard)/board/[id]/_components/Priority";
-import Severity from "@/app/(platform)/(dashboard)/board/[id]/_components/Severity";
+import Point from "@/app/(platform)/(dashboard)/(pages)/board/[id]/_components/Points";
+import Priority from "@/app/(platform)/(dashboard)/(pages)/board/[id]/_components/Priority";
+import Severity from "@/app/(platform)/(dashboard)/(pages)/board/[id]/_components/Severity";
 
 const Enhacements = ({
   initialPriority,

@@ -1,5 +1,5 @@
-import ChecklistButton from "@/app/(platform)/(dashboard)/board/[id]/_components/ChecklistButton";
-import Tag from "@/app/(platform)/(dashboard)/board/[id]/_components/Tag";
+import ChecklistButton from "@/app/(platform)/(dashboard)/(pages)/board/[id]/_components/ChecklistButton";
+import Tag from "@/app/(platform)/(dashboard)/(pages)/board/[id]/_components/Tag";
 import { Button } from "@/components/ui/button";
 import { Briefcase, Clock7, Paperclip, Users } from "lucide-react";
 import AssignedUsers from "./assigned-users";

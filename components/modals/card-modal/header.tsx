@@ -1,7 +1,7 @@
 "use client";
 
 import { updateCard } from "@/actions/update-card";
-import TagLabel from "@/app/(platform)/(dashboard)/board/[id]/_components/TagLabel";
+import TagLabel from "@/app/(platform)/(dashboard)/(pages)/board/[id]/_components/TagLabel";
 import FormInput from "@/components/form-input";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useAction } from "@/hoooks/use-action";

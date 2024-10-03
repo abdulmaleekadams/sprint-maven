@@ -3,13 +3,14 @@ import { db } from "@/lib/db";
 import { cn } from "@/lib/utils";
 import {
   BookMarkedIcon,
-  Briefcase,
+  Clock5,
   Home,
   Search,
   User,
   Users,
 } from "lucide-react";
 import BoardLink from "./BoardLink";
+import BoardSidebarBtn from "./BoardSidebarBtn";
 
 const BoardSidebar = async ({ workspaceId }: { workspaceId: string }) => {
   const boards = await db.board.findMany({
@@ -30,13 +31,14 @@ const BoardSidebar = async ({ workspaceId }: { workspaceId: string }) => {
           <Home className="w-4 h-4" />
           Home
         </Button>
+        <BoardSidebarBtn />
         <Button
           variant="ghost"
           className={cn(
             "font-semibold text-sm justify-start items-center gap-2"
           )}
         >
-          <Briefcase className="w-4 h-4" />
+          <Clock5 className="w-4 h-4" />
           Timeline
         </Button>
         <Button
@@ -85,9 +87,7 @@ const BoardSidebar = async ({ workspaceId }: { workspaceId: string }) => {
           <p>Boards</p>
         </Button>
         <div className="flex flex-col mt-2 gap-1">
-          {boards?.map((board) => (
-            <BoardLink key={board.id} board={board} />
-          ))}
+          {boards?.map((board) => <BoardLink key={board.id} board={board} />)}
         </div>
       </div>
     </aside>

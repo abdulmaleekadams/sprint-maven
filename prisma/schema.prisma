@@ -57,7 +57,7 @@ model TaskAssignment {
   userId String
   taskId String
   user   User   @relation(fields: [userId], references: [id])
-  card   Card   @relation(fields: [taskId], references: [id])
+  card   Card   @relation(fields: [taskId], references: [id], onDelete: Cascade)
 }
 
 model VerificationToken {

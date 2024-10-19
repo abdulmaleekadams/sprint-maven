@@ -111,12 +111,16 @@ import { TableRowElement } from "@/components/plate-ui/table-row-element";
 import { TodoListElement } from "@/components/plate-ui/todo-list-element";
 import { ToggleElement } from "@/components/plate-ui/toggle-element";
 import { cn } from "@/lib/utils";
+import { TElement } from "@udecode/plate-common";
+import { HtmlReactPlugin, serializeHtml } from "@udecode/plate-html/react";
+import { useCallback } from "react";
 import { TodoLi, TodoMarker } from "../plate-ui/indent-todo-marker-component";
 import { TooltipProvider } from "../ui/tooltip";
 
 const Editor = () => {
   const editor = createPlateEditor({
     plugins: [
+      HtmlReactPlugin,
       BlockquotePlugin,
       CodeBlockPlugin,
       ParagraphPlugin,
@@ -304,6 +308,17 @@ const Editor = () => {
       },
     ],
   });
+
+  const serializeHtmlCallback = useCallback(
+    (nodes: TElement[]) => {
+      const html = serializeHtml(editor, {
+        nodes,
+      });
+      return html;
+    },
+    [editor]
+  );
+
   return (
     <DndProvider backend={HTML5Backend}>
       <TooltipProvider

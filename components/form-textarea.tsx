@@ -1,10 +1,10 @@
 "use client";
+import { cn } from "@/lib/utils";
 import { KeyboardEventHandler, forwardRef } from "react";
+import { useFormStatus } from "react-dom";
+import FormErrors from "./form-errors";
 import { Label } from "./ui/label";
 import { Textarea } from "./ui/textarea";
-import { cn } from "@/lib/utils";
-import FormErrors from "./form-errors";
-import { useFormStatus } from "react-dom";
 
 type FormTextareaProps = {
   id: string;
@@ -43,11 +43,7 @@ const FormTextarea = forwardRef<HTMLTextAreaElement, FormTextareaProps>(
     return (
       <div className="space-y-2 w-full">
         <div className="w-full space-y-1">
-          {label && (
-            <Label className="text-xs font-semibold text-neutral-700">
-              {label}
-            </Label>
-          )}
+          {label && <Label className="text-sm font-semibold ">{label}</Label>}
           <Textarea
             ref={ref}
             onKeyDown={onKeydown}

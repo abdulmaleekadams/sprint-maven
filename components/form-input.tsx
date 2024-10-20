@@ -3,6 +3,7 @@ import React, { forwardRef } from "react";
 import { useFormStatus } from "react-dom";
 import FormErrors from "./form-errors";
 import { Input } from "./ui/input";
+import { Label } from "./ui/label";
 
 type FormInputProps = {
   id: string;
@@ -33,6 +34,7 @@ const FormInput = forwardRef<HTMLInputElement, FormInputProps>(
       errors,
       name,
       containerClassName,
+      label,
     },
     ref
   ) => {
@@ -41,6 +43,7 @@ const FormInput = forwardRef<HTMLInputElement, FormInputProps>(
     return (
       <div className={cn("space-y-2", containerClassName)}>
         <div className="space-y-1">
+          {label && <Label className="text-sm font-semibold">{label}</Label>}
           <Input
             onBlur={onBlur}
             ref={ref}

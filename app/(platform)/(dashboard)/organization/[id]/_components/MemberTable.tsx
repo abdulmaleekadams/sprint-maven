@@ -40,14 +40,11 @@ import { toast } from "sonner";
 const MemberTable = () => {
   const { activeOrganization, isLoading } = useOrganization();
 
-  if (!activeOrganization) return null;
-
   const [role, setRole] = useState<Role | undefined>(undefined);
   const [roles, setRoles] = useState<Role[]>(activeOrganization?.roles || []);
   const [searchInput, setSearchInput] = useState<string | undefined>(undefined);
 
   const params = useParams();
-  const { workspaceUser: members } = activeOrganization;
 
   const {
     execute: executeCreateRole,
@@ -60,6 +57,9 @@ const MemberTable = () => {
       setRoles((prev) => [data, ...prev]);
     },
   });
+
+  if (!activeOrganization) return null;
+  const { workspaceUser: members } = activeOrganization;
 
   const handleCreateRole = () => {
     if (!searchInput) return;

@@ -41,7 +41,7 @@ import MemberTable from "./MemberTable";
 
 const Members = () => {
   const [showInviteForm, setShowInviteForm] = useState(false);
-  const [defaultValue, setDefaultValue] = useState("invitations");
+  const [defaultValue, setDefaultValue] = useState("members");
   const [selectedEmails, setSelectedEmails] = useState<string[]>([]);
 
   const [role, setRole] = useState<Role | undefined>(undefined);

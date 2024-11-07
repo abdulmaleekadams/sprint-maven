@@ -1,7 +1,7 @@
 "use client";
 
-import { withPlaceholders } from "../plate-ui/placeholder";
-import { withDraggables } from "../plate-ui/with-draggables";
+import { withPlaceholders } from "./plate-ui/placeholder";
+import { withDraggables } from "./plate-ui/with-draggables";
 
 import { withProps } from "@udecode/cn";
 import { BaseAlignPlugin as AlignPlugin } from "@udecode/plate-alignment";
@@ -112,8 +112,8 @@ import { TodoListElement } from "@/components/plate-ui/todo-list-element";
 import { ToggleElement } from "@/components/plate-ui/toggle-element";
 import { cn } from "@/lib/utils";
 import { HtmlReactPlugin } from "@udecode/plate-html/react";
-import { TodoLi, TodoMarker } from "../plate-ui/indent-todo-marker-component";
-import { TooltipProvider } from "../ui/tooltip";
+import { TodoLi, TodoMarker } from "./plate-ui/indent-todo-marker-component";
+import { TooltipProvider } from "./ui/tooltip";
 
 const Editor = () => {
   const editor = createPlateEditor({

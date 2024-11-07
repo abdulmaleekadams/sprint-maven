@@ -56,83 +56,97 @@ const CardModal = () => {
           e.preventDefault();
         }}
       >
-        {!cardData ? <Header.Skeleton /> : <Header data={cardData} />}
-
         {!cardData ? (
-          <Skeleton className="h-4 w-20 px-4" />
-        ) : (
-          <div className="flex items-center gap-1 px-4">
-            <CalendarDaysIcon className="w-4 h-4 mr-2" />
-            <p className=" text-neutral-500 text-sm">
-              {format(cardData?.createdAt, "PP")}
-            </p>
+          <div>
+            <p>Loading</p>
           </div>
-        )}
-        <ScrollArea className="flex-1">
-          <div className="grid grid-cols-1 md:grid-cols-4 md:gap-4 px-4 pb-4">
-            <div className="col-span-3 h-full">
-              <div className="w-full space-y-6">
-                <div className="flex gap-6">
-                  {cardData?.point && (
-                    <div className="flex flex-col items-center">
-                      <p className="text-sm font-medium mb-1">Velocity Point</p>
-                      <CardPoint point={cardData?.point} cardId={cardData.id} />
+        ) : (
+          <>
+            {!cardData ? <Header.Skeleton /> : <Header data={cardData} />}
+
+            {!cardData ? (
+              <Skeleton className="h-4 w-20 px-4" />
+            ) : (
+              <div className="flex items-center gap-1 px-4">
+                <CalendarDaysIcon className="w-4 h-4 mr-2" />
+                <p className=" text-neutral-500 text-sm">
+                  {format(cardData?.createdAt, "PP")}
+                </p>
+              </div>
+            )}
+            <ScrollArea className="flex-1">
+              <div className="grid grid-cols-1 md:grid-cols-4 md:gap-4 px-4 pb-4">
+                <div className="col-span-3 h-full">
+                  <div className="w-full space-y-6">
+                    <div className="flex gap-6">
+                      {cardData?.point && (
+                        <div className="flex flex-col items-center">
+                          <p className="text-sm font-medium mb-1">
+                            Velocity Point
+                          </p>
+                          <CardPoint
+                            point={cardData?.point}
+                            cardId={cardData.id}
+                          />
+                        </div>
+                      )}
+                      {cardData?.priority && (
+                        <div>
+                          <p className="text-sm font-medium mb-1">Priority</p>
+                          <CardPriority
+                            priority={cardData?.priority}
+                            cardId={cardData.id}
+                          />
+                        </div>
+                      )}
                     </div>
-                  )}
-                  {cardData?.priority && (
-                    <div>
-                      <p className="text-sm font-medium mb-1">Priority</p>
-                      <CardPriority
-                        priority={cardData?.priority}
-                        cardId={cardData.id}
-                      />
-                    </div>
+                    {!cardData ? (
+                      <Description.Skeleton />
+                    ) : (
+                      <React.Fragment>
+                        <Description data={cardData} />
+
+                        {/* Attachments  */}
+                        {/* Checklist */}
+                        {checklists && checklists.length > 0 && (
+                          <Checklists cardId={cardData.id} data={checklists} />
+                        )}
+                        {/* Activity & Comments  */}
+                        <Comments cardId={cardData.id} />
+                        {comments && comments.length > 0 && (
+                          <div className="flex w-full flex-col gap-4">
+                            {comments.map((commentData) => (
+                              <Comment
+                                key={commentData.id}
+                                commentData={commentData}
+                                currentEditingId={currentEditingId}
+                                setCurrentEditingId={setCurrentEditingId}
+                              />
+                            ))}
+                          </div>
+                        )}
+                      </React.Fragment>
+                    )}
+                  </div>
+                </div>
+
+                <div className="">
+                  <Featured data={cardData} boardId={cardData?.List.boardId!} />
+                  <Enhacements
+                    initialPriority={cardData?.priority}
+                    cardId={cardData?.id!}
+                  />
+                  {!cardData ? (
+                    <Actions.Skeleton />
+                  ) : (
+                    <Actions data={cardData} />
                   )}
                 </div>
-                {!cardData ? (
-                  <Description.Skeleton />
-                ) : (
-                  <React.Fragment>
-                    <Description data={cardData} />
-
-                    {/* Attachments  */}
-                    {/* Checklist */}
-                    {checklists && checklists.length > 0 && (
-                      <Checklists cardId={cardData.id} data={checklists} />
-                    )}
-                    {/* Activity & Comments  */}
-                    <Comments cardId={cardData.id} />
-                    {comments && comments.length > 0 && (
-                      <div className="flex w-full flex-col gap-4">
-                        {comments.map((commentData) => (
-                          <Comment
-                            key={commentData.id}
-                            commentData={commentData}
-                            currentEditingId={currentEditingId}
-                            setCurrentEditingId={setCurrentEditingId}
-                          />
-                        ))}
-                      </div>
-                    )}
-                  </React.Fragment>
-                )}
               </div>
-            </div>
-
-            <div className="">
-              <Featured
-                cardId={cardData?.id!}
-                boardId={cardData?.List.boardId!}
-              />
-              <Enhacements
-                initialPriority={cardData?.priority}
-                cardId={cardData?.id!}
-              />
-              {!cardData ? <Actions.Skeleton /> : <Actions data={cardData} />}
-            </div>
-          </div>
-          <ScrollBar orientation="vertical" />
-        </ScrollArea>
+              <ScrollBar orientation="vertical" />
+            </ScrollArea>
+          </>
+        )}
       </DialogContent>
     </Dialog>
   );

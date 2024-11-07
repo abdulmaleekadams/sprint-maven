@@ -70,3 +70,36 @@ export const getInitials = (name: string) => {
     .map((word) => word[0].toUpperCase()) // Get the first letter of each word and convert it to uppercase
     .join(""); // Join the initials together
 };
+
+// Utility function to convert hex color to RGB
+export function hexToRgb(hex: string) {
+  // Remove the '#' if present
+  hex = hex.replace(/^#/, "");
+
+  // Parse the r, g, b values from the hex string
+  let bigint = parseInt(hex, 16);
+  let r = (bigint >> 16) & 255;
+  let g = (bigint >> 8) & 255;
+  let b = bigint & 255;
+
+  return [r, g, b];
+}
+
+// Utility function to calculate perceived lightness
+export function calculatePerceivedLightness(r: number, g: number, b: number) {
+  return (r * 0.2126 + g * 0.7152 + b * 0.0722) / 255;
+}
+
+export const getTagBgColor = (color: string) => {
+  const [r, g, b] = hexToRgb(color);
+  const perceivedLightness = calculatePerceivedLightness(r, g, b);
+
+  const lightnessThreshold = 0.6;
+  const backgroundAlpha = 0.06;
+  const borderAlpha = 0.3;
+  const lightenBy = (lightnessThreshold - perceivedLightness) * 100;
+
+  const backgroundColor = `rgba(${r}, ${g}, ${b}, ${backgroundAlpha})`;
+
+  return backgroundColor;
+};

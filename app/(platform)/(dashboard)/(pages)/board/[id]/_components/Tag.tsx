@@ -4,11 +4,12 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
+import { Label } from "@prisma/client";
 import { Tags } from "lucide-react";
 import TagForm from "./TagForm";
 import TagSelect from "./TagSelect";
 
-const Tag = ({ cardId }: { cardId: string }) => {
+const Tag = ({ cardId, labels }: { cardId: string; labels: Label[] }) => {
   return (
     <Popover>
       <PopoverTrigger asChild>
@@ -24,7 +25,7 @@ const Tag = ({ cardId }: { cardId: string }) => {
       <PopoverContent side="left">
         <div className="space-y-3">
           <p className="text-sm font-semibold">Add Tag</p>
-          <TagSelect cardId={cardId} />
+          <TagSelect cardId={cardId} labels={labels} />
           <TagForm cardId={cardId} />
         </div>
       </PopoverContent>

@@ -72,7 +72,7 @@ const Comment = ({
         <div className="flex flex-col w-full">
           {isEditing ? (
             <CommentInput
-            setCurrentEditingId={setCurrentEditingId}
+              setCurrentEditingId={setCurrentEditingId}
               textareaRef={textareaRef}
               cardId={taskId}
               content={content}
@@ -90,6 +90,7 @@ const Comment = ({
                   size="sm"
                   className="p-0 justify-start text-muted-foreground hover:text-primary"
                   onClick={() => setCurrentEditingId(id)} // Reply button logic
+                  disabled
                 >
                   Reply
                 </Button>

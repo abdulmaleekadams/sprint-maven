@@ -1,10 +1,17 @@
 import ChecklistButton from "@/app/(platform)/(dashboard)/(pages)/board/[id]/_components/ChecklistButton";
 import Tag from "@/app/(platform)/(dashboard)/(pages)/board/[id]/_components/Tag";
 import { Button } from "@/components/ui/button";
+import { CardFullDetails } from "@/types";
 import { Briefcase, Clock7, Paperclip, Users } from "lucide-react";
 import AssignedUsers from "./assigned-users";
 
-const Featured = ({ cardId, boardId }: { cardId: string; boardId: string }) => {
+const Featured = ({
+  boardId,
+  data: { id: cardId, labels },
+}: {
+  boardId: string;
+  data: CardFullDetails;
+}) => {
   return (
     <div className="space-y-2 mt-2">
       <p className="font-medium text-neutral-700 text-sm">Featured</p>
@@ -38,7 +45,7 @@ const Featured = ({ cardId, boardId }: { cardId: string; boardId: string }) => {
         Members
       </Button>
       <ChecklistButton cardId={cardId} />
-      <Tag cardId={cardId} />
+      <Tag labels={labels} cardId={cardId} />
       <Button
         variant="secondary"
         className="w-full justify-start"

@@ -63,7 +63,7 @@ const Header = ({ data }: { data: CardFullDetails }) => {
   };
 
   return (
-    <div className="flex items-start gap-x-3 mb-6 w-full px-4">
+    <div className="flex items-start gap-x-3 mb-3 w-full px-4">
       <LayoutIcon className="h-5 w-5 text-neutral-500 mt-1" />
       <div className="w-full">
         {isEditing ? (
@@ -90,12 +90,22 @@ const Header = ({ data }: { data: CardFullDetails }) => {
         </p>
         <div className="flex gap-2 flex-wrap mt-4">
           {data.labels.map((label) => (
-            <TagLabel name={label.title} key={label.id} color={label.color} />
+            <TagLabel
+              cardId={data.id}
+              labels={data.labels}
+              name={label.title}
+              key={label.id}
+              color={label.color}
+            />
           ))}
         </div>
-        <div>
+        <div className="mt-3">
           {data?.taskAssignments?.map((taskAssignment) => (
-            <MemberCard member={taskAssignment} boardId={params.id as string} />
+            <MemberCard
+              member={taskAssignment}
+              boardId={params.id as string}
+              key={taskAssignment.id}
+            />
           ))}
         </div>
       </div>

@@ -1,19 +1,34 @@
 "use client";
+import { updateCard } from "@/actions/update-card";
+import { Checkbox } from "@/components/ui/checkbox";
+import {
+  Command,
+  CommandEmpty,
+  CommandGroup,
+  CommandInput,
+  CommandItem,
+  CommandList,
+} from "@/components/ui/command";
+import { useAction } from "@/hoooks/use-action";
 import { getLabels } from "@/lib/data";
-import chroma from "chroma-js";
+import { cn, getTagBgColor } from "@/lib/utils";
+import { Label } from "@prisma/client";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { useParams } from "next/navigation";
-import AsyncSelect from "react-select/async";
-import { StylesConfig } from "react-select";
-import { useAction } from "@/hoooks/use-action";
+import { useState } from "react";
 import { toast } from "sonner";
-import { updateCard } from "@/actions/update-card";
 
-const TagSelect = ({ cardId }: { cardId: string }) => {
+const TagSelect = ({ cardId, labels }: { cardId: string; labels: Label[] }) => {
   const queryClient = useQueryClient();
   const params = useParams();
 
+  console.log(labels);
+
   const boardId = params.id as string;
+
+  const [selectedLabels, setSelectedLabels] = useState(
+    labels?.map((label) => label.id)
+  );
 
   const { execute, fieldErrors, isLoading } = useAction(updateCard, {
     onSuccess: (data) => {
@@ -28,11 +43,26 @@ const TagSelect = ({ cardId }: { cardId: string }) => {
   });
 
   const onChange = (labelId: string) => {
-    // Execute
+    // setSelectedLabels((prevLabels) => {
+    //   const isSelected = prevLabels.includes(labelId);
+    //   const newSelectedLabels = isSelected
+    //     ? prevLabels.filter((id) => id !== labelId) // Remove label
+    //     : [...prevLabels, labelId]; // Add label
+
+    //   return newSelectedLabels; // Return updated state
+    // });
+
+    const isSelected = selectedLabels.includes(labelId);
+    const filteredLabels = isSelected
+      ? selectedLabels.filter((id) => id !== labelId) // Remove label
+      : [...selectedLabels, labelId]; // Add label
+
+    setSelectedLabels(filteredLabels);
+
     execute({
       id: cardId,
       boardId,
-      labels: [labelId],
+      labels: filteredLabels,
     });
   };
 
@@ -43,94 +73,39 @@ const TagSelect = ({ cardId }: { cardId: string }) => {
 
   if (!data || isError || !Array.isArray(data)) return null;
 
-  const labels = data.map((item) => ({
-    label: item.title,
-    value: item.id,
-    color: item.color, // Store the color here
-    boardId: item.boardId,
-    createdAt: item.createdAt,
-    updateAt: item.updateAt,
-  }));
-
-  const filterColors = (inputValue: string) => {
-    return labels.filter((i) =>
-      i.label.toLowerCase().includes(inputValue.toLowerCase())
-    );
-  };
-
-  const promiseOptions = (inputValue: string) =>
-    new Promise<typeof labels>((resolve) => {
-      setTimeout(() => {
-        resolve(filterColors(inputValue));
-      }, 1000);
-    });
-
-  const dot = (color = "transparent") => ({
-    alignItems: "center",
-    display: "flex",
-    ":before": {
-      backgroundColor: color,
-      borderRadius: 10,
-      content: '" "',
-      display: "block",
-      marginRight: 8,
-      height: 10,
-      width: 10,
-    },
-  });
-
-  const colourStyles: StylesConfig<(typeof labels)[0]> = {
-    control: (styles) => ({ ...styles, backgroundColor: "white" }),
-    option: (styles, { data, isDisabled, isFocused, isSelected }) => {
-      const color = chroma(data.color);
-      return {
-        ...styles,
-        textTransform: "capitalize",
-        backgroundColor: isDisabled
-          ? undefined
-          : isSelected
-          ? data.color
-          : isFocused
-          ? color.alpha(0.1).css()
-          : undefined,
-        color: isDisabled
-          ? "#ccc"
-          : isSelected
-          ? chroma.contrast(color, "white") > 2
-            ? "white"
-            : "black"
-          : data.color,
-        cursor: isDisabled ? "not-allowed" : "default",
-
-        ":active": {
-          ...styles[":active"],
-          backgroundColor: !isDisabled
-            ? isSelected
-              ? data.color
-              : color.alpha(0.3).css()
-            : undefined,
-        },
-      };
-    },
-    input: (styles) => ({ ...styles, ...dot() }),
-    placeholder: (styles) => ({ ...styles, ...dot("#ccc") }),
-    singleValue: (styles, { data }) => ({
-      ...styles,
-      textTransform: "capitalize",
-      ...dot(data.color),
-    }),
-  };
   return (
-    <AsyncSelect
-      cacheOptions
-      defaultOptions
-      loadOptions={promiseOptions}
-      styles={colourStyles}
-      isMulti={false}
-      onChange={(e) => {
-        onChange(e!.value);
-      }}
-    />
+    <Command>
+      <CommandInput placeholder="Type a command or search..." />
+      <CommandList className="px-0">
+        <CommandEmpty>No results found.</CommandEmpty>
+        <CommandGroup className="px-0" heading="Labels">
+          {data.length &&
+            data.map(({ boardId, color, id, title }, index) => (
+              <CommandItem
+                className="my-2"
+                style={{
+                  backgroundColor: getTagBgColor(color),
+                  borderColor: color,
+                  color: color,
+                  borderWidth: "1px",
+                  borderStyle: "solid",
+                }}
+                key={id}
+              >
+                <Checkbox
+                  value={id}
+                  onCheckedChange={() => onChange(id)}
+                  defaultChecked={selectedLabels?.includes(id)}
+                  className={cn(
+                    "border-muted-foreground data-[state=checked]:text-foreground hover:border-muted-foreground data-[state=checked]:bg-background"
+                  )}
+                />
+                <p className="ml-2">{title}</p>
+              </CommandItem>
+            ))}
+        </CommandGroup>
+      </CommandList>
+    </Command>
   );
 };
 

@@ -8,7 +8,6 @@ import { useRef } from "react";
 import { BsChatLeftText } from "react-icons/bs";
 import { toast } from "sonner";
 
-
 const Comments = ({ cardId }: { cardId: string }) => {
   const queryClient = useQueryClient();
   const params = useParams();
@@ -27,20 +26,27 @@ const Comments = ({ cardId }: { cardId: string }) => {
     },
   });
 
-  const handleSubmit = (formData: FormData,) => {
+  const handleSubmit = (formData: FormData) => {
     const content = formData.get("content") as string;
     const boardId = params.id as string;
 
     execute({ cardId, boardId, content });
-  }
+  };
   return (
     <div className="flex items-start gap-x-3 w-full">
       <BsChatLeftText className="h-5 w-5 mt-0.5 text-neutral-700s" />
       <div className="w-full">
         <p className="font-semibold text-neutral-700 mb-2 text-sm">Comments</p>
         <form action={handleSubmit} ref={formRef} className="space-y-3">
-          <FormTextarea disabled={isLoading} id="content" name="content" className="min-h-1 h-10 focus-within:h-auto" />
-          <FormSubmit disabled={isLoading} className="py-2 h-auto">Comment</FormSubmit>
+          <FormTextarea
+            disabled={isLoading}
+            id="content"
+            name="content"
+            className="min-h-1  focus-within:h-auto max-h-32 custom-scrollbar"
+          />
+          <FormSubmit disabled={isLoading} className="py-2 h-auto">
+            Comment
+          </FormSubmit>
         </form>
       </div>
     </div>

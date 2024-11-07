@@ -64,7 +64,12 @@ const CommentInput = ({
           >
             Save
           </FormSubmit>
-          <Button variant="secondary" size="sm" type="button">
+          <Button
+            onClick={() => setCurrentEditingId(null)}
+            variant="secondary"
+            size="sm"
+            type="button"
+          >
             Cancel
           </Button>
         </div>

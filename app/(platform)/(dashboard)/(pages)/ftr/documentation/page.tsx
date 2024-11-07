@@ -4,6 +4,8 @@ const PlateEditor = dynamic(() => import("@/components/editor/editor"), {
   loading: () => <div>Loading</div>,
 });
 const DocumentationPage = () => {
+  // console.log();
+
   return (
     <div>
       <PlateEditor />

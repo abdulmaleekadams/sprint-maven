@@ -7,6 +7,11 @@ import {
   ContextMenuItem,
   ContextMenuTrigger,
 } from "@/components/ui/context-menu";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
 import { Progress } from "@/components/ui/progress";
 import { useCardModal } from "@/hoooks/use-card-modal";
 import { calcCheckedListItemProps, cn } from "@/lib/utils";
@@ -16,6 +21,7 @@ import { MessageCircleMore, Paperclip } from "lucide-react";
 import AttachedMember from "./AttachedMember";
 import PriorityLabel from "./PriorityLabel";
 import TagLabel from "./TagLabel";
+import TagSelect from "./TagSelect";
 
 type CardItemProps = {
   data: CardList;
@@ -62,15 +68,25 @@ const CardItem = ({ data, index }: CardItemProps) => {
 
                   {/* TagLabel */}
                   {data.labels && (
-                    <div className="flex flex-wrap gap-2">
-                      {data.labels.map((label) => (
-                        <TagLabel
-                          name={label.title}
-                          key={label.id}
-                          color={label.color}
-                        />
-                      ))}
-                    </div>
+                    <Popover>
+                      <PopoverTrigger
+                        onClick={(e) => e.stopPropagation()}
+                        asChild
+                      >
+                        <div className="inline-flex flex-wrap gap-2">
+                          {data.labels.map((label) => (
+                            <TagLabel
+                              name={label.title}
+                              key={label.id}
+                              color={label.color}
+                            />
+                          ))}
+                        </div>
+                      </PopoverTrigger>
+                      <PopoverContent align="start">
+                        <TagSelect cardId={data.id} labels={data.labels} />
+                      </PopoverContent>
+                    </Popover>
                   )}
                 </div>
 

@@ -58,6 +58,7 @@ const handler = async (data: InputType): Promise<ReturnType> => {
               title: card.title,
               order: card.order,
               description: card.description,
+              authorId: session.user.id,
             })),
           },
         },

@@ -54,6 +54,7 @@ const handler = async (data: InputType): Promise<ReturnType> => {
         description: cardToCopy.description,
         listdId: cardToCopy.listdId,
         order: newOrder,
+        authorId: session.user?.id,
       },
     });
   } catch (error) {

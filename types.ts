@@ -25,7 +25,7 @@ export type CardFullDetails = Card & {
     taskId: string;
     user: {
       name: string;
-      image: string;
+      image: string | null;
       email: string;
       username: string;
     };
@@ -50,7 +50,7 @@ export type CardList = Card & {
     id: string;
     user: {
       name: string;
-      image: string;
+      image: string | null;
     };
   }[];
 };

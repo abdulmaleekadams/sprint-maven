@@ -8,21 +8,21 @@ const AttachedMember = ({
     id: string;
     user: {
       name: string;
-      image: string;
+      image: string | null;
     };
   }[];
 }) => {
   return (
     <div className="flex -space-x-4 rtl:space-x-reverse">
       <Avatar className="w-7 h-7 shrink-0">
-        <AvatarImage src={members[0].user.image} />
+        <AvatarImage src={members[0].user.image ?? ""} />
         <AvatarFallback className="bg-red-500 font-semibold text-white text-xs">
           {getInitials(members[0].user.name)}
         </AvatarFallback>
       </Avatar>
       {members.length > 1 && (
         <Avatar className="w-7 h-7 shrink-0">
-          <AvatarImage src={members[1].user.image} />
+          <AvatarImage src={members[1].user.image ?? ""} />
           <AvatarFallback className="bg-teal-500 font-semibold text-white text-xs">
             {getInitials(members[1].user.name)}
           </AvatarFallback>

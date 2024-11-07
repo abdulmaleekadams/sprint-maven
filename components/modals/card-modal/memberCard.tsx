@@ -18,7 +18,7 @@ const MemberCard = ({
 }: {
   member: TaskAssignment & {
     user: {
-      image: string;
+      image: string | null;
       email: string;
       name: string;
       username: string;
@@ -51,7 +51,7 @@ const MemberCard = ({
     <Popover>
       <PopoverTrigger>
         <Avatar key={id} className="w-8 h-8 shrink-0">
-          <AvatarImage src={image} />
+          <AvatarImage src={image ?? ""} />
           <AvatarFallback className="bg-red-500 font-semibold text-white text-xs">
             {getInitials(name)}
           </AvatarFallback>
@@ -61,7 +61,7 @@ const MemberCard = ({
         <div className=" rounded-md">
           <div className="w-max flex gap-4 p-4 bg-gradient-to-b from-primary/50 to-primary/20 rounded-t-md">
             <Avatar key={id} className="w-14 h-14 shrink-0">
-              <AvatarImage src={image} />
+              <AvatarImage src={image ?? ""} />
               <AvatarFallback className="bg-red-500 font-semibold text-white text-xs">
                 {getInitials(name)}
               </AvatarFallback>

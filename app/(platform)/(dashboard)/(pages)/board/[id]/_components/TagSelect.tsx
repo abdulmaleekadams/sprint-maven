@@ -74,7 +74,7 @@ const TagSelect = ({ cardId, labels }: { cardId: string; labels: Label[] }) => {
   if (!data || isError || !Array.isArray(data)) return null;
 
   return (
-    <Command>
+    <Command onClick={(e) => e.stopPropagation()}>
       <CommandInput placeholder="Type a command or search..." />
       <CommandList className="px-0">
         <CommandEmpty>No results found.</CommandEmpty>

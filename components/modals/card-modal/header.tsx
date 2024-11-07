@@ -2,7 +2,13 @@
 
 import { updateCard } from "@/actions/update-card";
 import TagLabel from "@/app/(platform)/(dashboard)/(pages)/board/[id]/_components/TagLabel";
+import TagSelect from "@/app/(platform)/(dashboard)/(pages)/board/[id]/_components/TagSelect";
 import FormInput from "@/components/form-input";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useAction } from "@/hoooks/use-action";
 import { CardFullDetails } from "@/types";
@@ -88,17 +94,24 @@ const Header = ({ data }: { data: CardFullDetails }) => {
         <p className="text-sm text-muted-foreground">
           in list <span className="underline">{data.List.title}</span>
         </p>
-        <div className="flex gap-2 flex-wrap mt-4">
-          {data.labels.map((label) => (
-            <TagLabel
-              cardId={data.id}
-              labels={data.labels}
-              name={label.title}
-              key={label.id}
-              color={label.color}
-            />
-          ))}
-        </div>
+        {data.labels.length && (
+          <Popover>
+            <PopoverTrigger asChild>
+              <div className="inline-flex  gap-2 flex-wrap mt-4 ">
+                {data.labels.map((label) => (
+                  <TagLabel
+                    name={label.title}
+                    key={label.id}
+                    color={label.color}
+                  />
+                ))}
+              </div>
+            </PopoverTrigger>
+            <PopoverContent align="start">
+              <TagSelect cardId={data.id} labels={data.labels} />
+            </PopoverContent>
+          </Popover>
+        )}
         <div className="mt-3">
           {data?.taskAssignments?.map((taskAssignment) => (
             <MemberCard

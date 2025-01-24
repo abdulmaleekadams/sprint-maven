@@ -13,7 +13,7 @@ export const generateInvitationToken = async ({
   workspaceId: string;
 }) => {
   const token = uuidv4(); // Generate a unique token using uuidv4()
-  const expires = new Date(new Date().getTime() + 3600 * 1000); // Set an expiration date one hour from the current time
+  const expires = new Date(new Date().getTime() + 6400 * 1000); // Set an expiration date one hour from the current time
 
   const existingToken = await getInvitationTokenByEmail(email); // Get an existing verification token for the given email
 

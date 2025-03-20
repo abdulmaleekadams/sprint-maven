@@ -41,9 +41,11 @@ const Navbar = () => {
                   {link}
                 </Link>
               ))}
-              <Button className="bg-white text-black text-opacity-50 hover:bg-white hover:text-black hover:text-opacity-100">
-                Get for free
-              </Button>
+              <Link href="/auth/signup">
+                <Button className="bg-white text-black text-opacity-50 hover:bg-white hover:text-black hover:text-opacity-100">
+                  Get for free
+                </Button>
+              </Link>
             </nav>
           ) : (
             <MobileMenu NavLinks={NavLinks} />

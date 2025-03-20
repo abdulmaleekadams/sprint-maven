@@ -94,7 +94,7 @@ const Header = ({ data }: { data: CardFullDetails }) => {
         <p className="text-sm text-muted-foreground">
           in list <span className="underline">{data.List.title}</span>
         </p>
-        {data.labels.length && (
+        {data.labels.length > 0 && (
           <Popover>
             <PopoverTrigger asChild>
               <div className="inline-flex  gap-2 flex-wrap mt-4 ">

@@ -79,7 +79,7 @@ const TagSelect = ({ cardId, labels }: { cardId: string; labels: Label[] }) => {
       <CommandList className="px-0">
         <CommandEmpty>No results found.</CommandEmpty>
         <CommandGroup className="px-0" heading="Labels">
-          {data.length &&
+          {data.length > 0 &&
             data.map(({ boardId, color, id, title }, index) => (
               <CommandItem
                 className="my-2"

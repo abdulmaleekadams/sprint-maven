@@ -55,6 +55,7 @@ const Members = () => {
     execute: executeInviteMembers,
     error,
     fieldErrors,
+    data,
     isLoading,
   } = useAction(inviteMembers, {
     onSuccess: (data) => {
@@ -73,7 +74,11 @@ const Members = () => {
     },
   });
 
+  console.log(data);
+
   const handleInvitation = (formData: FormData) => {
+    console.log(formData);
+
     const workspaceId = params.id;
     if (!selectedEmails || selectedEmails.length === 0 || !workspaceId || !role)
       return;
@@ -211,7 +216,7 @@ const Members = () => {
                   CANCEL
                 </Button>
                 <Button
-                  disabled={isLoading}
+                  // disabled={isLoading}
                   className="text-[0.8rem] "
                   size="sm"
                 >

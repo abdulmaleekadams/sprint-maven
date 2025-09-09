@@ -1,7 +1,12 @@
 /* eslint-disable react/no-unescaped-entities */
 "use client";
 
-import FormInput from "@/components/form-input";
+import { initiateCreateUserUseCase } from "@/application/use-cases/user/initiate-create-user.use-case";
+import {
+  InitiateEnrollmentDto,
+  InitiateEnrollmentSchema,
+} from "@/application/validation/user/initiate-enrollment.validation";
+import { InputField } from "@/components/form-fields";
 import FormSubmit from "@/components/form-submit";
 import Logo from "@/components/Logo";
 import {
@@ -13,17 +18,28 @@ import {
 } from "@/components/ui/card";
 import { Form, FormLabel } from "@/components/ui/form";
 import { Separator } from "@/components/ui/separator";
+import { zodResolver } from "@hookform/resolvers/zod";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import { useForm } from "react-hook-form";
 import GoogleButton from "./GoogleButton";
 
 const SignUp = () => {
-  const form = useForm({});
+  const form = useForm<InitiateEnrollmentDto>({
+    resolver: zodResolver(InitiateEnrollmentSchema),
+    defaultValues: {},
+  });
 
   const searchParams = useSearchParams();
 
   const callbackUrl = searchParams.get("callbackUrl");
+
+  const handleSignUp = async (data: InitiateEnrollmentDto) => {
+    try {
+      const newUser = await initiateCreateUserUseCase(data);
+      console.log(newUser);
+    } catch (error) {}
+  };
   return (
     <div>
       <Logo />
@@ -45,52 +61,54 @@ const SignUp = () => {
               <Separator className="shrink" />
             </div>
             <Form {...form}>
-              <form action="" className="min-w-80 flex flex-col gap-4">
+              <form
+                onSubmit={form.handleSubmit(handleSignUp)}
+                className="min-w-80 flex flex-col gap-4"
+              >
                 <div>
                   <FormLabel className="mb-2 block">Your name</FormLabel>
                   <div className="flex gap-2">
-                    <div>
-                      <FormInput
-                        id="email"
-                        name="email"
-                        placeholder="First name"
-                      />
-                    </div>
-                    <div>
-                      <FormInput
-                        id="email"
-                        name="email"
-                        placeholder="Last name"
-                      />
-                    </div>
+                    <InputField
+                      form={form}
+                      name="userFirstName"
+                      placeholder="First name"
+                    />
+                    <InputField
+                      form={form}
+                      name="userLastName"
+                      placeholder="Last name"
+                    />
                   </div>
                 </div>
                 <div>
-                  <FormLabel className="mb-2 block">Email</FormLabel>
-                  <FormInput
-                    id="email"
-                    name="email"
-                    placeholder="sprintmaven@email.com"
+                  <InputField
+                    form={form}
+                    name="userEmail"
+                    label="Email"
+                    placeholder="username@domain.com"
                   />
                 </div>
                 <div>
-                  <FormLabel className="mb-2 block">Username</FormLabel>
-                  <FormInput
-                    id="username"
+                  <InputField
+                    form={form}
                     name="username"
-                    placeholder="sprintmaven"
+                    label="Username"
+                    placeholder="username"
                   />
                 </div>
                 <div>
-                  <FormLabel className="mb-2 block">Password</FormLabel>
-                  <FormInput
-                    id="password"
-                    name="password"
-                    placeholder="Min. 6 characters"
+                  <InputField
+                    form={form}
+                    name="userPassword"
+                    label="Password"
+                    type="password"
+                    placeholder="*************"
                   />
                 </div>
 
-                <FormSubmit>Sign up</FormSubmit>
+                <FormSubmit disabled={form.formState.isSubmitting}>
+                  Sign up
+                </FormSubmit>
               </form>
             </Form>
 
